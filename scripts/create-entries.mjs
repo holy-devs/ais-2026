@@ -96,7 +96,8 @@ async function main() {
   await upsertAsset('ph-spk-taneja', 'placeholder-speaker-taneja', 'placeholder-speaker-taneja.png');
   await upsertAsset('ph-spk-modrzewski', 'placeholder-speaker-modrzewski', 'placeholder-speaker-modrzewski.png');
   const galleryAssets = [];
-  for (let i = 1; i <= 6; i++) { const id = `ph-gallery-${String(i).padStart(2, '0')}`; await upsertAsset(id, `placeholder-gallery-${String(i).padStart(2, '0')}`, `${id}.png`); galleryAssets.push(id); }
+  // 12 gallery assets so the design's 8-visible + Load More is testable (8 shown, 4 more on click).
+  for (let i = 1; i <= 12; i++) { const id = `ph-gallery-${String(i).padStart(2, '0')}`; await upsertAsset(id, `placeholder-gallery-${String(i).padStart(2, '0')}`, `${id}.png`); galleryAssets.push(id); }
   await upsertAsset('ph-pastevent-2022', 'placeholder-pastevent-2022', 'placeholder-pastevent-2022.png');
   await upsertAsset('ph-pastevent-2025', 'placeholder-pastevent-2025', 'placeholder-pastevent-2025.png');
   const partnerAssets = [];

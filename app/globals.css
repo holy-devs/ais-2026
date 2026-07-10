@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+
+/* Design tokens pulled from the AIS 2026 netlify prototype (:root CSS variables). */
+@theme {
+  --color-page: #010010;
+  --color-e1: #0f0e20;
+  --color-e2: #141327;
+  --color-e3: #1e1d33;
+  --color-rule: #2e405d;
+  --color-rhi: #3a3a6a;
+  --color-white: #ffffff;
+  --color-creme: #eedecb;
+  --color-hi: #e0e0e0;
+  --color-mid: #888888;
+  --color-low: #444444;
+  --color-acc: #eedecb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+}
+
+html {
+  background-color: var(--color-page);
+  color: var(--color-hi);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Scroll-reveal initial state — CSS-driven, gated by a class the inline head
+   script adds before paint (so no-JS shows content, JS hides then animates). */
+html.gsap-on [data-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+/* prefers-reduced-motion: reveal immediately, no animation. */
+html.gsap-on.reduced [data-reveal] {
+  opacity: 1;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Placeholder media box: visible grey with a dashed border and a legible label,
+   so missing media is obvious at a glance during review. */
+.media-ph {
+  background-color: #2a2a3a;
+  border: 1px dashed #5b5b7a;
+  color: #d7c8b2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  overflow: hidden;
+}
