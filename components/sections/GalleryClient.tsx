@@ -13,9 +13,9 @@ export default function GalleryClient({ images }: { images: MediaDTO[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
         {visible.map((img, i) => (
-          <Media key={i} media={img} className="aspect-[4/3] w-full" />
+          <Media key={i} media={img} rounded={false} className="aspect-[4/3] w-full" />
         ))}
       </div>
 

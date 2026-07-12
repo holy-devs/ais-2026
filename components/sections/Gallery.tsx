@@ -1,6 +1,7 @@
 import { f, media } from '@/lib/map';
 import Section from '../Section';
 import GalleryClient from './GalleryClient';
+import { ArrowDownRight } from '../Icons';
 
 export default function Gallery({ entry }: { entry: any }) {
   const x = f(entry);
@@ -8,9 +9,15 @@ export default function Gallery({ entry }: { entry: any }) {
 
   return (
     <Section id="gallery">
-      <h2 className="mb-10 text-3xl font-medium text-white md:text-4xl" data-reveal="lines">
-        {x.title}
-      </h2>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <ArrowDownRight className="text-creme" />
+          <h2 className="mt-6 max-w-[10em] font-grotesk text-3xl font-normal leading-tight text-creme md:text-4xl" data-reveal="lines">
+            {x.title}
+          </h2>
+        </div>
+        <span className="mt-1 shrink-0 text-xs uppercase tracking-[0.2em] text-mid">• Visuals</span>
+      </div>
       <GalleryClient images={images} />
     </Section>
   );

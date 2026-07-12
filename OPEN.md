@@ -10,8 +10,8 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
   client expects sponsors. Phase 6 will style it after `Components.png` logo-block /
   info-bar conventions. Sponsor logos (NBG, Raycap, Eurobank) still awaited.
 - **`#program` anchor:** nav "PROGRAM" → `#program` **resolves** to the Keywords
-  strip (`components/Keywords.tsx` has `id="program"`). Earlier "dead anchor" note
-  was stale. Re-verify once in the Phase 6 sweep.
+  strip (`components/Keywords.tsx` has `id="program"`). Re-verified in the Phase 6
+  sweep — anchor present, link resolves. No fix needed.
 - **Footer social — TIKTOK vs X/TWITTER:** `footer.png` shows TIKTOK; the live model
   has a working X/TWITTER link (and an empty TIKTOK). Keep the working **X** link;
   client to confirm which they want. (Decided: keep current, log only.)
