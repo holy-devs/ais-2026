@@ -15,6 +15,10 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
 - **Footer social — TIKTOK vs X/TWITTER:** `footer.png` shows TIKTOK; the live model
   has a working X/TWITTER link (and an empty TIKTOK). Keep the working **X** link;
   client to confirm which they want. (Decided: keep current, log only.)
+- **Ticket CTA label:** `tickets.png` (and the Phase-4 brief) show the button as
+  **"Request Access"**; the CMS action (`act-request-tickets`) reads **"Request
+  Tickets"** (→ mailto). Kept the CMS label per "keep existing copy verbatim" + no
+  writes (same policy as nav/TIKTOK). Client to confirm the final label.
 - **Nav labels:** design shows Speakers / Program / Past Editions; CMS menu json has
   SPEAKERS / PROGRAM / GALLERY / ABOUT ENDEAVOR / REQUEST TICKETS. Keeping CMS labels
   (read-only), restoring the wordmark + send icon + corner `+`. Client to confirm
@@ -55,4 +59,7 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
 - Official sponsor logos: NBG, Raycap, Eurobank (dark-bg / reversed variants from
   press kits).
 - Original thank-you panel photo (currently a temporary crop, see above) — supply as
-  a proper Contentful asset and wire onto the thank-you section entry.
+  a proper Contentful asset and wire onto the thank-you section entry. **Figma node
+  9:3943 has NO image fill** — the photo exists only as baked canvas art in the
+  export, so the real asset MUST come from Endeavor / Manmeet. When it arrives,
+  re-crop to include the left figure (the woman) per the ref.
