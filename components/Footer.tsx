@@ -1,60 +1,101 @@
 import { f } from '@/lib/map';
+import { CornerMarks } from './Crosshair';
 
-// Footer, driven by the uniqueComponent (variant Footer) json.
-export default function Footer({ entry }: { entry: any }) {
+interface NavItem { label: string; anchor: string }
+
+function Column({ title, items }: { title: string; items: { label: string; href: string; external?: boolean }[] }) {
+  if (items.length === 0) return null;
+  return (
+    <div className="flex flex-col gap-2 text-left">
+      <p className="text-xs text-creme">{title}</p>
+      <ul className="flex flex-col gap-2">
+        {items.map((it) => (
+          <li key={it.label}>
+            <a
+              href={it.href}
+              {...(it.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+              className="text-xs text-white transition hover:text-creme"
+            >
+              {it.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// Footer, driven by the uniqueComponent (variant Footer) json; the Navigation column
+// reuses the CMS menu nav passed from the page (read-only, ruling #4).
+export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[] }) {
   const x = f(entry);
   const json = x.json || {};
   const socials: { label: string; url: string }[] = Array.isArray(json.socials) ? json.socials : [];
   const prev: { label: string; anchor: string }[] = Array.isArray(json.previousEditions) ? json.previousEditions : [];
+  const crafted: string = json.craftedBy || '';
+  const craftedParts = crafted.includes('HØLY') ? crafted.split('HØLY') : null;
 
   return (
-    <footer className="border-t border-rule bg-e1 px-6 py-16 md:px-10">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <p className="text-lg font-medium text-white">Athens Innovation Summit 2026</p>
-            {json.subscribe && (
-              <div className="mt-5 flex max-w-sm border border-rule">
-                <input
-                  type="email"
-                  placeholder={json.subscribe.placeholder || 'Email'}
-                  className="w-full bg-transparent px-4 py-3 text-sm text-hi outline-none placeholder:text-low"
-                />
-                <button type="button" className="bg-creme px-4 py-3 text-xs font-medium text-page">
-                  {json.subscribe.label || 'Subscribe'}
-                </button>
-              </div>
-            )}
-          </div>
+    <footer className="relative overflow-hidden bg-e1 px-6 py-16 md:px-9 md:py-20">
+      {/* v5.0 grid lines + corner crosshairs */}
+      <div
+        aria-hidden="true"
+        className="grid-lines pointer-events-none absolute inset-0"
+        style={{ ['--grid-gap' as string]: '180px' }}
+      />
+      <CornerMarks inset={24} size={18} className="text-white/60" />
 
-          <div>
-            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-mid">Social</p>
-            <ul className="space-y-2">
-              {socials.filter((s) => s.url).map((s) => (
-                <li key={s.label}>
-                  <a href={s.url} target="_blank" rel="noreferrer" className="text-sm text-hi transition hover:text-creme">
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col items-center">
+        {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
+        <div className="text-center leading-[0.8]">
+          <div className="font-grotesk font-medium uppercase tracking-[-0.05em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
+            Stay in the
           </div>
-
-          <div>
-            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-mid">Previous Editions</p>
-            <ul className="space-y-2">
-              {prev.map((p) => (
-                <li key={p.label}>
-                  <a href={p.anchor} className="text-sm text-hi transition hover:text-creme">{p.label}</a>
-                </li>
-              ))}
-            </ul>
+          <div className="font-editorial italic tracking-[-0.03em] text-creme text-[clamp(2.25rem,9.7vw,7.75rem)]">
+            Loop
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col justify-between gap-2 border-t border-rule pt-6 text-xs text-low md:flex-row">
-          <span>{json.copyright}</span>
-          <span>{json.craftedBy}</span>
+        {/* Subscribe */}
+        {json.subscribe && (
+          <div className="mt-10 flex w-full max-w-md items-stretch gap-1">
+            <div className="flex flex-1 border border-rule bg-e2">
+              <input
+                type="email"
+                placeholder={json.subscribe.placeholder || 'your@email.com'}
+                className="w-full bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-white/45"
+              />
+            </div>
+            <button type="button" className="bg-white px-6 py-3 text-sm font-medium text-page transition hover:opacity-90">
+              {json.subscribe.label || 'Subscribe'}
+            </button>
+          </div>
+        )}
+
+        {/* Link columns */}
+        <div className="mt-16 flex flex-wrap justify-center gap-10">
+          <Column title="Navigation" items={nav.map((n) => ({ label: n.label, href: n.anchor }))} />
+          <Column title="Previous Editions" items={prev.map((p) => ({ label: p.label, href: p.anchor }))} />
+          <Column
+            title="Social"
+            items={socials.filter((s) => s.url).map((s) => ({ label: s.label, href: s.url, external: true }))}
+          />
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm">
+          <span className="text-white/70">{json.copyright}</span>
+          {craftedParts ? (
+            <span className="text-white">
+              {craftedParts[0]}
+              <a href="https://www.holy.gd" target="_blank" rel="noreferrer" className="text-creme transition hover:opacity-80">
+                HØLY
+              </a>
+              {craftedParts[1]}
+            </span>
+          ) : (
+            <span className="text-white">{crafted}</span>
+          )}
         </div>
       </div>
     </footer>

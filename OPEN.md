@@ -41,6 +41,8 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
 - **Hero coordinates** (`components/sections/Hero.tsx`): `37.9838°N / 23.7275°E` +
   `Athens, Greece`. Not present on the hero entry; hardcoded per ruling. Wire into
   the model later (e.g. a `coordinates` / `locationLabel` field on the hero section).
+- **Footer display copy** (`components/Footer.tsx`): "STAY IN THE" / "LOOP" is a
+  decorative display headline not present in the footer json — hardcoded per ruling.
 - **Thank-you Revisit buttons** (`components/sections/ThankYou.tsx`): `Revisit 2025`
   + `Revisit 2022`, both → `#ais-archive`. Not on the thank-you entry; hardcoded per
   ruling. Wire as actions on the section later.

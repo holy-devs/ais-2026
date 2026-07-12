@@ -20,6 +20,9 @@ export default async function Home() {
   const footer = content.find((e) => isUC(e, 'Footer'));
   const flow = content.filter((e) => !isUC(e, 'Menu') && !isUC(e, 'Footer'));
 
+  // Footer's Navigation column consumes the same CMS menu data the nav uses (ruling #4).
+  const menuNav = menu ? (f(menu).json?.navigation ?? []) : [];
+
   return (
     <>
       {menu && <Menu entry={menu} />}
@@ -28,7 +31,7 @@ export default async function Home() {
           <SectionRenderer key={entry.sys.id} entry={entry} />
         ))}
       </main>
-      {footer && <Footer entry={footer} />}
+      {footer && <Footer entry={footer} nav={menuNav} />}
     </>
   );
 }
