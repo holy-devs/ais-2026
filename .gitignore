@@ -7,3 +7,7 @@ node_modules
 *.tsbuildinfo
 .vercel
 .env*
+
+# visual-pass working refs (large PNG exports, not for VCS)
+design-refs/
+.DS_Store

@@ -15,8 +15,21 @@
   --color-low: #444444;
   --color-acc: #eedecb;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  /* Type system. Two intent tokens carry the design's pairing:
+     grotesk (bold caps display / UI) + editorial (italic serif accents).
+     To adopt the licensed faces later, change ONE value each below —
+     load the font in app/layout.tsx and point the token at its variable:
+       --font-grotesk:  var(--font-founders), ...   (← Founders Grotesk)
+       --font-editorial: var(--font-pp-editorial), ... (← PP Editorial Old)
+     Everything downstream uses font-grotesk / font-editorial (or the
+     sans/serif aliases), so no component edits are needed at swap time. */
+  --font-grotesk: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-grotesk);
+  --font-serif: var(--font-editorial);
+
+  /* Thin vertical grid-line color for dark sections (tunable against footer.png). */
+  --color-grid: rgba(255, 255, 255, 0.05);
 }
 
 html {
@@ -44,6 +57,33 @@ html.gsap-on.reduced [data-reveal] {
 
 .font-serif {
   font-family: var(--font-serif);
+}
+.font-editorial {
+  font-family: var(--font-editorial);
+}
+.font-grotesk {
+  font-family: var(--font-grotesk);
+}
+
+/* Thin vertical grid lines for dark sections (v5.0 signature). Column gap is
+   tunable per section via --grid-gap; lines are full-bleed within the element. */
+.grid-lines {
+  --grid-gap: 180px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-grid) 0,
+    var(--color-grid) 1px,
+    transparent 1px,
+    transparent var(--grid-gap)
+  );
+}
+
+/* Dashed hairline separators (info-bar cells, ticket tear line). Use as a
+   border-color pairing, e.g. `border-l border-dashed border-rule`, or this
+   helper for a standalone dashed rule color. */
+.rule-dashed {
+  border-color: var(--color-rule);
+  border-style: dashed;
 }
 
 /* Placeholder media box: visible grey with a dashed border and a legible label,

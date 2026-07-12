@@ -4,6 +4,9 @@ import './globals.css';
 import ModalProvider from '@/components/modals/ModalProvider';
 import RevealController from '@/components/RevealController';
 
+// Stand-in faces for the licensed pair. To swap: load the licensed font here
+// (exposing a CSS var) and point --font-grotesk / --font-editorial at it in
+// app/globals.css. Inter ≈ Founders Grotesk; Instrument Serif ≈ PP Editorial Old.
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const instrument = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-instrument', display: 'swap' });
 
