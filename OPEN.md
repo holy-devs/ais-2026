@@ -27,7 +27,9 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
   each; no component changes.
 
 ## Hardcoded content (not in the CMS model — wire in later)
-_(none yet — added per phase as sections are rebuilt)_
+- **Hero coordinates** (`components/sections/Hero.tsx`): `37.9838°N / 23.7275°E` +
+  `Athens, Greece`. Not present on the hero entry; hardcoded per ruling. Wire into
+  the model later (e.g. a `coordinates` / `locationLabel` field on the hero section).
 
 ## Awaiting materials
 - Rafal Modrzewski speaker portrait (from Endeavor) — `ph-spk-modrzewski` still a
