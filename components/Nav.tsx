@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { CornerMarks } from './Crosshair';
+import { SendIcon } from './Icons';
 
 interface NavItem { label: string; anchor: string }
 interface Cta { label: string; anchor: string }
@@ -27,18 +29,27 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
         }`}
       >
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:px-10">
-          <a href="#top" className="text-sm font-medium tracking-[0.1em] text-white">AIS<span className="text-creme"> 2026</span></a>
+        {/* Persistent top-corner crosshairs (align with the hero viewport corners). */}
+        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="text-white/60" />
+
+        <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 py-4 md:px-9">
+          <a
+            href="#top"
+            className="text-xs font-semibold uppercase tracking-[0.12em] text-white md:text-sm"
+          >
+            Athens Innovation Summit
+          </a>
 
           <nav className="hidden items-center gap-7 md:flex">
             {nav.map((n) => (
-              <a key={n.label} href={n.anchor} className="text-xs uppercase tracking-[0.12em] text-mid transition hover:text-creme">
+              <a key={n.label} href={n.anchor} className="text-xs uppercase tracking-[0.12em] text-white/80 transition hover:text-creme">
                 {n.label}
               </a>
             ))}
             {cta && (
-              <a href={cta.anchor} className="bg-creme px-4 py-2 text-xs font-medium text-page transition hover:opacity-90">
+              <a href={cta.anchor} className="inline-flex items-center gap-2 bg-creme px-4 py-2 text-xs font-medium text-page transition hover:opacity-90">
                 {cta.label}
+                <SendIcon size={14} />
               </a>
             )}
           </nav>
@@ -46,7 +57,7 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex h-8 w-8 items-center justify-center text-creme md:hidden"
+            className="flex h-8 w-8 items-center justify-center text-white md:hidden"
           >
             ☰
           </button>

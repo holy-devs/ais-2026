@@ -1,29 +1,27 @@
 import { f, mapAction, media } from '@/lib/map';
 import Media from '../Media';
 import { CornerMarks } from '../Crosshair';
+import { SendIcon } from '../Icons';
 
 // Hardcoded — not in the CMS model. Logged in OPEN.md (wire into the hero entry later).
 const COORDS = '37.9838°N / 23.7275°E';
 const LOCATION_LABEL = 'Athens, Greece';
-
-function SendIcon({ className = '' }: { className?: string }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-      <path d="M2.5 20.5 22 12 2.5 3.5v6.6L16 12 2.5 13.9z" />
-    </svg>
-  );
-}
 
 export default function Hero({ entry }: { entry: any }) {
   const x = f(entry);
   const actions = Array.isArray(x.actions) ? x.actions.map(mapAction) : [];
   const bg = media(x.keyMedia);
 
-  // Split a trailing year so it can render in the editorial italic accent (design: SUMMIT 2026).
+  // Split a trailing year for the editorial italic accent, then break the head into
+  // "all but last word" / "last word", so desktop renders 2 lines (ATHENS INNOVATION /
+  // SUMMIT 2026) exactly like hero.png; the fluid size lets 390px wrap to 4 lines.
   const title: string = x.title || '';
   const ym = title.match(/^(.*?)\s+(\d{4})\s*$/);
   const head = ym ? ym[1] : title;
   const year = ym ? ym[2] : '';
+  const words = head.trim().split(/\s+/);
+  const last = words.length > 1 ? words.pop()! : '';
+  const lead = words.join(' ');
 
   return (
     <section id="top" className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
@@ -33,10 +31,11 @@ export default function Hero({ entry }: { entry: any }) {
         <div className="absolute inset-0 bg-gradient-to-b from-page/70 via-page/10 to-page/60" />
       </div>
 
-      <CornerMarks inset={36} size={9} className="text-white/60" />
+      {/* Top corners live on the fixed Nav (persistent); hero owns the bottom pair. */}
+      <CornerMarks inset={36} size={9} className="text-white/60" corners={['bl', 'br']} />
 
-      <div className="w-full px-6 text-center md:px-10">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
+      <div className="w-full px-6 text-center md:px-9">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center">
           <p className="mb-6 text-xs tracking-[0.18em] text-white/80 md:text-sm" data-reveal="words">
             {COORDS}
             <span className="mx-3 text-white/40">·</span>
@@ -44,16 +43,19 @@ export default function Hero({ entry }: { entry: any }) {
           </p>
 
           <h1
-            className="font-grotesk text-6xl font-medium uppercase leading-[0.9] tracking-[-0.01em] text-white sm:text-7xl md:text-8xl lg:text-[8.5rem]"
+            className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.01em] text-white text-[clamp(3.5rem,8.7vw,8.5rem)]"
             data-reveal="lines"
           >
-            {head}
-            {year && (
-              <>
-                {' '}
-                <span className="font-editorial text-[0.92em] font-normal normal-case italic text-creme">{year}</span>
-              </>
-            )}
+            {lead && <span className="block">{lead}</span>}
+            <span className="block">
+              {last || head}
+              {year && (
+                <>
+                  {' '}
+                  <span className="font-editorial text-[0.92em] font-normal normal-case italic text-creme">{year}</span>
+                </>
+              )}
+            </span>
           </h1>
 
           {x.supertitle && (

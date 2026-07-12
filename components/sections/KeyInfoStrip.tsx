@@ -7,7 +7,7 @@ export default function KeyInfoStrip({ entry }: { entry: any }) {
 
   return (
     <section className="bg-e3">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-2 md:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-2 md:grid-cols-4">
         {items.map((it, i) => (
           <div
             key={i}
