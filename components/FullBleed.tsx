@@ -32,7 +32,7 @@ export default function FullBleed({
       <div
         className={
           contain
-            ? `mx-auto w-full max-w-[1400px] ${padded ? 'px-6 py-20 md:px-9 md:py-28' : ''}`
+            ? `mx-auto w-full max-w-content ${padded ? 'px-6 py-20 md:px-9 md:py-28' : ''}`
             : padded
               ? 'px-6 py-20 md:px-9 md:py-28'
               : ''

@@ -14,7 +14,7 @@ export default function About({ entry }: { entry: any }) {
 
   return (
     <section id="about-endeavor" className="border-t border-rule px-6 py-16 md:px-9 md:py-20">
-      <div className="mx-auto w-full max-w-[1400px]">
+      <div className="mx-auto w-full max-w-content">
         {/* heading block (top-left) */}
         <ArrowDownRight className="text-creme" />
         <h2 className="mt-6 font-grotesk text-[2.5rem] font-normal leading-[0.9] md:text-[4rem]" data-reveal="lines">

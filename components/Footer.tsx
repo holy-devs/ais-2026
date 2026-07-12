@@ -45,7 +45,7 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
       />
       <CornerMarks inset={24} size={18} className="text-white/60" />
 
-      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col items-center">
+      <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
         <div className="text-center leading-[0.8]">
           <div className="font-grotesk font-medium uppercase tracking-[-0.05em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">

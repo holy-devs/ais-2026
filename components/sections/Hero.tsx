@@ -35,7 +35,7 @@ export default function Hero({ entry }: { entry: any }) {
       <CornerMarks inset={36} size={9} className="text-white/60" corners={['bl', 'br']} />
 
       <div className="w-full px-6 text-center md:px-9">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center">
+        <div className="mx-auto flex w-full max-w-content flex-col items-center">
           <p className="mb-6 text-xs tracking-[0.18em] text-white/80 md:text-sm" data-reveal="words">
             {COORDS}
             <span className="mx-3 text-white/40">·</span>

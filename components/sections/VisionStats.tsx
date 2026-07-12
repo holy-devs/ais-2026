@@ -22,7 +22,7 @@ export default function VisionStats({ entry }: { entry: any }) {
       contain={false}
       padded={false}
     >
-      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col px-6 pb-16 pt-20 md:px-9 md:pb-20 md:pt-24">
+      <div className="relative mx-auto flex w-full max-w-content flex-col px-6 pb-16 pt-20 md:px-9 md:pb-20 md:pt-24">
         <ArrowDownRight className="text-creme" />
 
         {/* max-w in em scales with the headline size → breaks "Where Athens' Legacy" /

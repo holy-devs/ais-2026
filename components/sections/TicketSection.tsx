@@ -10,7 +10,7 @@ export default function TicketSection({ entry }: { entry: any }) {
 
   return (
     <section id="ticket-section" className="px-6 py-16 md:px-9 md:py-24">
-      <div className="mx-auto flex w-full max-w-[1400px] items-stretch">
+      <div className="mx-auto flex w-full max-w-content items-stretch">
         {/* perforated left edge */}
         <div className="ticket-perf w-[15px] shrink-0" aria-hidden="true" />
 

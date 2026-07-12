@@ -30,6 +30,9 @@
 
   /* Thin vertical grid-line color for dark sections (tunable against footer.png). */
   --color-grid: rgba(255, 255, 255, 0.05);
+
+  /* Single source of truth for the design content width (brief token, 1392px). */
+  --content-w: 1392px;
 }
 
 html {
@@ -60,6 +63,12 @@ html.gsap-on.reduced [data-reveal] {
 }
 .font-editorial {
   font-family: var(--font-editorial);
+}
+
+/* Shared content-width cap (design token --content-w). Use everywhere instead of
+   an arbitrary max-w value so the site content width can never drift. */
+.max-w-content {
+  max-width: var(--content-w);
 }
 .font-grotesk {
   font-family: var(--font-grotesk);

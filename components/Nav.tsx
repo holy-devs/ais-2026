@@ -32,7 +32,7 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
         {/* Persistent top-corner crosshairs (align with the hero viewport corners). */}
         <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="text-white/60" />
 
-        <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 py-4 md:px-9">
+        <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
             href="#top"
             className="text-xs font-semibold uppercase tracking-[0.12em] text-white md:text-sm"
