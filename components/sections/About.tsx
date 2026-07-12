@@ -13,7 +13,7 @@ export default function About({ entry }: { entry: any }) {
   const rest = words.join(' ');
 
   return (
-    <section id="about-endeavor" className="border-t border-rule px-6 py-16 md:px-9 md:py-20">
+    <section id="about-endeavor" className="border-t border-rule section-y px-6 md:px-9">
       <div className="mx-auto w-full max-w-content">
         {/* heading block (top-left) */}
         <ArrowDownRight className="text-creme" />

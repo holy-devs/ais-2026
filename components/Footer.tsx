@@ -36,7 +36,7 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
   const craftedParts = crafted.includes('HØLY') ? crafted.split('HØLY') : null;
 
   return (
-    <footer className="relative overflow-hidden bg-e1 px-6 py-16 md:px-9 md:py-20">
+    <footer className="relative overflow-hidden bg-e1 section-y px-6 md:px-9">
       {/* v5.0 grid lines + corner crosshairs */}
       <div
         aria-hidden="true"

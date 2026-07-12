@@ -33,6 +33,12 @@
 
   /* Single source of truth for the design content width (brief token, 1392px). */
   --content-w: 1392px;
+
+  /* Vertical rhythm — section top/bottom padding. Adjacent sections sum to the gap,
+     so ~44px/side ≈ 88px inter-section gaps (design measures ~54–121px; the build's
+     old py-28 gave ~224px). One place to tune the whole page's rhythm. */
+  --sp-section: 2.25rem;
+  --sp-section-md: 2.75rem;
 }
 
 html {
@@ -69,6 +75,17 @@ html.gsap-on.reduced [data-reveal] {
    an arbitrary max-w value so the site content width can never drift. */
 .max-w-content {
   max-width: var(--content-w);
+}
+
+/* Section vertical rhythm — single source (see --sp-section). Sections use this
+   instead of ad-hoc py-* so gaps stay consistent and never stack to double. */
+.section-y {
+  padding-block: var(--sp-section);
+}
+@media (min-width: 768px) {
+  .section-y {
+    padding-block: var(--sp-section-md);
+  }
 }
 .font-grotesk {
   font-family: var(--font-grotesk);

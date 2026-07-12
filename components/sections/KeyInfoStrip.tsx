@@ -6,7 +6,7 @@ export default function KeyInfoStrip({ entry }: { entry: any }) {
   const items = pairs(x.textList);
 
   return (
-    <section className="bg-e3">
+    <section className="bg-e3 py-8 md:py-10">
       <div className="mx-auto grid w-full max-w-content grid-cols-2 md:grid-cols-4">
         {items.map((it, i) => (
           <div

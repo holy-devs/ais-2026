@@ -40,6 +40,11 @@ export default function SectionRenderer({ entry }: { entry: any }) {
 
   if (type === 'section') {
     const variant = f(entry).variant;
+    // Organisers/Sponsors is out this cycle (official sponsor logos arrive next year;
+    // v5.0 also has no partners section). Front-end gate only — Contentful untouched.
+    // Flip to true to bring it back; also re-fix the logo assets first (see OPEN.md).
+    const PARTNERS_ENABLED = false;
+    if (variant === 'Logo Assets' && !PARTNERS_ENABLED) return null;
     const Comp = SECTION_MAP[variant];
     if (!Comp) {
       return (

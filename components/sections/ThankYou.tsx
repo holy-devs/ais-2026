@@ -22,7 +22,7 @@ export default function ThankYou({ entry }: { entry: any }) {
       contain={false}
       padded={false}
     >
-      <div className="mx-auto w-full max-w-content px-6 py-24 md:px-9 md:py-28">
+      <div className="mx-auto w-full max-w-content section-y px-6 md:px-9">
         <div className="max-w-xl">
           {/* Design H1: Founders Grotesk Regular 64/52, creme, hard-broken to 2 lines. */}
           <h2

@@ -19,8 +19,8 @@ except one approved write (thank-you panel asset). Grouped for review below.
 - **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder
   (the only remaining `placeholder-*` on the live site).
 - **Sponsor logos:** NBG, Raycap, Eurobank — dark-bg / reversed variants from press
-  kits. (Partners section is live with Google + Endeavor; sponsors slot in when they
-  arrive.)
+  kits. **The Organisers/Sponsors section is removed from the page this cycle** (see
+  Resolved); it returns next year when official logos arrive.
 - **Higher-res thank-you panel** (2000px+ wide) — delivered file is 1450×648 and may
   soften on very large displays.
 
@@ -38,6 +38,24 @@ except one approved write (thank-you panel asset). Grouped for review below.
 - **Footer display copy:** "STAY IN THE / LOOP" is hardcoded — optional CMS field.
 
 ## Resolved (for the record)
+- **Partners section removed (this cycle):** gated off in `SectionRenderer.tsx`
+  (`PARTNERS_ENABLED = false`) — front-end only; `sec-partners` refs and the two live
+  assets are untouched (no Contentful writes). Matches v5.0 (no partners section).
+  **Re-enable next year:** flip the flag AND first replace the logo assets — the two
+  LIVE assets `ph-partner-01` / `ph-partner-02` are **known-bad flattened white
+  squares** (qlmanage baked the transparent SVGs onto white → 100% opaque white,
+  byte-identical; do NOT reuse). The fix is parked in **`scripts/partner-logos/`**
+  (see its README): verified transparent PNGs (`google.png`, `endeavor.png` — 1200×800,
+  3:2, ~92%/97% transparent, distinct), the sources, and `make-logos.mjs` + the sharp
+  recipe. Scoped file-replace on the same asset IDs when the section returns.
+- **Hero "by endeavor" lockup:** replaced the plain text with the official wordmark
+  (`public/endeavor-logo.svg`) inlined as `<EndeavorWordmark>` (currentColor). Wordmark
+  appears only here in the refs (nav = AIS wordmark, footer = HØLY) — matched only there.
+- **Vertical rhythm:** section padding centralized to `--sp-section` / `.section-y`
+  (~44px/side ≈ 88px gaps, was ~224px). No `min-h`/`mt-auto` fillers remain (the Hero
+  full-height and 522px ticket are intentional).
+- **Info bar:** now a full-bleed dark band with the four tiles inset (page padding +
+  vertical band padding) instead of flush edge-to-edge.
 - **Thank-you background:** real panel photo uploaded as asset `thankyou-panel`
   ("AIS 2026 - Thank You Panel", 1450×648) and wired to `sec-thank-you.media` (the one
   approved write); temp `public/thankyou-temp.png` deleted; carries its own gradient

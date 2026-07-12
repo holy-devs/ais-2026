@@ -1,7 +1,7 @@
 import { f, mapAction, media } from '@/lib/map';
 import Media from '../Media';
 import { CornerMarks } from '../Crosshair';
-import { SendIcon } from '../Icons';
+import { SendIcon, EndeavorWordmark } from '../Icons';
 
 // Hardcoded — not in the CMS model. Logged in OPEN.md (wire into the hero entry later).
 const COORDS = '37.9838°N / 23.7275°E';
@@ -59,9 +59,9 @@ export default function Hero({ entry }: { entry: any }) {
           </h1>
 
           {x.supertitle && (
-            <p className="mt-5 text-lg text-white/85 md:text-xl" data-reveal="words">
-              <span className="text-white/55">by </span>
-              <span className="lowercase tracking-tight">{x.supertitle.replace(/^by\s+/i, '')}</span>
+            <p className="mt-5 flex items-center justify-center gap-2 text-white/85" data-reveal="words">
+              <span className="text-base text-white/55 md:text-lg">by</span>
+              <EndeavorWordmark className="h-[15px] w-auto text-white md:h-[18px]" />
             </p>
           )}
 
