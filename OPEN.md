@@ -44,22 +44,18 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
 - **Thank-you Revisit buttons** (`components/sections/ThankYou.tsx`): `Revisit 2025`
   + `Revisit 2022`, both → `#ais-archive`. Not on the thank-you entry; hardcoded per
   ruling. Wire as actions on the section later.
-- **Thank-you background — TEMPORARY** (`public/thankyou-temp.png`): a text-free crop
-  of the panel photo from `Desktop.png` (no such asset in the CMS; gallery/archive do
-  not contain it; the Figma thank-you Container node has no photo fill, so the clean
-  full photo can't be isolated there). The scene's left figure (a woman) is baked
-  under the design's copy, so an all-three clean crop is impossible — using the widest
-  clean region (the two men + stage), with our copy over the left as in the ref.
-  Placeholder only — replace with the real panel photo as a Contentful asset wired
-  onto the thank-you entry.
+- **Thank-you background — RESOLVED** (was `public/thankyou-temp.png`, now deleted):
+  Endeavor supplied the real panel photo. Uploaded as Contentful asset
+  `thankyou-panel` ("AIS 2026 - Thank You Panel", 1450×648) and linked onto
+  `sec-thank-you.media` (scoped, approved write). `ThankYou.tsx` now reads
+  `section.media`; the asset carries its own baked gradient so the extra flat-35
+  overlay was dropped. All three figures now read as in the ref.
 
 ## Awaiting materials
 - Rafal Modrzewski speaker portrait (from Endeavor) — `ph-spk-modrzewski` still a
   placeholder.
 - Official sponsor logos: NBG, Raycap, Eurobank (dark-bg / reversed variants from
   press kits).
-- Original thank-you panel photo (currently a temporary crop, see above) — supply as
-  a proper Contentful asset and wire onto the thank-you section entry. **Figma node
-  9:3943 has NO image fill** — the photo exists only as baked canvas art in the
-  export, so the real asset MUST come from Endeavor / Manmeet. When it arrives,
-  re-crop to include the left figure (the woman) per the ref.
+- Higher-res thank-you panel original (2000px+ wide) still welcome from Endeavor —
+  the delivered file is 1450×648 and may soften on very large displays. (Base photo
+  is now wired: asset `thankyou-panel` on `sec-thank-you.media`.)

@@ -1,12 +1,9 @@
-import { f } from '@/lib/map';
+import { f, media } from '@/lib/map';
 import FullBleed from '../FullBleed';
 import RichText from '../RichText';
+import Media from '../Media';
 import { DashedButton } from '../Buttons';
 import { ArrowUpRight } from '../Icons';
-
-// TEMPORARY background — cropped from Desktop.png (no such asset in the CMS). See
-// OPEN.md; replace with the real panel photo wired into the thank-you entry.
-const TEMP_BG = '/thankyou-temp.png';
 
 // Not in the model — hardcoded per ruling (log in OPEN.md). Both open the archive.
 const REVISIT = [
@@ -16,16 +13,11 @@ const REVISIT = [
 
 export default function ThankYou({ entry }: { entry: any }) {
   const x = f(entry);
+  const bg = Array.isArray(x.media) ? x.media.map(media)[0] : undefined;
   return (
     <FullBleed
-      media={
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={TEMP_BG} alt="" className="h-full w-full object-cover object-center" />
-          {/* Flat 35% scrim so the warm scene reads across the whole section (per ref). */}
-          <div className="absolute inset-0 bg-page/35" />
-        </>
-      }
+      // The panel asset carries its own baked gradient — no extra scrim (avoids double-scrim).
+      media={bg ? <Media media={bg} rounded={false} className="h-full w-full" /> : undefined}
       scrim={false}
       contain={false}
       padded={false}
