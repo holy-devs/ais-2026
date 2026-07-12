@@ -31,6 +31,18 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
   Rendered as-is per ruling #6. To match the ref, split the field into two paragraphs
   in Contentful (content edit, not part of this visual pass).
 
+## Modals (Speaker Profile / Past Event) — omitted per model/content
+- **Speaker Profile:** the `person` type HAS `bio` / `visuals` / `press` fields, but the
+  current speaker entries don't populate them, so those sections omit — the modal
+  shows portrait + name + role + CTA only. Populate the fields in Contentful to light
+  up the Visuals / Press sections (already built, ref-styled).
+- **Past Event:** the `pastEvent` type stores `speakerNames` as **strings**, not linked
+  `person` entries, so the ref's rich speaker **cards** (portrait + role + CTA) can't be
+  built — rendered as a name list instead. There is **no keynote/press field** on
+  `pastEvent`, so the ref's "Keynote" cards are omitted. `gallery` exists but is
+  unpopulated (omitted). Model change (link speakers, add keynote) would be needed to
+  match the ref fully — out of scope for this read-only pass.
+
 ## Type system
 - Stand-ins: Inter (≈ Founders Grotesk) and Instrument Serif (≈ PP Editorial Old).
 - Swap to licensed faces: load the font in `app/layout.tsx` (expose a CSS var) and
