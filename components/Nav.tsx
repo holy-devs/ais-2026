@@ -22,6 +22,14 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
     document.body.style.overflow = open ? 'hidden' : '';
   }, [open]);
 
+  // Close the side menu on Escape (parity with the modals).
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   return (
     <>
       <header
@@ -57,53 +65,57 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex h-8 w-8 items-center justify-center text-white md:hidden"
+            className="flex h-10 w-10 items-center justify-center bg-white text-page md:hidden"
           >
             ☰
           </button>
         </div>
       </header>
 
-      {/* Side menu */}
+      {/* Full-screen side menu (Side-menu.png) */}
       <div
-        className={`fixed inset-0 z-50 transition ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
         aria-hidden={!open}
       >
-        <div
-          className={`absolute inset-0 bg-black/70 transition-opacity ${open ? 'opacity-100' : 'opacity-0'}`}
-          onClick={() => setOpen(false)}
-        />
-        <aside
-          className={`absolute right-0 top-0 h-full w-72 border-l border-rule bg-e1 p-8 transition-transform duration-300 ${
-            open ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          <div className="mb-10 flex items-center justify-between">
-            <span className="text-sm font-medium text-white">Menu</span>
-            <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-mid hover:text-creme">✕</button>
+        <div className="absolute inset-0 bg-gradient-to-br from-page via-page to-e1" />
+        <div className="relative flex h-full flex-col px-6 py-6">
+          <div className="flex justify-end">
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+              className="flex h-11 w-11 items-center justify-center bg-white text-page transition hover:opacity-90"
+            >
+              ✕
+            </button>
           </div>
-          <nav className="flex flex-col gap-5">
+
+          <nav className="flex flex-1 flex-col justify-center gap-2">
             {nav.map((n) => (
               <a
                 key={n.label}
                 href={n.anchor}
                 onClick={() => setOpen(false)}
-                className="text-sm uppercase tracking-[0.12em] text-hi transition hover:text-creme"
+                className="w-fit font-grotesk text-4xl text-white underline-offset-8 transition hover:text-creme hover:underline md:text-5xl"
               >
                 {n.label}
               </a>
             ))}
-            {cta && (
-              <a
-                href={cta.anchor}
-                onClick={() => setOpen(false)}
-                className="mt-4 bg-creme px-4 py-3 text-center text-sm font-medium text-page"
-              >
-                {cta.label}
-              </a>
-            )}
           </nav>
-        </aside>
+
+          {cta && (
+            <a
+              href={cta.anchor}
+              onClick={() => setOpen(false)}
+              className="flex items-stretch bg-white text-page transition hover:opacity-90"
+            >
+              <span className="flex-1 py-3.5 text-center text-sm font-medium">{cta.label}</span>
+              <span className="my-2 border-l border-dashed border-page/30" />
+              <span className="flex items-center px-4"><SendIcon /></span>
+            </a>
+          )}
+        </div>
       </div>
     </>
   );
