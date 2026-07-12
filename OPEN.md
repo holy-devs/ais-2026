@@ -20,6 +20,13 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
   (read-only), restoring the wordmark + send icon + corner `+`. Client to confirm
   final nav label set.
 
+## Content discrepancies (rendered as-is — no CMS edit)
+- **Vision body paragraphs:** `vision.png` shows the body as **two** paragraphs
+  (break before "In 2026, the Summit ascends the Pnyx…"), but the CMS `sec-stats.text`
+  field is a **single** paragraph block (775 chars, verified via Delivery API).
+  Rendered as-is per ruling #6. To match the ref, split the field into two paragraphs
+  in Contentful (content edit, not part of this visual pass).
+
 ## Type system
 - Stand-ins: Inter (≈ Founders Grotesk) and Instrument Serif (≈ PP Editorial Old).
 - Swap to licensed faces: load the font in `app/layout.tsx` (expose a CSS var) and
@@ -30,9 +37,22 @@ Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
 - **Hero coordinates** (`components/sections/Hero.tsx`): `37.9838°N / 23.7275°E` +
   `Athens, Greece`. Not present on the hero entry; hardcoded per ruling. Wire into
   the model later (e.g. a `coordinates` / `locationLabel` field on the hero section).
+- **Thank-you Revisit buttons** (`components/sections/ThankYou.tsx`): `Revisit 2025`
+  + `Revisit 2022`, both → `#ais-archive`. Not on the thank-you entry; hardcoded per
+  ruling. Wire as actions on the section later.
+- **Thank-you background — TEMPORARY** (`public/thankyou-temp.png`): a text-free crop
+  of the panel photo from `Desktop.png` (no such asset in the CMS; gallery/archive do
+  not contain it; the Figma thank-you Container node has no photo fill, so the clean
+  full photo can't be isolated there). The scene's left figure (a woman) is baked
+  under the design's copy, so an all-three clean crop is impossible — using the widest
+  clean region (the two men + stage), with our copy over the left as in the ref.
+  Placeholder only — replace with the real panel photo as a Contentful asset wired
+  onto the thank-you entry.
 
 ## Awaiting materials
 - Rafal Modrzewski speaker portrait (from Endeavor) — `ph-spk-modrzewski` still a
   placeholder.
 - Official sponsor logos: NBG, Raycap, Eurobank (dark-bg / reversed variants from
   press kits).
+- Original thank-you panel photo (currently a temporary crop, see above) — supply as
+  a proper Contentful asset and wire onto the thank-you section entry.
