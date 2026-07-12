@@ -1,75 +1,57 @@
-# OPEN — visual-pass decisions, hardcodes & awaiting-materials
+# OPEN — AIS 2026 visual pass · review agenda
 
-Running log for the AIS 2026 visual fidelity pass (branch `visual-pass`).
-Ground truth = `design-refs/` (v5.0). No Contentful writes in this pass.
+Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
+except one approved write (thank-you panel asset). Grouped for review below.
 
-## Decisions / discrepancies (client to confirm)
-- **Partners section:** v5.0 desktop has **no rendered partners/logos section**
-  (Tickets → About → Footer; logo-blocks were empty placeholders in the design).
-  Per ruling we **keep the live site section** (currently Google + Endeavor) — the
-  client expects sponsors. Phase 6 will style it after `Components.png` logo-block /
-  info-bar conventions. Sponsor logos (NBG, Raycap, Eurobank) still awaited.
-- **`#program` anchor:** nav "PROGRAM" → `#program` **resolves** to the Keywords
-  strip (`components/Keywords.tsx` has `id="program"`). Re-verified in the Phase 6
-  sweep — anchor present, link resolves. No fix needed.
-- **Footer social — TIKTOK vs X/TWITTER:** `footer.png` shows TIKTOK; the live model
-  has a working X/TWITTER link (and an empty TIKTOK). Keep the working **X** link;
-  client to confirm which they want. (Decided: keep current, log only.)
-- **Ticket CTA label:** `tickets.png` (and the Phase-4 brief) show the button as
-  **"Request Access"**; the CMS action (`act-request-tickets`) reads **"Request
-  Tickets"** (→ mailto). Kept the CMS label per "keep existing copy verbatim" + no
-  writes (same policy as nav/TIKTOK). Client to confirm the final label.
-- **Nav labels:** design shows Speakers / Program / Past Editions; CMS menu json has
-  SPEAKERS / PROGRAM / GALLERY / ABOUT ENDEAVOR / REQUEST TICKETS. Keeping CMS labels
-  (read-only), restoring the wordmark + send icon + corner `+`. Client to confirm
-  final nav label set.
+## 1. Needs client decision (copy/label — pick before launch)
+- **Ticket CTA label:** live shows **"Request Tickets"** (CMS `act-request-tickets` →
+  mailto); design shows **"Request Access"**. Kept CMS per keep-verbatim. Confirm.
+- **Footer social — TIKTOK vs X/TWITTER:** design shows **TIKTOK**; live keeps the
+  working **X/TWITTER** link (CMS TIKTOK has no URL). Confirm which to ship.
+- **Nav labels (top nav + side menu):** CMS has 5 UPPERCASE items (SPEAKERS / PROGRAM /
+  GALLERY / ABOUT ENDEAVOR / REQUEST TICKETS); design shows 3 Title-Case (Speakers /
+  Program / Past Editions). Kept CMS. Confirm the final label set.
+- **Vision stat body:** design breaks it into **two** paragraphs (before "In 2026, the
+  Summit ascends the Pnyx…"); CMS `sec-stats.text` is a **single** block. Rendered
+  as-is. Split in Contentful to match.
 
-## Content discrepancies (rendered as-is — no CMS edit)
-- **Vision body paragraphs:** `vision.png` shows the body as **two** paragraphs
-  (break before "In 2026, the Summit ascends the Pnyx…"), but the CMS `sec-stats.text`
-  field is a **single** paragraph block (775 chars, verified via Delivery API).
-  Rendered as-is per ruling #6. To match the ref, split the field into two paragraphs
-  in Contentful (content edit, not part of this visual pass).
+## 2. Awaiting materials (from Endeavor)
+- **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder
+  (the only remaining `placeholder-*` on the live site).
+- **Sponsor logos:** NBG, Raycap, Eurobank — dark-bg / reversed variants from press
+  kits. (Partners section is live with Google + Endeavor; sponsors slot in when they
+  arrive.)
+- **Higher-res thank-you panel** (2000px+ wide) — delivered file is 1450×648 and may
+  soften on very large displays.
 
-## Modals (Speaker Profile / Past Event) — omitted per model/content
-- **Speaker Profile:** the `person` type HAS `bio` / `visuals` / `press` fields, but the
-  current speaker entries don't populate them, so those sections omit — the modal
-  shows portrait + name + role + CTA only. Populate the fields in Contentful to light
-  up the Visuals / Press sections (already built, ref-styled).
-- **Past Event:** the `pastEvent` type stores `speakerNames` as **strings**, not linked
-  `person` entries, so the ref's rich speaker **cards** (portrait + role + CTA) can't be
-  built — rendered as a name list instead. There is **no keynote/press field** on
-  `pastEvent`, so the ref's "Keynote" cards are omitted. `gallery` exists but is
-  unpopulated (omitted). Model change (link speakers, add keynote) would be needed to
-  match the ref fully — out of scope for this read-only pass.
+## 3. Future model additions / content to populate (for full ref fidelity)
+- **Speaker modal Visuals / Press:** the `person` type already HAS `bio` / `visuals` /
+  `press`; populate them and the (already built, ref-styled) modal sections light up.
+- **Past Event modal:** `speakerNames` are strings, not linked `person` entries, so the
+  ref's portrait speaker cards render as a name list — link them to enable cards. No
+  `keynote/press` field exists → the ref's Keynote cards are omitted (add a field).
+  `gallery` exists but is unpopulated.
+- **Hero coordinates:** `37.9838°N / 23.7275°E · Athens, Greece` is hardcoded — add
+  `coordinates` / `locationLabel` fields to the hero section to make it CMS-driven.
+- **Thank-you Revisit buttons:** `Revisit 2025` / `Revisit 2022` (→ `#ais-archive`) are
+  hardcoded — add as `actions` on the thank-you section.
+- **Footer display copy:** "STAY IN THE / LOOP" is hardcoded — optional CMS field.
 
-## Type system
-- Stand-ins: Inter (≈ Founders Grotesk) and Instrument Serif (≈ PP Editorial Old).
-- Swap to licensed faces: load the font in `app/layout.tsx` (expose a CSS var) and
-  point `--font-grotesk` / `--font-editorial` at it in `app/globals.css`. One line
-  each; no component changes.
+## Resolved (for the record)
+- **Thank-you background:** real panel photo uploaded as asset `thankyou-panel`
+  ("AIS 2026 - Thank You Panel", 1450×648) and wired to `sec-thank-you.media` (the one
+  approved write); temp `public/thankyou-temp.png` deleted; carries its own gradient
+  (no extra scrim); all three figures read as in the ref.
+- **`#program` anchor:** resolves to the Keywords strip (`id="program"`). No fix.
+- **Content width:** unified to a single token `--content-w: 1392px` via
+  `.max-w-content` — cannot drift.
+- **Media:** placeholder styling (dashed box) no longer leaks onto real images; no
+  rounded media anywhere (design uses full-bleed, un-bordered photography).
+- **pnpm dev:** `sharp` build allowlisted in `pnpm-workspace.yaml` (`allowBuilds` +
+  `onlyBuiltDependencies`) — `pnpm dev` runs out of the box.
 
-## Hardcoded content (not in the CMS model — wire in later)
-- **Hero coordinates** (`components/sections/Hero.tsx`): `37.9838°N / 23.7275°E` +
-  `Athens, Greece`. Not present on the hero entry; hardcoded per ruling. Wire into
-  the model later (e.g. a `coordinates` / `locationLabel` field on the hero section).
-- **Footer display copy** (`components/Footer.tsx`): "STAY IN THE" / "LOOP" is a
-  decorative display headline not present in the footer json — hardcoded per ruling.
-- **Thank-you Revisit buttons** (`components/sections/ThankYou.tsx`): `Revisit 2025`
-  + `Revisit 2022`, both → `#ais-archive`. Not on the thank-you entry; hardcoded per
-  ruling. Wire as actions on the section later.
-- **Thank-you background — RESOLVED** (was `public/thankyou-temp.png`, now deleted):
-  Endeavor supplied the real panel photo. Uploaded as Contentful asset
-  `thankyou-panel` ("AIS 2026 - Thank You Panel", 1450×648) and linked onto
-  `sec-thank-you.media` (scoped, approved write). `ThankYou.tsx` now reads
-  `section.media`; the asset carries its own baked gradient so the extra flat-35
-  overlay was dropped. All three figures now read as in the ref.
-
-## Awaiting materials
-- Rafal Modrzewski speaker portrait (from Endeavor) — `ph-spk-modrzewski` still a
-  placeholder.
-- Official sponsor logos: NBG, Raycap, Eurobank (dark-bg / reversed variants from
-  press kits).
-- Higher-res thank-you panel original (2000px+ wide) still welcome from Endeavor —
-  the delivered file is 1450×648 and may soften on very large displays. (Base photo
-  is now wired: asset `thankyou-panel` on `sec-thank-you.media`.)
+## Type system (swap to licensed faces later)
+- Stand-ins: Inter ≈ Founders Grotesk, Instrument Serif ≈ PP Editorial Old.
+- Swap: load the licensed font in `app/layout.tsx` (expose a CSS var) and point
+  `--font-grotesk` / `--font-editorial` at it in `app/globals.css`. One line each; no
+  component changes.

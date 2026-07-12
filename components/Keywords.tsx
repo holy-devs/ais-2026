@@ -9,7 +9,7 @@ export default function Keywords({ entry }: { entry: any }) {
 
   return (
     <section id="program" className="border-y border-rule px-6 py-10 md:px-10">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
+      <div className="mx-auto flex max-w-content flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
         {keywords.map((k, i) => (
           <span key={k} className="flex items-center gap-6">
             <span className="font-serif text-2xl italic text-creme md:text-3xl" data-reveal="words">

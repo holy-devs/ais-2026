@@ -43,7 +43,7 @@ export default function SectionRenderer({ entry }: { entry: any }) {
     const Comp = SECTION_MAP[variant];
     if (!Comp) {
       return (
-        <div className="mx-auto max-w-6xl px-6 py-8 text-xs text-low">
+        <div className="mx-auto max-w-content px-6 py-8 text-xs text-low">
           [unmapped section variant: {String(variant)}]
         </div>
       );
