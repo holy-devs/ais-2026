@@ -21,6 +21,9 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 export default function RevealController() {
   useGSAP(() => {
     const root = document.documentElement;
+    // Signal to the inline-head safety timeout that reveals mounted (so it won't
+    // force-show). Set before any early return.
+    root.classList.add('reveal-init');
     if (root.classList.contains('reduced')) return; // reduced motion: content already visible
 
     const splits: SplitText[] = [];

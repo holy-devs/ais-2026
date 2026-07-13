@@ -28,7 +28,11 @@ export const metadata: Metadata = {
 
 // Runs before paint: gates the CSS reveal-hide (no-JS shows content) and flags
 // reduced-motion so RevealController can skip animations.
-const gsapInit = `(function(){var d=document.documentElement;d.classList.add('gsap-on');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');}catch(e){}})();`;
+// Adds `gsap-on` (which hides [data-reveal] until revealed) + `reduced` for reduced
+// motion. Safety net: if reveals never initialize within 2.5s (JS error / hydration
+// failure / RevealController never mounts), fall back to `reduced` so ALL content
+// shows regardless — text can never be left hidden by a dead client.
+const gsapInit = `(function(){var d=document.documentElement;d.classList.add('gsap-on');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');}catch(e){}setTimeout(function(){if(!d.classList.contains('reveal-init'))d.classList.add('reduced');},2500);})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
