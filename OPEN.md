@@ -3,6 +3,37 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Polish pass (F1–F6) — status @ F6
+Branch `polish-pass`. Ground truth = `design-refs/review/` PNG annotations + Figma
+"Final UI 2026". **CLOSED this pass:**
+- **Fonts** — real Founders Grotesk (Reg/Med) + PP Editorial Old Italic wired via
+  `next/font/local`, no FOUT/CLS. Implementation **closed** (Klim TRIAL→licensed woff2
+  is a filename-identical drop-in, the one production pre-req; see Type system below).
+- **Systemic (A1/A2)** — glass button system + key-info blocks (Title Case, hover E3→E2,
+  crosshair spin). Buttons mobile-reduced blur.
+- **Sections (B1–B10)** — nav (Title Case, Program dropped), hero metrics, vision
+  (upright Founders), speakers (arrow removed, top crosshairs, 4th hidden), gallery
+  (framed + blur teaser + **lightbox**), archive (E2→E3), thank-you (min-h 640 + crop),
+  ticker hidden, about, footer.
+- **Sidetrays (C1–C3)** — 800px shell, 24px inset, E3 close; speaker two-col +
+  ABOUT/VISUALS/PRESS; past-event mosaic + speaker/visuals (video/keynote need fields).
+- **Mobile (D1–D4)** — hero 670px cap (key-info peeks), crosshair-over-hamburger,
+  mobile-menu glass (#010010/70%), glass CTA. **Verified: sub-`md` layout renders; note
+  a true 390px viewport couldn't be captured (macOS clamps window width ~500px) — checked
+  at ~500–600px + class/CSS level.**
+- **Lightbox** — bottom counter (1/12), thin-line ✕/arrows (sketch), overlay fixed to
+  explicit sRGB **#161524D9** (85%) after oklab `color-mix` read near-opaque.
+- **Desktop punch-list** — speaker/archive type sizes, vision 594px wrap, lightbox overlay.
+- **F5 (Contentful write) — CANCELLED**, live `speakerNames` kept (Hassabis = AIS 2025 is
+  correct; the proposed fix had the years reversed). **No CMS writes this pass.**
+
+**F6 verify:** typecheck OK · `next build` OK (4/4 static, no type/lint errors) · 390px/mobile
++ desktop walkthrough on the production build, no console errors. **Push is the brake —
+deploying a Vercel PREVIEW only; no merge to main.**
+
+**Still parked (client/materials, not code):** items in §1–§3 below, esp. nav label set,
+TIKTOK vs X, Modrzewski portrait, past-event video/keynote fields, sponsor logos.
+
 ## 1. Needs client decision (copy/label — pick before launch)
 - **Ticket CTA label:** live shows **"Request Tickets"** (CMS `act-request-tickets` →
   mailto); design shows **"Request Access"**. **Polish-pass ruling (E4): keep
