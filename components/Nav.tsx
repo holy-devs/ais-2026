@@ -43,7 +43,7 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
             href="#top"
-            className="text-xs font-semibold uppercase tracking-[0.12em] text-white md:text-sm"
+            className="text-xs font-medium uppercase tracking-[0.12em] text-white md:text-sm"
           >
             Athens Innovation Summit
           </a>

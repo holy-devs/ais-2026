@@ -1,14 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import ModalProvider from '@/components/modals/ModalProvider';
 import RevealController from '@/components/RevealController';
 
-// Stand-in faces for the licensed pair. To swap: load the licensed font here
-// (exposing a CSS var) and point --font-grotesk / --font-editorial at it in
-// app/globals.css. Inter ≈ Founders Grotesk; Instrument Serif ≈ PP Editorial Old.
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const instrument = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-instrument', display: 'swap' });
+// Licensed faces, self-hosted. NOTE: the Founders Grotesk files are Klim TRIAL
+// ("Test Founders Grotesk") — production licence to be confirmed (see OPEN.md);
+// swapping to the licensed woff2 is a file drop-in (same weights/paths).
+const grotesk = localFont({
+  src: [
+    { path: './fonts/founders-grotesk-regular.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/founders-grotesk-medium.woff2', weight: '500', style: 'normal' },
+  ],
+  variable: '--font-grotesk-face',
+  display: 'swap',
+});
+const editorial = localFont({
+  src: [{ path: './fonts/pp-editorial-old-italic.woff2', weight: '400', style: 'italic' }],
+  variable: '--font-editorial-face',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Athens Innovation Summit 2026',
@@ -21,7 +32,7 @@ const gsapInit = `(function(){var d=document.documentElement;d.classList.add('gs
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrument.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${grotesk.variable} ${editorial.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: gsapInit }} />
       </head>

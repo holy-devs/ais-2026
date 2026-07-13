@@ -15,16 +15,13 @@
   --color-low: #444444;
   --color-acc: #eedecb;
 
-  /* Type system. Two intent tokens carry the design's pairing:
-     grotesk (bold caps display / UI) + editorial (italic serif accents).
-     To adopt the licensed faces later, change ONE value each below —
-     load the font in app/layout.tsx and point the token at its variable:
-       --font-grotesk:  var(--font-founders), ...   (← Founders Grotesk)
-       --font-editorial: var(--font-pp-editorial), ... (← PP Editorial Old)
-     Everything downstream uses font-grotesk / font-editorial (or the
-     sans/serif aliases), so no component edits are needed at swap time. */
-  --font-grotesk: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: var(--font-instrument), ui-serif, Georgia, serif;
+  /* Type system — the design's real pairing, self-hosted via next/font/local
+     (app/layout.tsx): grotesk = Founders Grotesk (Klim trial), editorial =
+     PP Editorial Old Italic. Everything downstream uses font-grotesk /
+     font-editorial (or the sans/serif aliases); the licensed-font swap is a
+     woff2 drop-in in app/fonts/, no token or component edits needed. */
+  --font-grotesk: var(--font-grotesk-face), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-editorial-face), ui-serif, Georgia, serif;
   --font-sans: var(--font-grotesk);
   --font-serif: var(--font-editorial);
 

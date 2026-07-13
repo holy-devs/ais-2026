@@ -43,7 +43,7 @@ export default function Hero({ entry }: { entry: any }) {
           </p>
 
           <h1
-            className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.01em] text-white text-[clamp(3.5rem,8.7vw,8.5rem)]"
+            className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.02em] text-white text-[clamp(3rem,11vw,11rem)]"
             data-reveal="lines"
           >
             {lead && <span className="block">{lead}</span>}

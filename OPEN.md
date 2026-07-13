@@ -68,8 +68,12 @@ except one approved write (thank-you panel asset). Grouped for review below.
 - **pnpm dev:** `sharp` build allowlisted in `pnpm-workspace.yaml` (`allowBuilds` +
   `onlyBuiltDependencies`) — `pnpm dev` runs out of the box.
 
-## Type system (swap to licensed faces later)
-- Stand-ins: Inter ≈ Founders Grotesk, Instrument Serif ≈ PP Editorial Old.
-- Swap: load the licensed font in `app/layout.tsx` (expose a CSS var) and point
-  `--font-grotesk` / `--font-editorial` at it in `app/globals.css`. One line each; no
-  component changes.
+## Type system — real fonts wired
+- **Founders Grotesk** (Regular + Medium) + **PP Editorial Old Italic**, self-hosted
+  via `next/font/local` (`app/fonts/`, `app/layout.tsx`) into the `--font-grotesk` /
+  `--font-editorial` tokens. Inter / Instrument Serif stand-ins removed. next/font emits
+  a size-adjusted fallback → no layout shift.
+- ⚠️ **LICENCE (open):** the Founders Grotesk files are **Klim TRIAL** ("Test Founders
+  Grotesk"). Production licence to be confirmed with the designer — then drop the
+  licensed woff2 into `app/fonts/` (same filenames/weights). One-file swap, no code
+  change. PP Editorial Old is the full family.

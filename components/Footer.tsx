@@ -47,11 +47,13 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
 
       <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
-        <div className="text-center leading-[0.8]">
-          <div className="font-grotesk font-medium uppercase tracking-[-0.05em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
+        <div className="text-center">
+          {/* Display: Founders Grotesk Medium 164px / lh 73 / tracking -9px (per brief). */}
+          <div className="font-grotesk font-medium uppercase leading-[0.445] tracking-[-0.055em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
             Stay in the
           </div>
-          <div className="font-editorial italic tracking-[-0.03em] text-creme text-[clamp(2.25rem,9.7vw,7.75rem)]">
+          {/* PP Editorial Old Italic 124px. */}
+          <div className="font-editorial italic leading-[0.62] tracking-[-0.055em] text-creme text-[clamp(2.25rem,9.7vw,7.75rem)]">
             Loop
           </div>
         </div>
