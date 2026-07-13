@@ -91,6 +91,13 @@ except one approved write (thank-you panel asset). Grouped for review below.
 - **pnpm dev:** `sharp` build allowlisted in `pnpm-workspace.yaml` (`allowBuilds` +
   `onlyBuiltDependencies`) — `pnpm dev` runs out of the box.
 
+## F5 (scoped Contentful write) — CANCELLED
+The planned correction of pastEvent `speakerNames` (AIS 2022 / AIS 2025) is **cancelled**.
+The live entries are **already correct** (Demis Hassabis = AIS 2025, which the 2025 entry
+has right); the proposed target had the two years reversed and would have introduced an
+error. **No Contentful writes made; both pastEvent entries untouched.** No CMS changes
+remain for this pass.
+
 ## Desktop punch-list — Figma "Final UI 2026" type specs (polish pass)
 Applied desktop-only, no Contentful. Exact metrics from the v5.0 frame:
 - **Speaker card role line** (`SpeakersClient`): 16px / 18px lh / Founders Regular /
