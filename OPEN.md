@@ -3,6 +3,24 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Favicon / PWA icons — 2026 bundle wired
+realfavicongenerator output wired for the App Router.
+- **Files in `public/` (names unchanged):** `favicon.ico`, `favicon.svg`,
+  `favicon-96x96.png`, `apple-touch-icon.png`, `site.webmanifest`,
+  `web-app-manifest-192x192.png`, `web-app-manifest-512x512.png` (the manifest
+  references the 192/512 PNGs at root paths — kept resolvable).
+- **Declared via Next metadata** in `app/layout.tsx` (`metadata.icons` for
+  favicon/svg/96px + `apple`, `metadata.manifest`) + `export const viewport`
+  `themeColor: '#010010'`. No hand-written `<head>` `<link>` tags.
+- **Manifest fixed** off generator defaults: `name` = "Athens Innovation Summit
+  2026", `short_name` = "AIS 2026", `theme_color` + `background_color` = brand
+  `#010010` (were `MyWebSite` / `#ffffff`).
+- **No placeholder to remove** — there was no prior favicon (`/favicon.ico` 404, no
+  file-convention icon, no `<link>`/`metadata.icons`); this is a clean add.
+- **Verified:** all 7 URLs resolve 200 with correct MIME; served `<head>` has the
+  Next-emitted theme-color + manifest + 3 icon + apple-touch tags; manifest serves
+  brand values; icon art is the AIS mark; no favicon/manifest 404 in console.
+
 ## Ticket CTA site-wide toggle — `ticketsEnabled` (implemented)
 One Contentful boolean hides the entire "Get Tickets / Request Tickets" CTA everywhere.
 - **Model (additive, the only write):** new **Boolean field `ticketsEnabled`** (default

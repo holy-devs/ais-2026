@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import ModalProvider from '@/components/modals/ModalProvider';
@@ -24,6 +24,21 @@ const editorial = localFont({
 export const metadata: Metadata = {
   title: 'Athens Innovation Summit 2026',
   description: 'Athens Innovation Summit 2026 — July 16, 2026, Pnyx, Athens. A global forum on AI, democracy, and human progress by Endeavor Greece.',
+  // 2026 favicon bundle (realfavicongenerator), served from public/. Next emits the
+  // <link> tags — do not hand-write them.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/site.webmanifest',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#010010',
 };
 
 // Runs before paint: gates the CSS reveal-hide (no-JS shows content) and flags
