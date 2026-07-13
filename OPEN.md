@@ -43,10 +43,15 @@ except one approved write (thank-you panel asset). Grouped for review below.
 ## 3. Future model additions / content to populate (for full ref fidelity)
 - **Speaker modal Visuals / Press:** the `person` type already HAS `bio` / `visuals` /
   `press`; populate them and the (already built, ref-styled) modal sections light up.
-- **Past Event modal:** `speakerNames` are strings, not linked `person` entries, so the
-  ref's portrait speaker cards render as a name list — link them to enable cards. No
-  `keynote/press` field exists → the ref's Keynote cards are omitted (add a field).
-  `gallery` exists but is unpopulated.
+- **Past Event tray (rebuilt C3, 800px):** now has the mosaic hero + meta, 2-col speaker
+  cards, and a 2-col Visuals grid + Load More. Two ref sections are **omitted (no model
+  field) — not faked**, and need fields added to `pastEvent` to light up:
+  - **Video/Documentary slot** — add a `documentary`/`videoUrl` (+ optional poster) field.
+  - **Keynote/Program cards** — add a `keynote`/`program` field (panel image + title +
+    date/desc). The design flags this "not sure if it will be used."
+  - **Speaker cards** still show the **name only** — `speakerNames` are strings, not linked
+    `person` entries; link them to get portrait/role/bio cards.
+  - `gallery` exists but is unpopulated → Visuals grid is empty until filled.
 - **Hero coordinates:** `37.9838°N / 23.7275°E · Athens, Greece` is hardcoded — add
   `coordinates` / `locationLabel` fields to the hero section to make it CMS-driven.
 - **Thank-you Revisit buttons:** `Revisit 2025` / `Revisit 2022` (→ `#ais-archive`) are
