@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import type { PastEventDTO, MediaDTO } from '@/lib/map';
+import type { PastEventDTO, MediaDTO, PastEventSpeakerDTO } from '@/lib/map';
 import Media from '../Media';
 import { SpeakerCard } from '../SpeakerCard';
-import { Crosshair } from '../Crosshair';
+import { Eyebrow } from './eyebrow';
+import { PressCard } from './PressCard';
+import SpeakerSidetray from './SpeakerSidetray';
 
 /*
  * Sizes from Figma node 9-6651 (mobile-exact); desktop is responsive (694px
@@ -41,15 +43,6 @@ function PlayIcon() {
     </span>
   );
 }
-// Eyebrow tag — 14px Founders Grotesk Medium (node 9-6651).
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <h4 className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-mid">
-      <Crosshair size={9} className="text-creme" />
-      {children}
-    </h4>
-  );
-}
 // Section heading — 48px / 52 lh Founders Grotesk Regular.
 function Heading({ children }: { children: React.ReactNode }) {
   return <h3 className="mt-3 font-grotesk text-[48px] font-normal leading-[52px] text-white">{children}</h3>;
@@ -80,8 +73,11 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
   const [shown, setShown] = useState(hasGallery ? Math.min(4, data.gallery.length) : GREY_TILES);
   const tiles: (MediaDTO | null)[] = hasGallery ? data.gallery.slice(0, shown) : Array.from({ length: GREY_TILES }, () => null);
   const yy = data.year ? String(data.year).slice(-2) : '';
+  // Clicking a speaker card opens the Speaker Profile sidetray (edition gallery + press reused).
+  const [openSpk, setOpenSpk] = useState<PastEventSpeakerDTO | null>(null);
 
   return (
+    <>
     <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-md md:backdrop-blur-2xl" onClick={onClose}>
       {/* Container: 694px wide (desktop). Mobile inset 12px sides (node 9-6651). */}
       <div
@@ -135,6 +131,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
                   <SpeakerCard
                     key={s.id}
                     photoAspect="aspect-square"
+                    onClick={() => setOpenSpk(s)}
                     data={{ photo: s.photo, name: s.name, role: s.title, ctaLabel: s.ctaLabel }}
                   />
                 ))}
@@ -198,8 +195,33 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
               </div>
             </section>
           )}
+
+          {/* ⑥ PRESS — edition press cards (same card pattern as sessions) */}
+          {data.press.length > 0 && (
+            <section>
+              <Eyebrow>Press</Eyebrow>
+              <Heading>Press</Heading>
+              <div className="mt-4 flex flex-col gap-4">
+                {data.press.map((p) => (
+                  <PressCard key={p.id} item={p} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>
+
+    {/* Speaker Profile sidetray — sibling of the modal overlay so its backdrop
+        clicks close only the sidetray, not the modal underneath. */}
+    {openSpk && (
+      <SpeakerSidetray
+        speaker={openSpk}
+        gallery={data.gallery}
+        press={data.press}
+        onClose={() => setOpenSpk(null)}
+      />
+    )}
+    </>
   );
 }

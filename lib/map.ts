@@ -65,6 +65,7 @@ export interface PastEventSpeakerDTO {
   photo: MediaDTO;
   name: string;
   title: string;
+  bio: string;
   ctaType: string; // 'Keynote' | 'LinkedIn'
   ctaUrl: string;
   ctaLabel: string;
@@ -77,6 +78,7 @@ export function mapPastEventSpeaker(entry: any): PastEventSpeakerDTO {
     photo: media(x.photo),
     name: x.name || '',
     title: x.title || '',
+    bio: x.bio || '',
     ctaType,
     ctaUrl: x.ctaUrl || '#',
     ctaLabel: ctaType === 'Keynote' ? 'View Keynote' : 'View LinkedIn',
@@ -106,6 +108,27 @@ export function mapSession(entry: any): SessionDTO {
   };
 }
 
+// Press item (edition-level; reused by the modal PRESS section + speaker sidetray).
+export interface PressDTO {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  byline: string;
+  sourceUrl?: string;
+}
+export function mapPress(entry: any): PressDTO {
+  const x = f(entry);
+  return {
+    id: entry?.sys?.id || '',
+    title: x.title || '',
+    date: x.date || '',
+    description: x.description || '',
+    byline: x.byline || '',
+    sourceUrl: x.sourceUrl || undefined,
+  };
+}
+
 export interface PastEventDTO {
   id: string;
   title: string;
@@ -124,6 +147,7 @@ export interface PastEventDTO {
   documentaryMedia: MediaDTO;
   speakers: PastEventSpeakerDTO[];
   sessions: SessionDTO[];
+  press: PressDTO[];
 }
 
 export function mapPastEvent(entry: any): PastEventDTO {
@@ -145,6 +169,7 @@ export function mapPastEvent(entry: any): PastEventDTO {
     documentaryMedia: media(x.documentaryMedia),
     speakers: Array.isArray(x.speakers) ? x.speakers.map(mapPastEventSpeaker) : [],
     sessions: Array.isArray(x.sessions) ? x.sessions.map(mapSession) : [],
+    press: Array.isArray(x.press) ? x.press.map(mapPress) : [],
   };
 }
 
