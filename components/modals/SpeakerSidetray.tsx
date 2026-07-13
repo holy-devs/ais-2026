@@ -5,6 +5,7 @@ import type { PastEventSpeakerDTO, MediaDTO, PressDTO } from '@/lib/map';
 import Media from '../Media';
 import { Eyebrow } from './eyebrow';
 import { PressCard } from './PressCard';
+import { GalleryTile } from './GalleryTile';
 import { ArrowUpRight } from '../Icons';
 
 /*
@@ -104,14 +105,10 @@ export default function SpeakerSidetray({
           {/* VISUALS — edition gallery, 2-col gap 16, ~5:7 tiles (empty → grey) */}
           <section>
             <Eyebrow tone="text-white">Visuals</Eyebrow>
-            <div className="mt-3 grid grid-cols-2 gap-4">
-              {tiles.map((t, i) =>
-                t?.url ? (
-                  <Media key={i} media={t} rounded={false} grey className="aspect-[5/7] w-full" />
-                ) : (
-                  <div key={i} className="aspect-[5/7] w-full bg-e3" aria-hidden />
-                ),
-              )}
+            <div className="mt-3 grid grid-cols-2 gap-0">
+              {tiles.map((t, i) => (
+                <GalleryTile key={i} media={t} />
+              ))}
             </div>
             {hasGallery && shown < gallery.length && (
               <button onClick={() => setShown((n) => n + 4)} className="mt-3 w-full bg-e3 py-3 text-sm text-white transition hover:bg-rhi">

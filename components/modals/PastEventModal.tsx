@@ -6,6 +6,7 @@ import Media from '../Media';
 import { SpeakerCard } from '../SpeakerCard';
 import { Eyebrow } from './eyebrow';
 import { PressCard } from './PressCard';
+import { GalleryTile } from './GalleryTile';
 import SpeakerSidetray from './SpeakerSidetray';
 
 /*
@@ -140,7 +141,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
           {/* ③ SPEAKERS — profile cards, 2-col desktop / 1-col mobile, 1:1 photos, 16px gap */}
           {data.speakers.length > 0 && (
             <section>
-              <Eyebrow>Speakers</Eyebrow>
+              <Eyebrow tone="text-white">Speakers</Eyebrow>
               <Heading>Speakers</Heading>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {data.speakers.map((s) => (
@@ -155,19 +156,14 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
             </section>
           )}
 
-          {/* ④ VISUALS — 2 columns, NO gap, ~7:8 tiles (empty → grey tiles) */}
+          {/* ④ VISUALS — creme-border tiles, 2-col, gap-0, 5:7 (node 9-6813) */}
           <section>
-            <Eyebrow>Visuals</Eyebrow>
+            <Eyebrow tone="text-white">Visuals</Eyebrow>
             <Heading>Visuals from AIS</Heading>
-            {/* APPROX(figma): masonry with a smaller tile variant — using uniform 7:8 for now */}
             <div className="mt-4 grid grid-cols-2 gap-0">
-              {tiles.map((t, i) =>
-                t?.url ? (
-                  <Media key={i} media={t} rounded={false} grey className="aspect-[7/8] w-full" />
-                ) : (
-                  <div key={i} className="aspect-[7/8] w-full bg-e3" aria-hidden />
-                ),
-              )}
+              {tiles.map((t, i) => (
+                <GalleryTile key={i} media={t} />
+              ))}
             </div>
             {hasGallery && shown < data.gallery.length && (
               <button onClick={() => setShown((n) => n + 4)} className="mt-3 w-full bg-e3 py-3 text-sm text-white transition hover:bg-rhi">
@@ -179,7 +175,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
           {/* ⑤ KEYNOTE — intro + keynoteMedia (~1:1) + session cards */}
           {(data.keynoteIntro || data.sessions.length > 0) && (
             <section>
-              <Eyebrow>Keynote</Eyebrow>
+              <Eyebrow tone="text-white">Keynote</Eyebrow>
               {data.keynoteIntro && <p className="mt-3 text-base leading-relaxed text-hi">{data.keynoteIntro}</p>}
               <div className="mt-4"><Frame media={data.keynoteMedia} aspect="aspect-square" /></div>
               <div className="mt-4 flex flex-col gap-4">
@@ -215,7 +211,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
           {/* ⑥ PRESS — eyebrow only (no 48px heading), press cards with image */}
           {data.press.length > 0 && (
             <section>
-              <Eyebrow>Press</Eyebrow>
+              <Eyebrow tone="text-white">Press</Eyebrow>
               <div className="mt-4 flex flex-col gap-4">
                 {data.press.map((p) => (
                   <PressCard key={p.id} item={p} />
