@@ -3,6 +3,48 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Past-event richness (round 2b) — branch `past-event-richness`
+Rich past-event modal + the additive Contentful model behind it. All CMS changes
+ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
+- **Model (additive):** new types **`pastEventSpeaker`** (photo, name, title, bio,
+  ctaType[Keynote|LinkedIn], ctaUrl) + **`session`** (title, date, time, description,
+  speakers→pastEventSpeaker); new **`pastEvent`** fields `keynoteIntro`, `keynoteMedia`,
+  `secondaryMedia`, `documentaryMedia`, `speakers[]`, `sessions[]`. Decision: snapshot
+  `pastEventSpeaker` over reusing `person` (edition-specific title/CTA conflict with the
+  live 2026 persons). `speakerNames` / `heroMedia` / `gallery` / `description` kept intact.
+- **Entries (placeholder):** both `pe-2025` + `pe-2022` populated with **lorem** — 3
+  `pastEventSpeaker` + 1 `session` each, ctaType Keynote/LinkedIn/LinkedIn, ctaUrl `#`,
+  all media UNSET (→ grey blocks). Real content to be filled in Contentful later. All
+  8 entries + 2 pastEvent updates published + delivery-verified.
+- **F5-style speakerNames were NOT touched** (kept as-is on both).
+- **Modal (`PastEventModal`) rebuilt to node 9-6651:** scrollable 694px container (16px
+  pad; mobile inset 12px), header bar `AIS Editions / yy` + E3 ✕, sections in order —
+  hero (3:4, title+venue/date overlaid) → documentary (~1:1 grey + 56px play) → speakers
+  (shared homepage profile card, 1:1 photos, 2-col desktop / 1-col mobile) → visuals
+  (2-col, gap 0, 7:8 tiles, 6 grey when empty; 2022 keeps its real gallery) → keynote
+  (eyebrow + intro + ~1:1 keynoteMedia + session cards w/ speaker chips). Headings 48/52
+  Founders Regular, eyebrows 14px Medium, grey `#1e1d33`. Unset media → grey blocks, no
+  broken-image icons. Homepage Speakers + archive card verified unchanged.
+- **Shared `SpeakerCard`** factored from the homepage. `photoAspect` prop: homepage 4:5,
+  modal 1:1. In the modal it opens the Speaker Profile sidetray on click.
+- Node ref: modal = **9-6651**, sidetray = **9-6786**.
+
+### Press + Speaker Profile sidetray (P5.5–P5.7)
+- **Model (additive):** new type **`press`** (title, date, description, byline, sourceUrl)
+  + `pastEvent.press` (Array→press). Entries: 2 lorem `press` per edition, linked. All
+  published + delivery-verified. `speakerNames`/`speakers`/etc. untouched.
+- **Modal PRESS section** (node 9-6651): eyebrow-only (no 48px heading), press cards
+  (landscape image block + date/title/description/byline; same base card as sessions but
+  **with** an image — grey until a `press.image` field is added; aspect provisional 16:9).
+- **Speaker Profile sidetray** (node 9-6786): clicking a modal speaker card opens it
+  (sibling overlay, z-60). 800px; "Speaker Profile" 24px bar + E3 ✕; hero = 1:1 (342)
+  photo, **mobile vertical / desktop horizontal** (name 24 creme / designation 16 white
+  bottom-aligned + CTA); ABOUT (bio 16 white); VISUALS (edition gallery, 2-col gap-16 5:7
+  tiles, grey when empty); PRESS. White eyebrows; grey `#1e1d33`; 12/24 padding, 16 gaps.
+- **`pastEventSpeaker.bio`** now surfaced in the DTO (feeds the sidetray ABOUT).
+- **Open flag:** press-card image aspect = **16:9 provisional** — anchor exact aspect when
+  the `press.image` field + real content are added (deferred).
+
 ## Favicon / PWA icons — 2026 bundle wired
 realfavicongenerator output wired for the App Router.
 - **Files in `public/` (names unchanged):** `favicon.ico`, `favicon.svg`,

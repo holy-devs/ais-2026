@@ -59,6 +59,76 @@ export function mapSpeaker(entry: any): SpeakerDTO {
   };
 }
 
+// Past-event speaker snapshot (pastEventSpeaker type — decoupled from `person`).
+export interface PastEventSpeakerDTO {
+  id: string;
+  photo: MediaDTO;
+  name: string;
+  title: string;
+  bio: string;
+  ctaType: string; // 'Keynote' | 'LinkedIn'
+  ctaUrl: string;
+  ctaLabel: string;
+}
+export function mapPastEventSpeaker(entry: any): PastEventSpeakerDTO {
+  const x = f(entry);
+  const ctaType = x.ctaType || 'LinkedIn';
+  return {
+    id: entry?.sys?.id || '',
+    photo: media(x.photo),
+    name: x.name || '',
+    title: x.title || '',
+    bio: x.bio || '',
+    ctaType,
+    ctaUrl: x.ctaUrl || '#',
+    ctaLabel: ctaType === 'Keynote' ? 'View Keynote' : 'View LinkedIn',
+  };
+}
+
+// Session (keynote/panel) — date/time are display strings.
+export interface SessionDTO {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  description: string;
+  speakers: { id: string; name: string; photo: MediaDTO }[];
+}
+export function mapSession(entry: any): SessionDTO {
+  const x = f(entry);
+  return {
+    id: entry?.sys?.id || '',
+    title: x.title || '',
+    date: x.date || '',
+    time: x.time || '',
+    description: x.description || '',
+    speakers: Array.isArray(x.speakers)
+      ? x.speakers.map((s: any) => ({ id: s?.sys?.id || '', name: f(s).name || '', photo: media(f(s).photo) }))
+      : [],
+  };
+}
+
+// Press item (edition-level; reused by the modal PRESS section + speaker sidetray).
+export interface PressDTO {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  byline: string;
+  sourceUrl?: string;
+}
+export function mapPress(entry: any): PressDTO {
+  const x = f(entry);
+  return {
+    id: entry?.sys?.id || '',
+    title: x.title || '',
+    date: x.date || '',
+    description: x.description || '',
+    byline: x.byline || '',
+    sourceUrl: x.sourceUrl || undefined,
+  };
+}
+
 export interface PastEventDTO {
   id: string;
   title: string;
@@ -70,6 +140,14 @@ export interface PastEventDTO {
   hero: MediaDTO;
   gallery: MediaDTO[];
   speakerNames: string[];
+  // Rich past-event fields (additive; speakerNames still feeds the archive card).
+  keynoteIntro: string;
+  keynoteMedia: MediaDTO;
+  secondaryMedia: MediaDTO;
+  documentaryMedia: MediaDTO;
+  speakers: PastEventSpeakerDTO[];
+  sessions: SessionDTO[];
+  press: PressDTO[];
 }
 
 export function mapPastEvent(entry: any): PastEventDTO {
@@ -85,6 +163,13 @@ export function mapPastEvent(entry: any): PastEventDTO {
     hero: media(x.heroMedia),
     gallery: Array.isArray(x.gallery) ? x.gallery.map(media) : [],
     speakerNames: Array.isArray(x.speakerNames) ? x.speakerNames : [],
+    keynoteIntro: x.keynoteIntro || '',
+    keynoteMedia: media(x.keynoteMedia),
+    secondaryMedia: media(x.secondaryMedia),
+    documentaryMedia: media(x.documentaryMedia),
+    speakers: Array.isArray(x.speakers) ? x.speakers.map(mapPastEventSpeaker) : [],
+    sessions: Array.isArray(x.sessions) ? x.sessions.map(mapSession) : [],
+    press: Array.isArray(x.press) ? x.press.map(mapPress) : [],
   };
 }
 
