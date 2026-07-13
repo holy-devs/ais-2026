@@ -7,10 +7,9 @@ import { SpeakerCard } from '../SpeakerCard';
 import { Crosshair } from '../Crosshair';
 
 /*
- * P4 STRUCTURE ONLY — spacing/size/aspect values marked `TODO(figma)` are provisional
- * placeholders pending exact values from nodes 9-6651 (mobile 390) / 9-6786 (edition
- * full). Section order per spec: hero → documentary → speakers → visuals → keynote.
- * Speaker cards use the shared homepage profile card, render-only (tray deferred).
+ * Sizes from Figma node 9-6651 (mobile-exact); desktop is responsive (694px
+ * container). A few values are approximate and marked APPROX(figma) — the hero
+ * title size and exact panel top/header height weren't retrievable from the node.
  */
 
 function CloseX() {
@@ -35,19 +34,25 @@ function CalIcon() {
   );
 }
 function PlayIcon() {
+  // ~56px play button (node 9-6651)
   return (
     <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/15 backdrop-blur-md" aria-hidden="true">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1 text-white"><path d="M6 4l14 8-14 8z" /></svg>
     </span>
   );
 }
+// Eyebrow tag — 14px Founders Grotesk Medium (node 9-6651).
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <h4 className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-mid">
+    <h4 className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-mid">
       <Crosshair size={9} className="text-creme" />
       {children}
     </h4>
   );
+}
+// Section heading — 48px / 52 lh Founders Grotesk Regular.
+function Heading({ children }: { children: React.ReactNode }) {
+  return <h3 className="mt-3 font-grotesk text-[48px] font-normal leading-[52px] text-white">{children}</h3>;
 }
 
 function formatDate(iso?: string): string | undefined {
@@ -57,7 +62,7 @@ function formatDate(iso?: string): string | undefined {
   return d.toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-// Image if set, else a clean grey block at the given aspect (optional play affordance).
+// Image if set, else a clean grey block (#1e1d33) at the given aspect.
 function Frame({ media, aspect, play = false, position }: { media: MediaDTO; aspect: string; play?: boolean; position?: string }) {
   if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect}`} />;
   return (
@@ -67,65 +72,64 @@ function Frame({ media, aspect, play = false, position }: { media: MediaDTO; asp
   );
 }
 
-const GREY_TILES = 6; // TODO(figma): empty-gallery placeholder tile count
+const GREY_TILES = 6; // empty-gallery placeholder tiles (node 9-6651)
 
 export default function PastEventModal({ data, onClose }: { data: PastEventDTO; onClose: () => void }) {
   const date = formatDate(data.dateTime);
   const hasGallery = data.gallery.length > 0;
   const [shown, setShown] = useState(hasGallery ? Math.min(4, data.gallery.length) : GREY_TILES);
   const tiles: (MediaDTO | null)[] = hasGallery ? data.gallery.slice(0, shown) : Array.from({ length: GREY_TILES }, () => null);
+  const yy = data.year ? String(data.year).slice(-2) : '';
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-md md:backdrop-blur-2xl" onClick={onClose}>
-      {/* Container: 694px wide (node 9-6651), 16px padding, content scrolls inside. */}
+      {/* Container: 694px wide (desktop). Mobile inset 12px sides (node 9-6651). */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label={`${data.editionLabel || data.title} — past event`}
         onClick={(e) => e.stopPropagation()}
-        className="relative m-6 flex h-[calc(100%-3rem)] w-full max-w-[694px] flex-col overflow-hidden bg-e1 shadow-2xl"
+        className="relative mx-3 my-3 flex h-[calc(100%-1.5rem)] w-full max-w-[694px] flex-col overflow-hidden bg-e1 shadow-2xl md:m-6 md:h-[calc(100%-3rem)]"
       >
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute right-6 top-6 z-20 flex h-10 w-10 items-center justify-center bg-e3 text-white/80 transition hover:text-white"
-        >
-          <CloseX />
-        </button>
+        {/* Header bar — edition label + close (occupies the modal's ~64px top zone). */}
+        <div className="flex shrink-0 items-center justify-between px-3 pb-2 pt-3 md:px-4 md:pt-4">
+          <span className="text-sm font-medium uppercase tracking-[0.1em] text-white/70">AIS Editions / {yy}</span>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="flex h-10 w-10 items-center justify-center bg-e3 text-white/80 transition hover:text-white"
+          >
+            <CloseX />
+          </button>
+        </div>
 
-        {/* Scrollable container: 16px padding all sides, content scrolls inside */}
-        <div className="flex-1 overflow-y-auto p-4">
-          {/* ① HERO — fullwidth heroMedia + title + venue/date */}
-          <section>
-            <div className="relative">
-              <Frame media={data.hero} aspect="aspect-[4/3]" position="center 30%" />
-              {/* TODO(figma): title placement/size (overlaid on cover in ref) */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-page/85 to-transparent p-5">
-                <h3 className="text-3xl font-medium leading-tight text-white">{data.title}</h3>
-              </div>
+        {/* Scrollable inner: 12px sides / 24 bottom, 16px inter-section gaps. */}
+        <div className="flex-1 space-y-4 overflow-y-auto px-3 pb-6 md:px-4">
+          {/* ① HERO — full content width, 3:4, title + venue/date overlaid on the image */}
+          <section className="relative">
+            <Frame media={data.hero} aspect="aspect-[3/4]" position="center 30%" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-page/90 via-page/30 to-transparent p-4">
+              {/* APPROX(figma): hero title size */}
+              <h3 className="text-3xl font-medium leading-tight text-white">{data.title}</h3>
+              {(data.location || date) && (
+                <div className="mt-3 flex flex-col gap-1.5 text-sm text-white/85">
+                  {data.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{data.location}</span>}
+                  {date && <span className="inline-flex items-center gap-1.5"><CalIcon />{date}</span>}
+                </div>
+              )}
             </div>
-            {(data.location || date) && (
-              <div className="mt-3 flex flex-col gap-1.5 text-sm text-white/85">
-                {data.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{data.location}</span>}
-                {date && <span className="inline-flex items-center gap-1.5"><CalIcon />{date}</span>}
-              </div>
-            )}
           </section>
 
-          {/* ② DOCUMENTARY / VIDEO — documentaryMedia (unset → grey + play) */}
-          <section className="mt-6">
-            {/* TODO(figma): documentary aspect ratio */}
-            <Frame media={data.documentaryMedia} aspect="aspect-video" play />
+          {/* ② DOCUMENTARY / VIDEO — ~1:1, grey + ~56px play affordance */}
+          <section>
+            <Frame media={data.documentaryMedia} aspect="aspect-square" play />
           </section>
 
-          {/* ③ SPEAKERS — shared profile cards, render-only (not tray-clickable yet) */}
+          {/* ③ SPEAKERS — profile cards, 2-col desktop / 1-col mobile, 1:1 photos, 16px gap */}
           {data.speakers.length > 0 && (
-            <section className="mt-10">
+            <section>
               <Eyebrow>Speakers</Eyebrow>
-              {/* TODO(figma): heading size */}
-              <h4 className="mt-3 font-grotesk text-4xl font-normal text-white">Speakers</h4>
-              {/* Node 9-6651: 1-col mobile, 2-col desktop; each card ≈ half the container
-                  width with a 1:1 (342×342) photo. TODO(figma): grid gap. */}
+              <Heading>Speakers</Heading>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {data.speakers.map((s) => (
                   <SpeakerCard
@@ -138,17 +142,17 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
             </section>
           )}
 
-          {/* ④ VISUALS — gallery 2-col + Load More (empty → grey tiles) */}
-          <section className="mt-10">
+          {/* ④ VISUALS — 2 columns, NO gap, ~7:8 tiles (empty → grey tiles) */}
+          <section>
             <Eyebrow>Visuals</Eyebrow>
-            <h4 className="mt-3 font-grotesk text-4xl font-normal text-white">Visuals from AIS</h4>
-            {/* TODO(figma): gallery gap + tile aspect */}
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <Heading>Visuals from AIS</Heading>
+            {/* APPROX(figma): masonry with a smaller tile variant — using uniform 7:8 for now */}
+            <div className="mt-4 grid grid-cols-2 gap-0">
               {tiles.map((t, i) =>
                 t?.url ? (
-                  <Media key={i} media={t} rounded={false} grey className="aspect-square w-full" />
+                  <Media key={i} media={t} rounded={false} grey className="aspect-[7/8] w-full" />
                 ) : (
-                  <div key={i} className="aspect-square w-full bg-e3" aria-hidden />
+                  <div key={i} className="aspect-[7/8] w-full bg-e3" aria-hidden />
                 ),
               )}
             </div>
@@ -159,28 +163,26 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
             )}
           </section>
 
-          {/* ⑤ KEYNOTE — intro + keynoteMedia + session cards */}
+          {/* ⑤ KEYNOTE — intro + keynoteMedia (~1:1) + session cards */}
           {(data.keynoteIntro || data.sessions.length > 0) && (
-            <section className="mt-10">
+            <section>
               <Eyebrow>Keynote</Eyebrow>
-              {data.keynoteIntro && <p className="mt-3 text-lg leading-relaxed text-hi">{data.keynoteIntro}</p>}
-              {/* TODO(figma): keynote image aspect */}
-              <div className="mt-4"><Frame media={data.keynoteMedia} aspect="aspect-[16/10]" /></div>
+              {data.keynoteIntro && <p className="mt-3 text-base leading-relaxed text-hi">{data.keynoteIntro}</p>}
+              <div className="mt-4"><Frame media={data.keynoteMedia} aspect="aspect-square" /></div>
               <div className="mt-4 flex flex-col gap-4">
                 {data.sessions.map((s) => (
-                  <article key={s.id} className="border border-rule bg-e1 p-5">
-                    {/* TODO(figma): session card paddings + type sizes + chip avatar size */}
-                    <div className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-white/70">
+                  <article key={s.id} className="border border-rule bg-e1 px-3 pb-4 pt-3">
+                    <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.1em] text-white/70">
                       {s.date && <span>{s.date}</span>}
                       {s.date && s.time && <span className="text-creme">•</span>}
                       {s.time && <span>{s.time}</span>}
                     </div>
-                    <h5 className="mt-2 text-xl font-medium leading-tight text-white">{s.title}</h5>
+                    <h5 className="mt-2 text-xl font-medium leading-6 text-white">{s.title}</h5>
                     {s.description && <p className="mt-2 text-sm leading-relaxed text-white/70">{s.description}</p>}
                     {s.speakers.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
                         {s.speakers.map((sp) => (
-                          <span key={sp.id} className="inline-flex items-center gap-2 text-xs font-medium text-white">
+                          <span key={sp.id} className="inline-flex items-center gap-2 text-sm font-medium text-white">
                             {sp.photo?.url ? (
                               <Media media={sp.photo} rounded className="h-6 w-6 shrink-0" />
                             ) : (
