@@ -196,11 +196,10 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
             </section>
           )}
 
-          {/* ⑥ PRESS — edition press cards (same card pattern as sessions) */}
+          {/* ⑥ PRESS — eyebrow only (no 48px heading), press cards with image */}
           {data.press.length > 0 && (
             <section>
               <Eyebrow>Press</Eyebrow>
-              <Heading>Press</Heading>
               <div className="mt-4 flex flex-col gap-4">
                 {data.press.map((p) => (
                   <PressCard key={p.id} item={p} />
