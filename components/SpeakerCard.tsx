@@ -18,10 +18,13 @@ export function SpeakerCard({
   data,
   onClick,
   reveal = false,
+  photoAspect = 'aspect-[4/5]',
 }: {
   data: SpeakerCardData;
   onClick?: () => void;
   reveal?: boolean;
+  // Homepage grid = 4:5 portrait; past-event modal = 1:1 square (node 9-6651).
+  photoAspect?: string;
 }) {
   const cls = 'group relative flex w-full flex-col border border-white/10 text-left';
   const revealAttr = reveal ? { 'data-reveal': 'words' } : {};
@@ -38,7 +41,7 @@ export function SpeakerCard({
         media={data.photo}
         rounded={false}
         grey
-        className="aspect-[4/5] w-full transition duration-500 md:grayscale md:group-hover:grayscale-0"
+        className={`${photoAspect} w-full transition duration-500 md:grayscale md:group-hover:grayscale-0`}
       />
       <div className="flex flex-1 items-end justify-between gap-3 p-5">
         <div>

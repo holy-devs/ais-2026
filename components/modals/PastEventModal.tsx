@@ -77,13 +77,13 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-md md:backdrop-blur-2xl" onClick={onClose}>
-      {/* TODO(figma): panel width (spec gave "min 694px" — width vs height?) */}
+      {/* Container: 694px wide (node 9-6651), 16px padding, content scrolls inside. */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label={`${data.editionLabel || data.title} — past event`}
         onClick={(e) => e.stopPropagation()}
-        className="relative m-6 flex h-[calc(100%-3rem)] w-full max-w-[800px] flex-col overflow-hidden bg-e1 shadow-2xl"
+        className="relative m-6 flex h-[calc(100%-3rem)] w-full max-w-[694px] flex-col overflow-hidden bg-e1 shadow-2xl"
       >
         <button
           onClick={onClose}
@@ -93,8 +93,8 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
           <CloseX />
         </button>
 
-        {/* Scrollable container: 16px padding all sides, min 694px, scrolls inside */}
-        <div className="min-h-[694px] flex-1 overflow-y-auto p-4">
+        {/* Scrollable container: 16px padding all sides, content scrolls inside */}
+        <div className="flex-1 overflow-y-auto p-4">
           {/* ① HERO — fullwidth heroMedia + title + venue/date */}
           <section>
             <div className="relative">
@@ -124,10 +124,15 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
               <Eyebrow>Speakers</Eyebrow>
               {/* TODO(figma): heading size */}
               <h4 className="mt-3 font-grotesk text-4xl font-normal text-white">Speakers</h4>
-              {/* TODO(figma): card layout (stacked vs grid) + gap on desktop */}
-              <div className="mt-4 flex flex-col gap-4">
+              {/* Node 9-6651: 1-col mobile, 2-col desktop; each card ≈ half the container
+                  width with a 1:1 (342×342) photo. TODO(figma): grid gap. */}
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {data.speakers.map((s) => (
-                  <SpeakerCard key={s.id} data={{ photo: s.photo, name: s.name, role: s.title, ctaLabel: s.ctaLabel }} />
+                  <SpeakerCard
+                    key={s.id}
+                    photoAspect="aspect-square"
+                    data={{ photo: s.photo, name: s.name, role: s.title, ctaLabel: s.ctaLabel }}
+                  />
                 ))}
               </div>
             </section>
