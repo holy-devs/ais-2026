@@ -3,10 +3,31 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type { MediaDTO } from '@/lib/map';
 
-function Chevron({ dir }: { dir: 'left' | 'right' }) {
+// Thin-line horizontal arrow (line + arrowhead), matching the sketch's nav arrows.
+function Arrow({ dir }: { dir: 'left' | 'right' }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-      {dir === 'left' ? <polyline points="15,4 7,12 15,20" /> : <polyline points="9,4 17,12 9,20" />}
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth={1.25} strokeLinecap="square" aria-hidden="true">
+      {dir === 'left' ? (
+        <>
+          <line x1="25" y1="14" x2="3" y2="14" />
+          <polyline points="11,6 3,14 11,22" />
+        </>
+      ) : (
+        <>
+          <line x1="3" y1="14" x2="25" y2="14" />
+          <polyline points="17,6 25,14 17,22" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+// Thin-line close ✕.
+function CloseX() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth={1.25} strokeLinecap="square" aria-hidden="true">
+      <line x1="4" y1="4" x2="18" y2="18" />
+      <line x1="18" y1="4" x2="4" y2="18" />
     </svg>
   );
 }
@@ -102,35 +123,35 @@ export default function Lightbox({
         open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
       }`}
     >
-      {/* Close */}
+      {/* Close — thin-line ✕, top-right edge */}
       <button
         ref={closeRef}
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center bg-white text-page transition hover:opacity-90"
+        className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center text-white/80 transition hover:text-white"
       >
-        ✕
+        <CloseX />
       </button>
 
-      {/* Prev / Next (loop) — enhancement, only with >1 image */}
+      {/* Prev / Next (loop) — thin-line arrows on either edge */}
       {many && (
         <>
           <button
             type="button"
             onClick={prev}
             aria-label="Previous image"
-            className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center text-white/80 transition hover:text-white md:left-5"
+            className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center text-white/80 transition hover:text-white md:left-6"
           >
-            <Chevron dir="left" />
+            <Arrow dir="left" />
           </button>
           <button
             type="button"
             onClick={next}
             aria-label="Next image"
-            className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center text-white/80 transition hover:text-white md:right-5"
+            className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center text-white/80 transition hover:text-white md:right-6"
           >
-            <Chevron dir="right" />
+            <Arrow dir="right" />
           </button>
         </>
       )}
@@ -143,6 +164,13 @@ export default function Lightbox({
           alt={img.label}
           className="max-h-[85vh] max-w-[90vw] object-contain"
         />
+      )}
+
+      {/* Position counter — current/total, centered at the bottom (sketch). */}
+      {images.length > 0 && (
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 text-center text-sm tracking-wide text-white/80">
+          {index + 1}/{images.length}
+        </div>
       )}
     </div>
   );
