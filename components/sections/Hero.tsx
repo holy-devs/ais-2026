@@ -8,9 +8,12 @@ import { GlassButton } from '../Buttons';
 const COORDS = '37.9838°N / 23.7275°E';
 const LOCATION_LABEL = 'Athens, Greece';
 
-export default function Hero({ entry }: { entry: any }) {
+export default function Hero({ entry, ticketsEnabled = true }: { entry: any; ticketsEnabled?: boolean }) {
   const x = f(entry);
-  const actions = Array.isArray(x.actions) ? x.actions.map(mapAction) : [];
+  const allActions = Array.isArray(x.actions) ? x.actions.map(mapAction) : [];
+  // Tickets off → drop the Primary "Get Tickets" action; the justify-center flex
+  // re-centers the remaining "Past Editions" with no gap.
+  const actions = ticketsEnabled ? allActions : allActions.filter((a: any) => a.style !== 'Primary');
   const bg = media(x.keyMedia);
 
   // Split a trailing year for the editorial italic accent, then break the head into

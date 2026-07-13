@@ -12,9 +12,16 @@ interface Cta { label: string; anchor: string }
 const titleCase = (s: string) =>
   s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 
-export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
+export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[]; cta?: Cta; ticketsEnabled?: boolean }) {
   // Drop the orphaned Program item + #program anchor (F1: no Program section this cycle).
-  const items = nav.filter((n) => n.anchor !== '#program' && !/^program$/i.test(n.label.trim()));
+  // When tickets are off, also drop the Request Tickets nav link (→ #ticket-section)
+  // so it isn't a dead link once the ticket section is hidden.
+  const items = nav.filter(
+    (n) =>
+      n.anchor !== '#program' &&
+      !/^program$/i.test(n.label.trim()) &&
+      (ticketsEnabled || n.anchor !== '#ticket-section'),
+  );
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 

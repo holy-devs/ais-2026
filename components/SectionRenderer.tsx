@@ -12,7 +12,7 @@ import About from './sections/About';
 import Keywords from './Keywords';
 
 // section.variant -> component. Both partner rows share the Logo Assets variant.
-const SECTION_MAP: Record<string, (p: { entry: any }) => any> = {
+const SECTION_MAP: Record<string, (p: { entry: any; ticketsEnabled?: boolean }) => any> = {
   Hero,
   'Key Info': KeyInfoStrip,
   Stats: VisionStats,
@@ -30,7 +30,7 @@ const SECTION_MAP: Record<string, (p: { entry: any }) => any> = {
  * a uniqueComponent with variant Settings renders the inline Keywords strip.
  * Menu/Footer uniqueComponents are handled separately by the page shell.
  */
-export default function SectionRenderer({ entry }: { entry: any }) {
+export default function SectionRenderer({ entry, ticketsEnabled = true }: { entry: any; ticketsEnabled?: boolean }) {
   const type = ctId(entry);
 
   if (type === 'uniqueComponent') {
@@ -48,6 +48,8 @@ export default function SectionRenderer({ entry }: { entry: any }) {
     // Flip to true to bring it back; also re-fix the logo assets first (see OPEN.md).
     const PARTNERS_ENABLED = false;
     if (variant === 'Logo Assets' && !PARTNERS_ENABLED) return null;
+    // Ticket section (variant CTA) disappears entirely when tickets are off.
+    if (variant === 'CTA' && !ticketsEnabled) return null;
     const Comp = SECTION_MAP[variant];
     if (!Comp) {
       return (
@@ -56,7 +58,7 @@ export default function SectionRenderer({ entry }: { entry: any }) {
         </div>
       );
     }
-    return <Comp entry={entry} />;
+    return <Comp entry={entry} ticketsEnabled={ticketsEnabled} />;
   }
 
   return null;

@@ -29,7 +29,7 @@ function Column({ title, items }: { title: string; items: { label: string; href:
 
 // Footer, driven by the uniqueComponent (variant Footer) json; the Navigation column
 // reuses the CMS menu nav passed from the page (read-only, ruling #4).
-export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[] }) {
+export default function Footer({ entry, nav = [], ticketsEnabled = true }: { entry: any; nav?: NavItem[]; ticketsEnabled?: boolean }) {
   const x = f(entry);
   const json = x.json || {};
   const socials: { label: string; url: string }[] = Array.isArray(json.socials) ? json.socials : [];
@@ -79,8 +79,14 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
           <Column
             title="Navigation"
             items={nav
-              // Drop Program to match the header nav (F1 — #program anchor removed).
-              .filter((n) => n.anchor !== '#program' && !/^program$/i.test(n.label.trim()))
+              // Drop Program to match the header nav (F1 — #program anchor removed);
+              // drop Request Tickets (→ #ticket-section) when tickets are off.
+              .filter(
+                (n) =>
+                  n.anchor !== '#program' &&
+                  !/^program$/i.test(n.label.trim()) &&
+                  (ticketsEnabled || n.anchor !== '#ticket-section'),
+              )
               .map((n) => ({ label: n.label, href: n.anchor }))}
           />
           <Column title="Previous Editions" items={prev.map((p) => ({ label: p.label, href: p.anchor }))} />

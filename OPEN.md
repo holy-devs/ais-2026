@@ -3,6 +3,26 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Ticket CTA site-wide toggle — `ticketsEnabled` (implemented)
+One Contentful boolean hides the entire "Get Tickets / Request Tickets" CTA everywhere.
+- **Model (additive, the only write):** new **Boolean field `ticketsEnabled`** (default
+  `true`) on the **uniqueComponent** content type; set `true` on the Menu entry (`uc-menu`).
+  Delivery-verified (`CDA … ticketsEnabled = true`). No other model/content changes.
+- **Client toggle:** open the **Menu** entry in Contentful → set `Tickets Enabled` off →
+  publish. ISR (`revalidate = 60`) reflects it in ~60s, no redeploy.
+- **Wiring (`ticketsEnabled` threaded from `app/page.tsx`):** when `false` —
+  - **Nav (desktop + mobile):** Get Tickets button hidden (Menu passes `cta = undefined`).
+  - **Hero:** Primary "Get Tickets" action filtered out; `justify-center` flex re-centers
+    "Past Editions" with no gap.
+  - **Ticket section (variant CTA):** entire section removed in `SectionRenderer`.
+  - **Footer + Nav (header/mobile) nav lists:** the **Request Tickets** item
+    (→ `#ticket-section`) filtered out — **not just the footer** (your instruction), but
+    everywhere it appears, since it would otherwise be a dead link to the hidden section.
+    Filtered by anchor `#ticket-section` (robust to label casing). **↳ flagged for review.**
+- **Verified** true + false at desktop + mobile: false → ticket section gone, 0 "Get
+  Tickets", Past Editions re-centered, 0 `#ticket-section` links anywhere; true → unchanged.
+- Default is `true`, so live behaviour is identical to before until the client flips it.
+
 ## Polish pass (F1–F6) — status @ F6
 Branch `polish-pass`. Ground truth = `design-refs/review/` PNG annotations + Figma
 "Final UI 2026". **CLOSED this pass:**

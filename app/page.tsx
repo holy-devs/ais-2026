@@ -23,15 +23,20 @@ export default async function Home() {
   // Footer's Navigation column consumes the same CMS menu data the nav uses (ruling #4).
   const menuNav = menu ? (f(menu).json?.navigation ?? []) : [];
 
+  // Site-wide ticket CTA toggle (Menu uniqueComponent boolean field; default true).
+  // One flip hides the header/mobile CTA, the hero Get Tickets, the ticket section,
+  // and the Request Tickets nav item everywhere it appears.
+  const ticketsEnabled = menu ? (f(menu).ticketsEnabled ?? true) : true;
+
   return (
     <>
-      {menu && <Menu entry={menu} />}
+      {menu && <Menu entry={menu} ticketsEnabled={ticketsEnabled} />}
       <main>
         {flow.map((entry) => (
-          <SectionRenderer key={entry.sys.id} entry={entry} />
+          <SectionRenderer key={entry.sys.id} entry={entry} ticketsEnabled={ticketsEnabled} />
         ))}
       </main>
-      {footer && <Footer entry={footer} nav={menuNav} />}
+      {footer && <Footer entry={footer} nav={menuNav} ticketsEnabled={ticketsEnabled} />}
     </>
   );
 }
