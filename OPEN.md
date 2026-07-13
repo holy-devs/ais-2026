@@ -3,6 +3,34 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Past-event richness (round 2b) — branch `past-event-richness`
+Rich past-event modal + the additive Contentful model behind it. All CMS changes
+ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
+- **Model (additive):** new types **`pastEventSpeaker`** (photo, name, title, bio,
+  ctaType[Keynote|LinkedIn], ctaUrl) + **`session`** (title, date, time, description,
+  speakers→pastEventSpeaker); new **`pastEvent`** fields `keynoteIntro`, `keynoteMedia`,
+  `secondaryMedia`, `documentaryMedia`, `speakers[]`, `sessions[]`. Decision: snapshot
+  `pastEventSpeaker` over reusing `person` (edition-specific title/CTA conflict with the
+  live 2026 persons). `speakerNames` / `heroMedia` / `gallery` / `description` kept intact.
+- **Entries (placeholder):** both `pe-2025` + `pe-2022` populated with **lorem** — 3
+  `pastEventSpeaker` + 1 `session` each, ctaType Keynote/LinkedIn/LinkedIn, ctaUrl `#`,
+  all media UNSET (→ grey blocks). Real content to be filled in Contentful later. All
+  8 entries + 2 pastEvent updates published + delivery-verified.
+- **F5-style speakerNames were NOT touched** (kept as-is on both).
+- **Modal (`PastEventModal`) rebuilt to node 9-6651:** scrollable 694px container (16px
+  pad; mobile inset 12px), header bar `AIS Editions / yy` + E3 ✕, sections in order —
+  hero (3:4, title+venue/date overlaid) → documentary (~1:1 grey + 56px play) → speakers
+  (shared homepage profile card, 1:1 photos, 2-col desktop / 1-col mobile) → visuals
+  (2-col, gap 0, 7:8 tiles, 6 grey when empty; 2022 keeps its real gallery) → keynote
+  (eyebrow + intro + ~1:1 keynoteMedia + session cards w/ speaker chips). Headings 48/52
+  Founders Regular, eyebrows 14px Medium, grey `#1e1d33`. Unset media → grey blocks, no
+  broken-image icons. Homepage Speakers + archive card verified unchanged.
+- **Shared `SpeakerCard`** factored from the homepage (render-only in the modal, not yet
+  tray-clickable). `photoAspect` prop: homepage 4:5, modal 1:1.
+- **DEFERRED (separate pass):** the **Speaker Profile sidetray** (click a speaker → 800px
+  tray with ABOUT bio, node 9-6786). Modal speaker cards are non-interactive for now.
+- Node ref: this modal = **9-6651 only** (9-6786 is the deferred sidetray).
+
 ## Favicon / PWA icons — 2026 bundle wired
 realfavicongenerator output wired for the App Router.
 - **Files in `public/` (names unchanged):** `favicon.ico`, `favicon.svg`,
