@@ -8,7 +8,13 @@ import { GlassButton } from './Buttons';
 interface NavItem { label: string; anchor: string }
 interface Cta { label: string; anchor: string }
 
+// Present CMS labels in the design's Title Case regardless of stored casing (review B1).
+const titleCase = (s: string) =>
+  s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+
 export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
+  // Drop the orphaned Program item + #program anchor (F1: no Program section this cycle).
+  const items = nav.filter((n) => n.anchor !== '#program' && !/^program$/i.test(n.label.trim()));
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -50,9 +56,9 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           </a>
 
           <nav className="hidden items-center gap-7 md:flex">
-            {nav.map((n) => (
-              <a key={n.label} href={n.anchor} className="text-xs uppercase tracking-[0.12em] text-white/80 transition hover:text-creme">
-                {n.label}
+            {items.map((n) => (
+              <a key={n.label} href={n.anchor} className="text-sm tracking-[-0.01em] text-white/80 transition hover:text-creme">
+                {titleCase(n.label)}
               </a>
             ))}
             {cta && <GlassButton href={cta.anchor} label={cta.label} icon={<SendIcon size={14} />} />}
@@ -88,14 +94,14 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           </div>
 
           <nav className="flex flex-1 flex-col justify-center gap-2">
-            {nav.map((n) => (
+            {items.map((n) => (
               <a
                 key={n.label}
                 href={n.anchor}
                 onClick={() => setOpen(false)}
                 className="w-fit font-grotesk text-4xl text-white underline-offset-8 transition hover:text-creme hover:underline md:text-5xl"
               >
-                {n.label}
+                {titleCase(n.label)}
               </a>
             ))}
           </nav>

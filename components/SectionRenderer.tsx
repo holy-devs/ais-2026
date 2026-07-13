@@ -34,7 +34,10 @@ export default function SectionRenderer({ entry }: { entry: any }) {
   const type = ctId(entry);
 
   if (type === 'uniqueComponent') {
-    if (f(entry).variant === 'Settings') return <Keywords entry={entry} />;
+    // Keywords/ticker strip is out of the v5.0 UI (review B8); hiding it also drops
+    // the orphaned #program anchor (F1). Component kept for a possible future revival.
+    const KEYWORDS_ENABLED = false;
+    if (f(entry).variant === 'Settings') return KEYWORDS_ENABLED ? <Keywords entry={entry} /> : null;
     return null; // Menu / Footer handled by the page shell
   }
 

@@ -24,7 +24,7 @@ export default function About({ entry }: { entry: any }) {
 
         {/* body low-left + social right; large gap on desktop, stacked on mobile */}
         <div className="mt-12 flex flex-col gap-8 md:mt-40 md:flex-row md:items-end md:justify-between">
-          <RichText doc={x.text} className="max-w-[582px] text-base leading-relaxed text-white md:text-lg" />
+          <RichText doc={x.text} className="max-w-[582px] text-lg leading-relaxed text-white md:text-xl" />
           {actions.length > 0 && (
             <ul className="flex flex-row flex-wrap gap-x-5 gap-y-2 text-xs text-white md:flex-col md:items-end md:gap-2 md:text-right">
               {actions.map((a: any) => (

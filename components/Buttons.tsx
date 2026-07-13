@@ -20,7 +20,8 @@ export function GlassButton({
 }) {
   const cls =
     'group relative inline-flex items-stretch overflow-visible border-b border-white/40 ' +
-    'bg-white/20 text-white backdrop-blur-2xl transition-colors hover:bg-white/25 ' +
+    // Mobile-reduced blur (12px) → desktop 40px, to avoid backdrop-filter jank on phones.
+    'bg-white/20 text-white backdrop-blur-md md:backdrop-blur-2xl transition-colors hover:bg-white/25 ' +
     className;
 
   const content = (

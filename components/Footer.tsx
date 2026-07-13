@@ -1,5 +1,7 @@
 import { f } from '@/lib/map';
 import { CornerMarks } from './Crosshair';
+import { GlassButton } from './Buttons';
+import { SendIcon } from './Icons';
 
 interface NavItem { label: string; anchor: string }
 
@@ -43,7 +45,7 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
         className="grid-lines pointer-events-none absolute inset-0"
         style={{ ['--grid-gap' as string]: '180px' }}
       />
-      <CornerMarks inset={24} size={18} className="text-white/60" />
+      <CornerMarks inset={24} size={24} className="text-white/60" />
 
       <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
@@ -58,19 +60,17 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
           </div>
         </div>
 
-        {/* Subscribe */}
+        {/* Subscribe — input fills E3 on hover/focus (review B10). */}
         {json.subscribe && (
           <div className="mt-10 flex w-full max-w-md items-stretch gap-1">
-            <div className="flex flex-1 border border-rule bg-e2">
+            <div className="flex flex-1 border border-rule bg-e2 transition-colors hover:bg-e3 focus-within:bg-e3">
               <input
                 type="email"
-                placeholder={json.subscribe.placeholder || 'your@email.com'}
+                placeholder="your@email.com"
                 className="w-full bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-white/45"
               />
             </div>
-            <button type="button" className="bg-white px-6 py-3 text-sm font-medium text-page transition hover:opacity-90">
-              {json.subscribe.label || 'Subscribe'}
-            </button>
+            <GlassButton label={json.subscribe.label || 'Subscribe'} icon={<SendIcon />} />
           </div>
         )}
 

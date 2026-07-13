@@ -5,19 +5,35 @@ except one approved write (thank-you panel asset). Grouped for review below.
 
 ## 1. Needs client decision (copy/label — pick before launch)
 - **Ticket CTA label:** live shows **"Request Tickets"** (CMS `act-request-tickets` →
-  mailto); design shows **"Request Access"**. Kept CMS per keep-verbatim. Confirm.
+  mailto); design shows **"Request Access"**. **Polish-pass ruling (E4): keep
+  "Request Tickets"** (client copy decision) — no change. Confirm at launch.
 - **Footer social — TIKTOK vs X/TWITTER:** design shows **TIKTOK**; live keeps the
   working **X/TWITTER** link (CMS TIKTOK has no URL). Confirm which to ship.
-- **Nav labels (top nav + side menu):** CMS has 5 UPPERCASE items (SPEAKERS / PROGRAM /
-  GALLERY / ABOUT ENDEAVOR / REQUEST TICKETS); design shows 3 Title-Case (Speakers /
-  Program / Past Editions). Kept CMS. Confirm the final label set.
+- **Nav labels (top nav + side menu):** polish-pass now renders CMS labels in
+  **Title Case** (front-end, review B1) and **drops the Program item** (F1 — no
+  Program section this cycle). Shipped set: Speakers / Gallery / About Endeavor /
+  Request Tickets. Design shows Speakers / Program / Past Editions. **Final label
+  set still a client decision** (esp. Gallery-vs-Past-Editions, and whether Program
+  returns). CMS untouched.
+- **Nav "Program" dropped (F1):** no Program/schedule section exists or is scoped, so
+  the nav Program link + orphaned `#program` anchor are removed front-end. `Program.png`
+  in the review folder actually shows the Thank-You panel (mislabeled). **Pending client
+  confirm** that no Program section is coming; if it is, re-add link + build section.
 - **Vision stat body:** design breaks it into **two** paragraphs (before "In 2026, the
   Summit ascends the Pnyx…"); CMS `sec-stats.text` is a **single** block. Rendered
-  as-is. Split in Contentful to match.
+  as-is. Split in Contentful to match (designer-confirmed, but a CMS content write —
+  route via the scoped-content step, not the polish pass).
 
 ## 2. Awaiting materials (from Endeavor)
-- **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder
-  (the only remaining `placeholder-*` on the live site).
+- **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder.
+  **Polish-pass (F4): his card is now HIDDEN in production** — the Speakers grid ships
+  only speakers with a real portrait (currently 3). Re-appears automatically once the
+  portrait asset is swapped in (and client announcement is confirmed). No placeholder
+  card in prod.
+- **Gallery lightbox design-intent** — click-to-enlarge is now **shipped** per the
+  designer's spec (overlay #161524/85% + 30px page blur, contain, ✕, looping ◀/▶,
+  Esc/click-out/arrows, focus trap, reduced-motion). Manmeet's open question was whether
+  the grid should be interactive at all; if he says non-interactive, gate it off.
 - **Sponsor logos:** NBG, Raycap, Eurobank — dark-bg / reversed variants from press
   kits. **The Organisers/Sponsors section is removed from the page this cycle** (see
   Resolved); it returns next year when official logos arrive.
@@ -60,7 +76,9 @@ except one approved write (thank-you panel asset). Grouped for review below.
   ("AIS 2026 - Thank You Panel", 1450×648) and wired to `sec-thank-you.media` (the one
   approved write); temp `public/thankyou-temp.png` deleted; carries its own gradient
   (no extra scrim); all three figures read as in the ref.
-- **`#program` anchor:** resolves to the Keywords strip (`id="program"`). No fix.
+- **`#program` anchor:** ~~resolves to the Keywords strip~~ — **polish-pass: Keywords/ticker
+  strip is hidden (review B8) and the `#program` anchor + nav link are dropped (F1).**
+  `KEYWORDS_ENABLED = false` in `SectionRenderer.tsx`; component kept for future revival.
 - **Content width:** unified to a single token `--content-w: 1392px` via
   `.max-w-content` — cannot drift.
 - **Media:** placeholder styling (dashed box) no longer leaks onto real images; no

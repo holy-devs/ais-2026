@@ -25,10 +25,10 @@ export default function VisionStats({ entry }: { entry: any }) {
       <div className="relative mx-auto flex w-full max-w-content flex-col section-y px-6 md:px-9">
         <ArrowDownRight className="text-creme" />
 
-        {/* max-w in em scales with the headline size → breaks "Where Athens' Legacy" /
-            "Meets Its Next Chapter" like the ref, without orphaning "Chapter". */}
+        {/* Upright Founders (F3 ruling — not editorial italic). max-w in em scales with
+            the headline size → breaks after "Legacy" like the ref, without orphaning. */}
         <h2
-          className="mt-8 max-w-[11em] font-editorial text-4xl italic leading-[1.1] text-creme md:text-5xl lg:text-6xl"
+          className="mt-8 max-w-[8.5em] font-grotesk text-4xl font-normal leading-[0.95] tracking-[-0.02em] text-creme md:text-5xl lg:text-6xl"
           data-reveal="lines"
         >
           {x.title}
@@ -51,7 +51,7 @@ export default function VisionStats({ entry }: { entry: any }) {
         )}
 
         <div className="ml-auto mt-24 max-w-xl md:mt-32">
-          <RichText doc={x.text} className="text-sm leading-relaxed text-white/85" />
+          <RichText doc={x.text} className="text-lg leading-relaxed text-white/85 md:text-xl" />
         </div>
       </div>
     </FullBleed>

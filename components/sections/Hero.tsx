@@ -37,14 +37,14 @@ export default function Hero({ entry }: { entry: any }) {
 
       <div className="w-full px-6 text-center md:px-9">
         <div className="mx-auto flex w-full max-w-content flex-col items-center">
-          <p className="mb-6 text-xs tracking-[0.18em] text-white/80 md:text-sm" data-reveal="words">
+          <p className="mb-6 text-[14px] leading-none tracking-[-0.02em] text-white/80" data-reveal="words">
             {COORDS}
             <span className="mx-3 text-white/40">·</span>
             {LOCATION_LABEL}
           </p>
 
           <h1
-            className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.02em] text-white text-[clamp(3rem,11vw,11rem)]"
+            className="font-grotesk font-medium uppercase leading-[0.73] tracking-[-0.055em] text-white text-[clamp(3rem,11vw,10.25rem)]"
             data-reveal="lines"
           >
             {lead && <span className="block">{lead}</span>}
