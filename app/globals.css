@@ -99,6 +99,8 @@ html.gsap-on.reduced [data-reveal] {
     transparent 1px,
     transparent var(--grid-gap)
   );
+  /* Design (Grid Desktop.svg) centres lines in each column → half-pitch offset. */
+  background-position: calc(var(--grid-gap) / 2) 0;
 }
 
 /* Dashed hairline separators (info-bar cells, ticket tear line). Use as a

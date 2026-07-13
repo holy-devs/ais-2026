@@ -3,21 +3,12 @@
 // hero image). Color is `currentColor`, so the parent sets it via text-* classes
 // (e.g. text-white, text-white/60 over photos, text-creme).
 
+// Real crosshair glyph from design-refs/incoming/shapes/+ Vector.svg (filled +,
+// 9px arm span, ~1.1px arms). viewBox cropped to the glyph so `size` = the visible +.
 export function Crosshair({ size = 9, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 10 10"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1}
-      shapeRendering="crispEdges"
-      aria-hidden="true"
-      className={className}
-    >
-      <line x1="5" y1="0" x2="5" y2="10" />
-      <line x1="0" y1="5" x2="10" y2="5" />
+    <svg width={size} height={size} viewBox="4.5 4.5 9 9" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M9.5625 8.4375V4.5H8.4375V8.4375H4.5V9.5625H8.4375V13.5H9.5625V9.5625H13.5V8.4375H9.5625Z" />
     </svg>
   );
 }
