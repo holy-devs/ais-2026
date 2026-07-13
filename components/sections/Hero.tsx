@@ -25,7 +25,12 @@ export default function Hero({ entry }: { entry: any }) {
   const lead = words.join(' ');
 
   return (
-    <section id="top" className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
+    <section
+      id="top"
+      // Mobile: cap the hero at ~670px so the key-info strip peeks below (review D1).
+      // Desktop: full viewport height as before.
+      className="relative isolate flex h-[min(670px,88vh)] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
+    >
       <div className="absolute inset-0 -z-10">
         <Media media={bg} rounded={false} className="h-full w-full" />
         {/* Subtle top/bottom vignette — keep the theatre visible, aid nav + text legibility. */}

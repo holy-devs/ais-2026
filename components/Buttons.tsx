@@ -9,6 +9,7 @@ export function GlassButton({
   label,
   icon,
   external = false,
+  fullWidth = false,
   className = '',
 }: {
   href?: string;
@@ -16,17 +17,21 @@ export function GlassButton({
   label: string;
   icon?: ReactNode;
   external?: boolean;
+  fullWidth?: boolean;
   className?: string;
 }) {
   const cls =
     'group relative inline-flex items-stretch overflow-visible border-b border-white/40 ' +
     // Mobile-reduced blur (12px) → desktop 40px, to avoid backdrop-filter jank on phones.
     'bg-white/20 text-white backdrop-blur-md md:backdrop-blur-2xl transition-colors hover:bg-white/25 ' +
+    (fullWidth ? 'w-full ' : '') +
     className;
 
   const content = (
     <>
-      <span className="origin-right px-4 py-2.5 text-sm font-medium transition-transform duration-300 will-change-transform group-hover:-rotate-[15deg]">
+      <span
+        className={`${fullWidth ? 'flex-1 text-center' : ''} origin-right px-4 py-2.5 text-sm font-medium transition-transform duration-300 will-change-transform group-hover:-rotate-[15deg]`}
+      >
         {label}
       </span>
       {icon && (
@@ -42,7 +47,12 @@ export function GlassButton({
 
   if (href) {
     return (
-      <a href={href} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})} className={cls}>
+      <a
+        href={href}
+        onClick={onClick}
+        {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+        className={cls}
+      >
         {content}
       </a>
     );

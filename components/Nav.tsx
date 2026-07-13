@@ -44,8 +44,8 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
         }`}
       >
-        {/* Persistent top-corner crosshairs (align with the hero viewport corners). */}
-        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="text-white/60" />
+        {/* Persistent top-corner crosshairs; z-20 keeps them above the hamburger (review D2). */}
+        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="z-20 text-white/60" />
 
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
@@ -67,7 +67,7 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center bg-white text-page md:hidden"
+            className="flex h-10 w-10 items-center justify-center border-b border-white/40 bg-white/20 text-white backdrop-blur-md transition-colors hover:bg-white/25 md:hidden"
           >
             ☰
           </button>
@@ -81,13 +81,15 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
         }`}
         aria-hidden={!open}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-page via-page to-e1" />
+        {/* Glass fill: #010010 @ 70% + frosted backdrop (review D3, refraction/frost
+            approximated via CSS; blur is mobile-reduced to avoid full-screen jank). */}
+        <div className="absolute inset-0 bg-page/70 backdrop-blur-md backdrop-saturate-150 md:backdrop-blur-2xl" />
         <div className="relative flex h-full flex-col px-6 py-6">
           <div className="flex justify-end">
             <button
               onClick={() => setOpen(false)}
               aria-label="Close menu"
-              className="flex h-11 w-11 items-center justify-center bg-white text-page transition hover:opacity-90"
+              className="flex h-11 w-11 items-center justify-center border-b border-white/40 bg-white/20 text-white backdrop-blur-md transition-colors hover:bg-white/25"
             >
               ✕
             </button>
@@ -107,15 +109,13 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           </nav>
 
           {cta && (
-            <a
+            <GlassButton
+              fullWidth
               href={cta.anchor}
               onClick={() => setOpen(false)}
-              className="flex items-stretch bg-white text-page transition hover:opacity-90"
-            >
-              <span className="flex-1 py-3.5 text-center text-sm font-medium">{cta.label}</span>
-              <span className="my-2 border-l border-dashed border-page/30" />
-              <span className="flex items-center px-4"><SendIcon /></span>
-            </a>
+              label={cta.label}
+              icon={<SendIcon />}
+            />
           )}
         </div>
       </div>

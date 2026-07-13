@@ -76,7 +76,13 @@ export default function Footer({ entry, nav = [] }: { entry: any; nav?: NavItem[
 
         {/* Link columns */}
         <div className="mt-16 flex flex-wrap justify-center gap-10">
-          <Column title="Navigation" items={nav.map((n) => ({ label: n.label, href: n.anchor }))} />
+          <Column
+            title="Navigation"
+            items={nav
+              // Drop Program to match the header nav (F1 — #program anchor removed).
+              .filter((n) => n.anchor !== '#program' && !/^program$/i.test(n.label.trim()))
+              .map((n) => ({ label: n.label, href: n.anchor }))}
+          />
           <Column title="Previous Editions" items={prev.map((p) => ({ label: p.label, href: p.anchor }))} />
           <Column
             title="Social"
