@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { CornerMarks } from './Crosshair';
 import { SendIcon } from './Icons';
+import { GlassButton } from './Buttons';
 
 interface NavItem { label: string; anchor: string }
 interface Cta { label: string; anchor: string }
@@ -54,12 +55,7 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
                 {n.label}
               </a>
             ))}
-            {cta && (
-              <a href={cta.anchor} className="inline-flex items-center gap-2 bg-creme px-4 py-2 text-xs font-medium text-page transition hover:opacity-90">
-                {cta.label}
-                <SendIcon size={14} />
-              </a>
-            )}
+            {cta && <GlassButton href={cta.anchor} label={cta.label} icon={<SendIcon size={14} />} />}
           </nav>
 
           <button

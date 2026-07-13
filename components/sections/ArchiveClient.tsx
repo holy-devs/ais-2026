@@ -4,6 +4,7 @@ import type { PastEventDTO } from '@/lib/map';
 import { useModal } from '../modals/ModalProvider';
 import Media from '../Media';
 import { ArrowUpRight } from '../Icons';
+import { GlassButton } from '../Buttons';
 
 export default function ArchiveClient({ events }: { events: PastEventDTO[] }) {
   const { openPastEvent } = useModal();
@@ -27,14 +28,12 @@ export default function ArchiveClient({ events }: { events: PastEventDTO[] }) {
                 <p className="mt-2 max-w-md text-xs leading-relaxed text-mid">{e.speakerNames.join(', ')}</p>
               )}
             </div>
-            <button
+            <GlassButton
               onClick={() => openPastEvent(e)}
-              className="inline-flex shrink-0 items-stretch bg-white text-page transition hover:opacity-90"
-            >
-              <span className="px-4 py-2.5 text-sm font-medium">Visit Archive</span>
-              <span className="my-1.5 border-l border-dashed border-page/30" />
-              <span className="flex items-center px-3"><ArrowUpRight /></span>
-            </button>
+              label="Visit Archive"
+              icon={<ArrowUpRight />}
+              className="shrink-0"
+            />
           </div>
         </div>
       ))}

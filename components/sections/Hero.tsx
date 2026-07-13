@@ -2,6 +2,7 @@ import { f, mapAction, media } from '@/lib/map';
 import Media from '../Media';
 import { CornerMarks } from '../Crosshair';
 import { SendIcon, EndeavorWordmark } from '../Icons';
+import { GlassButton } from '../Buttons';
 
 // Hardcoded — not in the CMS model. Logged in OPEN.md (wire into the hero entry later).
 const COORDS = '37.9838°N / 23.7275°E';
@@ -67,27 +68,14 @@ export default function Hero({ entry }: { entry: any }) {
 
           {actions.length > 0 && (
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              {actions.map((a: any, i: number) =>
-                a.style === 'Primary' ? (
-                  <a
-                    key={i}
-                    href={a.href}
-                    className="inline-flex items-stretch bg-white text-page transition hover:opacity-90"
-                  >
-                    <span className="px-5 py-3 text-sm font-medium">{a.label}</span>
-                    <span className="my-2 border-l border-dashed border-page/30" />
-                    <span className="flex items-center px-3.5"><SendIcon /></span>
-                  </a>
-                ) : (
-                  <a
-                    key={i}
-                    href={a.href}
-                    className="bg-page/50 px-5 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-page/70"
-                  >
-                    {a.label}
-                  </a>
-                ),
-              )}
+              {actions.map((a: any, i: number) => (
+                <GlassButton
+                  key={i}
+                  href={a.href}
+                  label={a.label}
+                  icon={a.style === 'Primary' ? <SendIcon /> : undefined}
+                />
+              ))}
             </div>
           )}
         </div>

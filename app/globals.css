@@ -123,6 +123,22 @@ html.gsap-on.reduced [data-reveal] {
   );
 }
 
+/* Key-info connector (review A2): a short 5px-wide column of E3 dashes sitting in
+   the gap between two info blocks, shorter than the block and vertically centered —
+   the discrete "Key-info Connector.svg" bridge, pure CSS. */
+.keyinfo-connector {
+  width: 5px;
+  align-self: center;
+  height: 3rem;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-e3) 0,
+    var(--color-e3) 8px,
+    transparent 8px,
+    transparent 18px
+  );
+}
+
 /* Placeholder media box: visible grey with a dashed border and a legible label,
    so missing media is obvious at a glance during review. */
 .media-ph {
