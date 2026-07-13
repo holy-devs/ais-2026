@@ -28,8 +28,9 @@ export default function ArchiveClient({ events }: { events: PastEventDTO[] }) {
           {/* Title + speakers up top, Visit Archive pinned to the card bottom. */}
           <div className="mt-5 flex flex-1 flex-col">
             <h3 className="text-2xl text-white md:text-3xl">{e.editionLabel || e.title}</h3>
+            {/* Speaker names: 16/18 Founders Regular, full white, ls 0 (Figma Final UI 2026). */}
             {e.speakerNames.length > 0 && (
-              <p className="mt-2 max-w-md text-xs leading-relaxed text-mid">{e.speakerNames.join(', ')}</p>
+              <p className="mt-2 max-w-md text-base leading-[18px] tracking-normal text-white">{e.speakerNames.join(', ')}</p>
             )}
             <div className="mt-auto pt-6">
               <GlassButton onClick={() => openPastEvent(e)} label="Visit Archive" icon={<ArrowUpRight />} />

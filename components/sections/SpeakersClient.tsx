@@ -41,8 +41,12 @@ export default function SpeakersClient({ speakers }: { speakers: SpeakerDTO[] })
           <div className="flex flex-1 items-end justify-between gap-3 p-5">
             <div>
               <h3 className="text-lg font-medium text-white">{s.name}</h3>
-              {s.role && <p className="mt-1 text-sm text-mid">{s.role}</p>}
-              {s.oneLiner && s.oneLiner !== s.role && <p className="mt-1 text-xs text-low">{s.oneLiner}</p>}
+              {/* Role: 16/18 Founders Regular, full white, ls 0 (Figma Final UI 2026). */}
+              {s.role && <p className="mt-1 text-base leading-[18px] tracking-normal text-white">{s.role}</p>}
+              {/* Detail: 14/14, ls -2%, white @ 70% — muted look is intended, keep 70%. */}
+              {s.oneLiner && s.oneLiner !== s.role && (
+                <p className="mt-1 text-sm leading-[14px] tracking-[-0.02em] text-white/70">{s.oneLiner}</p>
+              )}
             </div>
             <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-[0.15em] text-creme">
               {s.ctaLabel}

@@ -91,6 +91,20 @@ except one approved write (thank-you panel asset). Grouped for review below.
 - **pnpm dev:** `sharp` build allowlisted in `pnpm-workspace.yaml` (`allowBuilds` +
   `onlyBuiltDependencies`) — `pnpm dev` runs out of the box.
 
+## Desktop punch-list — Figma "Final UI 2026" type specs (polish pass)
+Applied desktop-only, no Contentful. Exact metrics from the v5.0 frame:
+- **Speaker card role line** (`SpeakersClient`): 16px / 18px lh / Founders Regular /
+  **#FFF 100%** / ls 0 (was 14px muted `text-mid`).
+- **Speaker card detail line** (bio one-liner): 14px / 14px lh / ls **−2%** / **#FFF 70%**
+  (was 12px `text-low`). The 70% muting is **intended** — kept, only the size fixed.
+- **Archive speaker-name lists** (`ArchiveClient`): 16px / 18px lh / Founders Regular /
+  **#FFF 100%** / ls 0 (was 12px greyed `text-mid` — size bumped **and** un-muted).
+- **Vision headline** (`VisionStats`): 64px (`lg:text-[64px]`) / 52px lh (ratio 0.8125) /
+  ls 0 / #EEDECB / **max-width 594px** (dropped the old `max-w-[8.5em]`) → correct wrap.
+- **Lightbox overlay** (`Lightbox`): was `bg-[#161524]/85` compiling to
+  `color-mix(in oklab, … transparent)` (renders darker/near-opaque); switched to the
+  explicit 8-digit hex **`#161524D9`** = clean sRGB 85% + 30px blur.
+
 ## Type system — real fonts wired
 - **Founders Grotesk** (Regular + Medium) + **PP Editorial Old Italic**, self-hosted
   via `next/font/local` (`app/fonts/`, `app/layout.tsx`) into the `--font-grotesk` /

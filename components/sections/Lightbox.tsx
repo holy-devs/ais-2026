@@ -119,7 +119,7 @@ export default function Lightbox({
         // Click on the backdrop (outside the image) closes.
         if (e.target === e.currentTarget) onClose();
       }}
-      className={`fixed inset-0 z-[60] flex items-center justify-center bg-[#161524]/85 backdrop-blur-md transition-opacity duration-300 motion-reduce:transition-none md:backdrop-blur-[30px] ${
+      className={`fixed inset-0 z-[60] flex items-center justify-center bg-[#161524D9] backdrop-blur-md transition-opacity duration-300 motion-reduce:transition-none md:backdrop-blur-[30px] ${
         open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
       }`}
     >

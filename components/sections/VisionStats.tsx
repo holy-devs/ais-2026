@@ -25,10 +25,11 @@ export default function VisionStats({ entry }: { entry: any }) {
       <div className="relative mx-auto flex w-full max-w-content flex-col section-y px-6 md:px-9">
         <ArrowDownRight className="text-creme" />
 
-        {/* Upright Founders (F3 ruling — not editorial italic). max-w in em scales with
-            the headline size → breaks after "Legacy" like the ref, without orphaning. */}
+        {/* Upright Founders Regular (F3 ruling). Figma Final UI 2026: 64/52, ls 0,
+            container ~594px → drives the "…Legacy / Meets…" wrap. lh ratio 0.8125
+            (52/64) scales the smaller breakpoints. */}
         <h2
-          className="mt-8 max-w-[8.5em] font-grotesk text-4xl font-normal leading-[0.95] tracking-[-0.02em] text-creme md:text-5xl lg:text-6xl"
+          className="mt-8 max-w-[594px] font-grotesk text-4xl font-normal leading-[0.8125] tracking-normal text-creme md:text-5xl lg:text-[64px]"
           data-reveal="lines"
         >
           {x.title}
