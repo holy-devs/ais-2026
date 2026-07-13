@@ -25,11 +25,25 @@ ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
   (eyebrow + intro + ~1:1 keynoteMedia + session cards w/ speaker chips). Headings 48/52
   Founders Regular, eyebrows 14px Medium, grey `#1e1d33`. Unset media → grey blocks, no
   broken-image icons. Homepage Speakers + archive card verified unchanged.
-- **Shared `SpeakerCard`** factored from the homepage (render-only in the modal, not yet
-  tray-clickable). `photoAspect` prop: homepage 4:5, modal 1:1.
-- **DEFERRED (separate pass):** the **Speaker Profile sidetray** (click a speaker → 800px
-  tray with ABOUT bio, node 9-6786). Modal speaker cards are non-interactive for now.
-- Node ref: this modal = **9-6651 only** (9-6786 is the deferred sidetray).
+- **Shared `SpeakerCard`** factored from the homepage. `photoAspect` prop: homepage 4:5,
+  modal 1:1. In the modal it opens the Speaker Profile sidetray on click.
+- Node ref: modal = **9-6651**, sidetray = **9-6786**.
+
+### Press + Speaker Profile sidetray (P5.5–P5.7)
+- **Model (additive):** new type **`press`** (title, date, description, byline, sourceUrl)
+  + `pastEvent.press` (Array→press). Entries: 2 lorem `press` per edition, linked. All
+  published + delivery-verified. `speakerNames`/`speakers`/etc. untouched.
+- **Modal PRESS section** (node 9-6651): eyebrow-only (no 48px heading), press cards
+  (landscape image block + date/title/description/byline; same base card as sessions but
+  **with** an image — grey until a `press.image` field is added; aspect provisional 16:9).
+- **Speaker Profile sidetray** (node 9-6786): clicking a modal speaker card opens it
+  (sibling overlay, z-60). 800px; "Speaker Profile" 24px bar + E3 ✕; hero = 1:1 (342)
+  photo, **mobile vertical / desktop horizontal** (name 24 creme / designation 16 white
+  bottom-aligned + CTA); ABOUT (bio 16 white); VISUALS (edition gallery, 2-col gap-16 5:7
+  tiles, grey when empty); PRESS. White eyebrows; grey `#1e1d33`; 12/24 padding, 16 gaps.
+- **`pastEventSpeaker.bio`** now surfaced in the DTO (feeds the sidetray ABOUT).
+- **Open flag:** press-card image aspect = **16:9 provisional** — anchor exact aspect when
+  the `press.image` field + real content are added (deferred).
 
 ## Favicon / PWA icons — 2026 bundle wired
 realfavicongenerator output wired for the App Router.
