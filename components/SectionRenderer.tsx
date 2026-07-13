@@ -12,7 +12,7 @@ import About from './sections/About';
 import Keywords from './Keywords';
 
 // section.variant -> component. Both partner rows share the Logo Assets variant.
-const SECTION_MAP: Record<string, (p: { entry: any }) => any> = {
+const SECTION_MAP: Record<string, (p: { entry: any; ticketsEnabled?: boolean }) => any> = {
   Hero,
   'Key Info': KeyInfoStrip,
   Stats: VisionStats,
@@ -30,11 +30,14 @@ const SECTION_MAP: Record<string, (p: { entry: any }) => any> = {
  * a uniqueComponent with variant Settings renders the inline Keywords strip.
  * Menu/Footer uniqueComponents are handled separately by the page shell.
  */
-export default function SectionRenderer({ entry }: { entry: any }) {
+export default function SectionRenderer({ entry, ticketsEnabled = true }: { entry: any; ticketsEnabled?: boolean }) {
   const type = ctId(entry);
 
   if (type === 'uniqueComponent') {
-    if (f(entry).variant === 'Settings') return <Keywords entry={entry} />;
+    // Keywords/ticker strip is out of the v5.0 UI (review B8); hiding it also drops
+    // the orphaned #program anchor (F1). Component kept for a possible future revival.
+    const KEYWORDS_ENABLED = false;
+    if (f(entry).variant === 'Settings') return KEYWORDS_ENABLED ? <Keywords entry={entry} /> : null;
     return null; // Menu / Footer handled by the page shell
   }
 
@@ -45,6 +48,8 @@ export default function SectionRenderer({ entry }: { entry: any }) {
     // Flip to true to bring it back; also re-fix the logo assets first (see OPEN.md).
     const PARTNERS_ENABLED = false;
     if (variant === 'Logo Assets' && !PARTNERS_ENABLED) return null;
+    // Ticket section (variant CTA) disappears entirely when tickets are off.
+    if (variant === 'CTA' && !ticketsEnabled) return null;
     const Comp = SECTION_MAP[variant];
     if (!Comp) {
       return (
@@ -53,7 +58,7 @@ export default function SectionRenderer({ entry }: { entry: any }) {
         </div>
       );
     }
-    return <Comp entry={entry} />;
+    return <Comp entry={entry} ticketsEnabled={ticketsEnabled} />;
   }
 
   return null;

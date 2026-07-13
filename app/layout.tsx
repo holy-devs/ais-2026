@@ -1,27 +1,57 @@
-import type { Metadata } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import ModalProvider from '@/components/modals/ModalProvider';
 import RevealController from '@/components/RevealController';
 
-// Stand-in faces for the licensed pair. To swap: load the licensed font here
-// (exposing a CSS var) and point --font-grotesk / --font-editorial at it in
-// app/globals.css. Inter ≈ Founders Grotesk; Instrument Serif ≈ PP Editorial Old.
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const instrument = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-instrument', display: 'swap' });
+// Licensed faces, self-hosted. NOTE: the Founders Grotesk files are Klim TRIAL
+// ("Test Founders Grotesk") — production licence to be confirmed (see OPEN.md);
+// swapping to the licensed woff2 is a file drop-in (same weights/paths).
+const grotesk = localFont({
+  src: [
+    { path: './fonts/founders-grotesk-regular.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/founders-grotesk-medium.woff2', weight: '500', style: 'normal' },
+  ],
+  variable: '--font-grotesk-face',
+  display: 'swap',
+});
+const editorial = localFont({
+  src: [{ path: './fonts/pp-editorial-old-italic.woff2', weight: '400', style: 'italic' }],
+  variable: '--font-editorial-face',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Athens Innovation Summit 2026',
   description: 'Athens Innovation Summit 2026 — July 16, 2026, Pnyx, Athens. A global forum on AI, democracy, and human progress by Endeavor Greece.',
+  // 2026 favicon bundle (realfavicongenerator), served from public/. Next emits the
+  // <link> tags — do not hand-write them.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/site.webmanifest',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#010010',
 };
 
 // Runs before paint: gates the CSS reveal-hide (no-JS shows content) and flags
 // reduced-motion so RevealController can skip animations.
-const gsapInit = `(function(){var d=document.documentElement;d.classList.add('gsap-on');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');}catch(e){}})();`;
+// Adds `gsap-on` (which hides [data-reveal] until revealed) + `reduced` for reduced
+// motion. Safety net: if reveals never initialize within 2.5s (JS error / hydration
+// failure / RevealController never mounts), fall back to `reduced` so ALL content
+// shows regardless — text can never be left hidden by a dead client.
+const gsapInit = `(function(){var d=document.documentElement;d.classList.add('gsap-on');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('reduced');}catch(e){}setTimeout(function(){if(!d.classList.contains('reveal-init'))d.classList.add('reduced');},2500);})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrument.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${grotesk.variable} ${editorial.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: gsapInit }} />
       </head>

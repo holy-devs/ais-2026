@@ -8,12 +8,12 @@ export function SendIcon({ className = '', size = 16 }: { className?: string; si
   );
 }
 
-// Section index marker (v5.0 "↘"). Thin diagonal line + corner arrowhead.
-export function ArrowDownRight({ className = '', size = 40 }: { className?: string; size?: number }) {
+// Section index marker "↘" — real glyph from design-refs/incoming/shapes/Arrow Vector.svg
+// (filled). Cream in the design; rendered currentColor so callers set the tone.
+export function ArrowDownRight({ className = '', size = 44 }: { className?: string; size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true" className={className}>
-      <line x1="7" y1="7" x2="33" y2="33" />
-      <polyline points="15,33 33,33 33,15" />
+    <svg width={size} height={size} viewBox="0 0 44 44" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M3.74416 43.128V38.52H33.7682L34.4162 37.872L0.000160336 3.52799L3.52816 0L37.9442 34.344L38.5202 33.768V3.74399H43.3442V43.128H3.74416Z" />
     </svg>
   );
 }

@@ -1,16 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import type { PastEventDTO } from '@/lib/map';
 import Media from '../Media';
+import TrayShell, { Eyebrow } from './TrayShell';
+import { GlassButton } from '../Buttons';
 
-function BackIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <path d="M10 19 3 12l7-7" />
-      <path d="M3 12h18" />
-    </svg>
-  );
-}
 function PinIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -37,67 +32,62 @@ function formatDate(iso?: string): string | undefined {
 
 export default function PastEventModal({ data, onClose }: { data: PastEventDTO; onClose: () => void }) {
   const date = formatDate(data.dateTime);
+  const [visualsShown, setVisualsShown] = useState(4);
+  const visuals = data.gallery.slice(0, visualsShown);
+
+  // Video/documentary + keynote/program sections (review C3) have no field on the
+  // pastEvent model yet, so they're omitted rather than faked — logged in OPEN.md.
+
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <div className="h-full w-full max-w-md overflow-y-auto bg-e1 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-rule bg-e1/95 px-5 py-4 backdrop-blur">
-          <div className="flex items-center gap-3">
-            <button onClick={onClose} aria-label="Back" className="text-white/70 transition hover:text-creme"><BackIcon /></button>
-            <span className="text-base text-white">{data.editionLabel || 'Past Event'}</span>
-          </div>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="flex h-9 w-9 items-center justify-center border border-rule text-white/70 transition hover:text-creme"
-          >
-            ✕
-          </button>
-        </header>
-
-        <div className="px-5 py-6">
-          {/* Hero with title + meta overlay */}
-          <div className="relative">
-            <Media media={data.hero} rounded={false} className="aspect-[4/3] w-full" />
-            <div className="absolute inset-0 bg-gradient-to-t from-page/85 via-page/20 to-transparent" />
-            <div className="absolute inset-x-5 bottom-5">
-              <h3 className="text-3xl font-medium leading-tight text-white">{data.title}</h3>
-              {(data.location || date) && (
-                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-white/85">
-                  {data.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{data.location}</span>}
-                  {date && <span className="inline-flex items-center gap-1.5"><CalIcon />{date}</span>}
-                </div>
-              )}
+    <TrayShell onClose={onClose} label={`${data.editionLabel || data.title} — past event`}>
+      {/* Mosaic hero with title + location + date overlay */}
+      <div className="relative pr-12">
+        <Media media={data.hero} rounded={false} className="aspect-[16/10] w-full" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-page/85 via-page/20 to-transparent" />
+        <div className="absolute inset-x-6 bottom-5">
+          <h3 className="text-3xl font-medium leading-tight text-white md:text-4xl">{data.title}</h3>
+          {(data.location || date) && (
+            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-white/85">
+              {data.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{data.location}</span>}
+              {date && <span className="inline-flex items-center gap-1.5"><CalIcon />{date}</span>}
             </div>
-          </div>
-
-          {data.description && <p className="mt-6 text-sm leading-relaxed text-hi">{data.description}</p>}
-
-          {/* Gallery — renders only if the entry populates the gallery field (ours don't yet). */}
-          {data.gallery.length > 0 && (
-            <section className="mt-8">
-              <h4 className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-mid"><span className="text-creme">•</span>Visuals</h4>
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                {data.gallery.map((g, i) => (
-                  <Media key={i} media={g} rounded={false} className="aspect-square w-full" />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Speakers — the model stores names (strings), not linked people, so this is a
-              simple list rather than the ref's portrait cards. See OPEN.md. */}
-          {data.speakerNames.length > 0 && (
-            <section className="mt-8">
-              <h4 className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-mid"><span className="text-creme">•</span>Speakers</h4>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {data.speakerNames.map((n) => (
-                  <li key={n} className="border border-rule bg-e2 px-3 py-1.5 text-xs text-hi">{n}</li>
-                ))}
-              </ul>
-            </section>
           )}
         </div>
       </div>
-    </div>
+
+      {data.description && <p className="mt-6 text-lg leading-relaxed text-hi">{data.description}</p>}
+
+      {/* Speakers — model stores names (strings), not linked people, so cards show the
+          name only (portrait/bio unavailable). Link to person entries to enrich (OPEN.md). */}
+      {data.speakerNames.length > 0 && (
+        <section className="mt-10">
+          <Eyebrow>Speakers</Eyebrow>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {data.speakerNames.map((n) => (
+              <div key={n} className="border border-rule bg-e2 px-4 py-4 text-sm font-medium text-white">
+                {n}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Visuals — 2-column gallery + Load More (renders only if the entry populates it) */}
+      {data.gallery.length > 0 && (
+        <section className="mt-10">
+          <Eyebrow>Visuals</Eyebrow>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {visuals.map((g, i) => (
+              <Media key={i} media={g} rounded={false} className="aspect-square w-full" />
+            ))}
+          </div>
+          {visualsShown < data.gallery.length && (
+            <div className="mt-3">
+              <GlassButton onClick={() => setVisualsShown((n) => n + 4)} label="Load More" />
+            </div>
+          )}
+        </section>
+      )}
+    </TrayShell>
   );
 }

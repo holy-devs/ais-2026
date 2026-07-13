@@ -2,14 +2,18 @@ import { f, mapAction, media } from '@/lib/map';
 import Media from '../Media';
 import { CornerMarks } from '../Crosshair';
 import { SendIcon, EndeavorWordmark } from '../Icons';
+import { GlassButton } from '../Buttons';
 
 // Hardcoded — not in the CMS model. Logged in OPEN.md (wire into the hero entry later).
 const COORDS = '37.9838°N / 23.7275°E';
 const LOCATION_LABEL = 'Athens, Greece';
 
-export default function Hero({ entry }: { entry: any }) {
+export default function Hero({ entry, ticketsEnabled = true }: { entry: any; ticketsEnabled?: boolean }) {
   const x = f(entry);
-  const actions = Array.isArray(x.actions) ? x.actions.map(mapAction) : [];
+  const allActions = Array.isArray(x.actions) ? x.actions.map(mapAction) : [];
+  // Tickets off → drop the Primary "Get Tickets" action; the justify-center flex
+  // re-centers the remaining "Past Editions" with no gap.
+  const actions = ticketsEnabled ? allActions : allActions.filter((a: any) => a.style !== 'Primary');
   const bg = media(x.keyMedia);
 
   // Split a trailing year for the editorial italic accent, then break the head into
@@ -24,7 +28,12 @@ export default function Hero({ entry }: { entry: any }) {
   const lead = words.join(' ');
 
   return (
-    <section id="top" className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
+    <section
+      id="top"
+      // Mobile: cap the hero at ~670px so the key-info strip peeks below (review D1).
+      // Desktop: full viewport height as before.
+      className="relative isolate flex h-[min(670px,88vh)] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
+    >
       <div className="absolute inset-0 -z-10">
         <Media media={bg} rounded={false} className="h-full w-full" />
         {/* Subtle top/bottom vignette — keep the theatre visible, aid nav + text legibility. */}
@@ -36,14 +45,14 @@ export default function Hero({ entry }: { entry: any }) {
 
       <div className="w-full px-6 text-center md:px-9">
         <div className="mx-auto flex w-full max-w-content flex-col items-center">
-          <p className="mb-6 text-xs tracking-[0.18em] text-white/80 md:text-sm" data-reveal="words">
+          <p className="mb-6 text-[14px] leading-none tracking-[-0.02em] text-white/80" data-reveal="words">
             {COORDS}
             <span className="mx-3 text-white/40">·</span>
             {LOCATION_LABEL}
           </p>
 
           <h1
-            className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.01em] text-white text-[clamp(3.5rem,8.7vw,8.5rem)]"
+            className="font-grotesk font-medium uppercase leading-[0.73] tracking-[-0.055em] text-white text-[clamp(3rem,11vw,10.25rem)]"
             data-reveal="lines"
           >
             {lead && <span className="block">{lead}</span>}
@@ -67,27 +76,14 @@ export default function Hero({ entry }: { entry: any }) {
 
           {actions.length > 0 && (
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              {actions.map((a: any, i: number) =>
-                a.style === 'Primary' ? (
-                  <a
-                    key={i}
-                    href={a.href}
-                    className="inline-flex items-stretch bg-white text-page transition hover:opacity-90"
-                  >
-                    <span className="px-5 py-3 text-sm font-medium">{a.label}</span>
-                    <span className="my-2 border-l border-dashed border-page/30" />
-                    <span className="flex items-center px-3.5"><SendIcon /></span>
-                  </a>
-                ) : (
-                  <a
-                    key={i}
-                    href={a.href}
-                    className="bg-page/50 px-5 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-page/70"
-                  >
-                    {a.label}
-                  </a>
-                ),
-              )}
+              {actions.map((a: any, i: number) => (
+                <GlassButton
+                  key={i}
+                  href={a.href}
+                  label={a.label}
+                  icon={a.style === 'Primary' ? <SendIcon /> : undefined}
+                />
+              ))}
             </div>
           )}
         </div>

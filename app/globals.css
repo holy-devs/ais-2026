@@ -15,16 +15,13 @@
   --color-low: #444444;
   --color-acc: #eedecb;
 
-  /* Type system. Two intent tokens carry the design's pairing:
-     grotesk (bold caps display / UI) + editorial (italic serif accents).
-     To adopt the licensed faces later, change ONE value each below —
-     load the font in app/layout.tsx and point the token at its variable:
-       --font-grotesk:  var(--font-founders), ...   (← Founders Grotesk)
-       --font-editorial: var(--font-pp-editorial), ... (← PP Editorial Old)
-     Everything downstream uses font-grotesk / font-editorial (or the
-     sans/serif aliases), so no component edits are needed at swap time. */
-  --font-grotesk: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: var(--font-instrument), ui-serif, Georgia, serif;
+  /* Type system — the design's real pairing, self-hosted via next/font/local
+     (app/layout.tsx): grotesk = Founders Grotesk (Klim trial), editorial =
+     PP Editorial Old Italic. Everything downstream uses font-grotesk /
+     font-editorial (or the sans/serif aliases); the licensed-font swap is a
+     woff2 drop-in in app/fonts/, no token or component edits needed. */
+  --font-grotesk: var(--font-grotesk-face), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-editorial-face), ui-serif, Georgia, serif;
   --font-sans: var(--font-grotesk);
   --font-serif: var(--font-editorial);
 
@@ -102,6 +99,8 @@ html.gsap-on.reduced [data-reveal] {
     transparent 1px,
     transparent var(--grid-gap)
   );
+  /* Design (Grid Desktop.svg) centres lines in each column → half-pitch offset. */
+  background-position: calc(var(--grid-gap) / 2) 0;
 }
 
 /* Dashed hairline separators (info-bar cells, ticket tear line). Use as a
@@ -121,6 +120,22 @@ html.gsap-on.reduced [data-reveal] {
     var(--color-e3) 50px,
     transparent 50px,
     transparent 60px
+  );
+}
+
+/* Key-info connector (review A2): a short 5px-wide column of E3 dashes sitting in
+   the gap between two info blocks, shorter than the block and vertically centered —
+   the discrete "Key-info Connector.svg" bridge, pure CSS. */
+.keyinfo-connector {
+  width: 5px;
+  align-self: center;
+  height: 3rem;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-e3) 0,
+    var(--color-e3) 8px,
+    transparent 8px,
+    transparent 18px
   );
 }
 

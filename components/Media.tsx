@@ -10,10 +10,13 @@ export default function Media({
   media,
   className = '',
   rounded = false,
+  position,
 }: {
   media: MediaDTO;
   className?: string;
   rounded?: boolean;
+  /** object-position for the cover crop (e.g. 'center 30%' to keep heads in frame). */
+  position?: string;
 }) {
   const isPlaceholder = !media.url || media.label?.startsWith('placeholder');
   const round = rounded ? 'rounded-lg' : '';
@@ -29,7 +32,12 @@ export default function Media({
   return (
     <div className={`relative overflow-hidden ${round} ${className}`} role="img" aria-label={media.label}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={media.url} alt={media.label} className="h-full w-full object-cover" />
+      <img
+        src={media.url}
+        alt={media.label}
+        className="h-full w-full object-cover"
+        style={position ? { objectPosition: position } : undefined}
+      />
     </div>
   );
 }

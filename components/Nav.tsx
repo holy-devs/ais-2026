@@ -3,11 +3,25 @@
 import { useEffect, useState } from 'react';
 import { CornerMarks } from './Crosshair';
 import { SendIcon } from './Icons';
+import { GlassButton } from './Buttons';
 
 interface NavItem { label: string; anchor: string }
 interface Cta { label: string; anchor: string }
 
-export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
+// Present CMS labels in the design's Title Case regardless of stored casing (review B1).
+const titleCase = (s: string) =>
+  s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+
+export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[]; cta?: Cta; ticketsEnabled?: boolean }) {
+  // Drop the orphaned Program item + #program anchor (F1: no Program section this cycle).
+  // When tickets are off, also drop the Request Tickets nav link (→ #ticket-section)
+  // so it isn't a dead link once the ticket section is hidden.
+  const items = nav.filter(
+    (n) =>
+      n.anchor !== '#program' &&
+      !/^program$/i.test(n.label.trim()) &&
+      (ticketsEnabled || n.anchor !== '#ticket-section'),
+  );
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -37,35 +51,30 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
           scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
         }`}
       >
-        {/* Persistent top-corner crosshairs (align with the hero viewport corners). */}
-        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="text-white/60" />
+        {/* Persistent top-corner crosshairs; z-20 keeps them above the hamburger (review D2). */}
+        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="z-20 text-white/60" />
 
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
             href="#top"
-            className="text-xs font-semibold uppercase tracking-[0.12em] text-white md:text-sm"
+            className="text-xs font-medium uppercase tracking-[0.12em] text-white md:text-sm"
           >
             Athens Innovation Summit
           </a>
 
           <nav className="hidden items-center gap-7 md:flex">
-            {nav.map((n) => (
-              <a key={n.label} href={n.anchor} className="text-xs uppercase tracking-[0.12em] text-white/80 transition hover:text-creme">
-                {n.label}
+            {items.map((n) => (
+              <a key={n.label} href={n.anchor} className="text-sm tracking-[-0.01em] text-white/80 transition hover:text-creme">
+                {titleCase(n.label)}
               </a>
             ))}
-            {cta && (
-              <a href={cta.anchor} className="inline-flex items-center gap-2 bg-creme px-4 py-2 text-xs font-medium text-page transition hover:opacity-90">
-                {cta.label}
-                <SendIcon size={14} />
-              </a>
-            )}
+            {cta && <GlassButton href={cta.anchor} label={cta.label} icon={<SendIcon size={14} />} />}
           </nav>
 
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center bg-white text-page md:hidden"
+            className="flex h-10 w-10 items-center justify-center border-b border-white/40 bg-white/20 text-white backdrop-blur-md transition-colors hover:bg-white/25 md:hidden"
           >
             ☰
           </button>
@@ -79,41 +88,41 @@ export default function Nav({ nav, cta }: { nav: NavItem[]; cta?: Cta }) {
         }`}
         aria-hidden={!open}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-page via-page to-e1" />
+        {/* Glass fill: #010010 @ 70% + frosted backdrop (review D3, refraction/frost
+            approximated via CSS; blur is mobile-reduced to avoid full-screen jank). */}
+        <div className="absolute inset-0 bg-page/70 backdrop-blur-md backdrop-saturate-150 md:backdrop-blur-2xl" />
         <div className="relative flex h-full flex-col px-6 py-6">
           <div className="flex justify-end">
             <button
               onClick={() => setOpen(false)}
               aria-label="Close menu"
-              className="flex h-11 w-11 items-center justify-center bg-white text-page transition hover:opacity-90"
+              className="flex h-11 w-11 items-center justify-center border-b border-white/40 bg-white/20 text-white backdrop-blur-md transition-colors hover:bg-white/25"
             >
               ✕
             </button>
           </div>
 
           <nav className="flex flex-1 flex-col justify-center gap-2">
-            {nav.map((n) => (
+            {items.map((n) => (
               <a
                 key={n.label}
                 href={n.anchor}
                 onClick={() => setOpen(false)}
                 className="w-fit font-grotesk text-4xl text-white underline-offset-8 transition hover:text-creme hover:underline md:text-5xl"
               >
-                {n.label}
+                {titleCase(n.label)}
               </a>
             ))}
           </nav>
 
           {cta && (
-            <a
+            <GlassButton
+              fullWidth
               href={cta.anchor}
               onClick={() => setOpen(false)}
-              className="flex items-stretch bg-white text-page transition hover:opacity-90"
-            >
-              <span className="flex-1 py-3.5 text-center text-sm font-medium">{cta.label}</span>
-              <span className="my-2 border-l border-dashed border-page/30" />
-              <span className="flex items-center px-4"><SendIcon /></span>
-            </a>
+              label={cta.label}
+              icon={<SendIcon />}
+            />
           )}
         </div>
       </div>

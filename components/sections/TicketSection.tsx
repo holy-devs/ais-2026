@@ -1,6 +1,6 @@
 import { f, mapAction } from '@/lib/map';
 import RichText from '../RichText';
-import { DashedButton } from '../Buttons';
+import { GlassButton } from '../Buttons';
 import { ArrowDownRight, SendIcon } from '../Icons';
 
 export default function TicketSection({ entry }: { entry: any }) {
@@ -38,7 +38,7 @@ export default function TicketSection({ entry }: { entry: any }) {
           {/* bottom: body (left) + CTA (right) */}
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <RichText doc={x.text} className="max-w-[520px] text-base leading-relaxed text-white md:text-lg" />
-            {cta && <DashedButton href={cta.href} label={cta.label} icon={<SendIcon />} className="self-start md:self-auto" />}
+            {cta && <GlassButton href={cta.href} label={cta.label} icon={<SendIcon />} className="self-start md:self-auto" />}
           </div>
         </div>
 
