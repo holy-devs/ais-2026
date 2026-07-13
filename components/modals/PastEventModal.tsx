@@ -56,10 +56,26 @@ function formatDate(iso?: string): string | undefined {
 }
 
 // Image if set, else a clean grey block (#1e1d33) at the given aspect.
-function Frame({ media, aspect, play = false, position }: { media: MediaDTO; aspect: string; play?: boolean; position?: string }) {
-  if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect}`} />;
+function Frame({
+  media,
+  aspect,
+  play = false,
+  position,
+  bordered = false,
+  emptyFill = 'bg-e3',
+}: {
+  media: MediaDTO;
+  aspect: string;
+  play?: boolean;
+  position?: string;
+  // Documentary-only: navy 4px frame + 8px radius (node 9-6689). Hero/keynote leave off.
+  bordered?: boolean;
+  emptyFill?: string;
+}) {
+  const frame = bordered ? 'border-4 border-[#1e1d33] rounded-[8px] overflow-hidden' : '';
+  if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect} ${frame}`} />;
   return (
-    <div className={`relative w-full ${aspect} bg-e3`} role="img" aria-label="placeholder">
+    <div className={`relative w-full ${aspect} ${emptyFill} ${frame}`} role="img" aria-label="placeholder">
       {play && <span className="absolute inset-0 flex items-center justify-center"><PlayIcon /></span>}
     </div>
   );
@@ -118,7 +134,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
 
           {/* ② DOCUMENTARY / VIDEO — ~1:1, grey + ~56px play affordance */}
           <section>
-            <Frame media={data.documentaryMedia} aspect="aspect-square" play />
+            <Frame media={data.documentaryMedia} aspect="aspect-[3/4]" play bordered emptyFill="bg-[#2e405d]" />
           </section>
 
           {/* ③ SPEAKERS — profile cards, 2-col desktop / 1-col mobile, 1:1 photos, 16px gap */}
