@@ -26,7 +26,7 @@ export default function TicketSection({ entry }: { entry: any }) {
             <ArrowDownRight className="shrink-0 text-creme" />
             <div className="max-w-[680px]">
               <h2
-                className="font-grotesk text-[2rem] font-normal leading-[0.95] tracking-tight md:text-[3.25rem] lg:text-[4rem] lg:leading-[0.85]"
+                className="font-grotesk text-[2.5rem] font-normal leading-[0.9] md:text-[4rem]"
                 data-reveal="lines"
               >
                 <span className="block text-white">{x.title}</span>

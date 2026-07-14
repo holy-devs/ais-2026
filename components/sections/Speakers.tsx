@@ -14,7 +14,7 @@ export default function Speakers({ entry }: { entry: any }) {
   return (
     <Section id="speakers">
       {/* No section ↘ here — the design has none for Speakers (review B4). */}
-      <h2 className="mb-10 font-grotesk text-3xl font-normal text-creme md:text-4xl" data-reveal="lines">
+      <h2 className="mb-10 font-grotesk text-[2.5rem] font-normal leading-[0.9] text-creme md:text-[4rem]" data-reveal="lines">
         {x.title}
       </h2>
       <SpeakersClient speakers={speakers} />

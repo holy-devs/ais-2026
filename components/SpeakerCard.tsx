@@ -51,7 +51,7 @@ export function SpeakerCard({
         media={data.photo}
         rounded={false}
         grey
-        className={`${photoAspect} w-full transition duration-500 md:grayscale md:group-hover:grayscale-0`}
+        className={`${photoAspect} max-h-[420px] w-full transition duration-500 md:grayscale md:group-hover:grayscale-0`}
       />
       <div className="flex flex-1 items-end justify-between gap-3 p-5">
         <div>
@@ -62,7 +62,7 @@ export function SpeakerCard({
           )}
         </div>
         {hasRealCta(data.ctaUrl) && (
-          <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
+          <span className="shrink-0 whitespace-nowrap text-xs font-medium uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
         )}
       </div>
     </>

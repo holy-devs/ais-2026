@@ -10,6 +10,7 @@ export function GlassButton({
   icon,
   external = false,
   fullWidth = false,
+  centered = false,
   className = '',
 }: {
   href?: string;
@@ -18,6 +19,9 @@ export function GlassButton({
   icon?: ReactNode;
   external?: boolean;
   fullWidth?: boolean;
+  // M2: vertically (and horizontally) center the label within the stretched button.
+  // Opt-in so hero/nav buttons are untouched; used by the footer Subscribe button.
+  centered?: boolean;
   className?: string;
 }) {
   const cls =
@@ -30,7 +34,7 @@ export function GlassButton({
   const content = (
     <>
       <span
-        className={`${fullWidth ? 'flex-1 text-center' : ''} origin-right px-4 py-2.5 text-sm font-medium`}
+        className={`${fullWidth ? 'flex-1 text-center' : ''} ${centered ? 'flex items-center justify-center' : ''} origin-right px-4 py-2.5 text-sm font-medium`}
       >
         {label}
       </span>

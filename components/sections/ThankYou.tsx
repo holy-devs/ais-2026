@@ -28,7 +28,7 @@ export default function ThankYou({ entry }: { entry: any }) {
         <div className="max-w-xl">
           {/* Design H1: Founders Grotesk Regular 64/52, creme, hard-broken to 2 lines. */}
           <h2
-            className="max-w-[10.5em] font-grotesk text-[2.75rem] font-normal leading-[0.82] tracking-tight text-creme md:text-[4rem]"
+            className="max-w-[10.5em] font-grotesk text-[2.5rem] font-normal leading-[0.9] text-creme md:text-[4rem]"
             data-reveal="lines"
           >
             {x.title}

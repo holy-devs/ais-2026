@@ -29,7 +29,7 @@ export default function VisionStats({ entry }: { entry: any }) {
             container ~594px → drives the "…Legacy / Meets…" wrap. lh ratio 0.8125
             (52/64) scales the smaller breakpoints. */}
         <h2
-          className="mt-8 max-w-[594px] font-grotesk text-4xl font-normal leading-[0.8125] tracking-normal text-creme md:text-5xl lg:text-[64px]"
+          className="mt-8 max-w-[594px] font-grotesk text-[2.5rem] font-normal leading-[0.9] tracking-normal text-creme md:text-[4rem]"
           data-reveal="lines"
         >
           {x.title}

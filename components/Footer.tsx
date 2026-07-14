@@ -45,7 +45,9 @@ export default function Footer({ entry, nav = [], ticketsEnabled = true }: { ent
         className="grid-lines pointer-events-none absolute inset-0"
         style={{ ['--grid-gap' as string]: '180px' }}
       />
-      <CornerMarks inset={24} size={18} className="text-white/60" />
+      {/* M1: identical to the hero crosshairs — same CornerMarks component, same
+          props (size 9, z-30) per the designer's "exact same as hero" instruction. */}
+      <CornerMarks inset={24} size={9} className="z-30 text-white/60" />
 
       <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
@@ -73,12 +75,13 @@ export default function Footer({ entry, nav = [], ticketsEnabled = true }: { ent
                 className="w-full bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-white/45"
               />
             </div>
-            <GlassButton label={json.subscribe.label || 'Subscribe'} icon={<SendIcon />} />
+            <GlassButton centered label={json.subscribe.label || 'Subscribe'} icon={<SendIcon />} />
           </div>
         )}
 
-        {/* Link columns */}
-        <div className="mt-16 flex flex-wrap justify-center gap-10">
+        {/* Link columns — M6: one horizontal row on mobile too (no wrap/stack);
+            tighter gap on small screens so all three columns fit at 390px. */}
+        <div className="mt-16 flex items-start justify-center gap-x-6 md:gap-x-10">
           <Column
             title="Navigation"
             items={nav

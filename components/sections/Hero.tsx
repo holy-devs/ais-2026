@@ -30,9 +30,10 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
   return (
     <section
       id="top"
-      // Mobile: cap the hero at ~670px so the key-info strip peeks below (review D1).
+      // Mobile: full viewport height so the hero content sits centered in the viewport
+      // (M3 — newer designer directive; supersedes the review-D1 670px "strip peek").
       // Desktop: full viewport height as before.
-      className="relative isolate flex h-[min(670px,88vh)] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
+      className="relative isolate flex h-[100svh] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
     >
       <div className="absolute inset-0 -z-10">
         <Media media={bg} rounded={false} className="h-full w-full" />

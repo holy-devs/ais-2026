@@ -16,7 +16,10 @@ export default function KeyInfoStrip({ entry }: { entry: any }) {
 
   return (
     <section className="bg-page px-6 py-8 md:px-9 md:py-10">
-      <div className="mx-auto flex w-full max-w-content flex-wrap items-stretch gap-y-px md:flex-nowrap md:gap-y-0">
+      {/* M4: gap-x-px adds a 1px page-bg vertical divider between the two mobile
+          columns, matching the existing gap-y-px horizontal one (basis already
+          budgets 0.5px each). Desktop keeps flex-nowrap + dashed connectors. */}
+      <div className="mx-auto flex w-full max-w-content flex-wrap items-stretch gap-x-px gap-y-px md:flex-nowrap md:gap-x-0 md:gap-y-0">
         {items.map((it, i) => [
           <div
             key={`b${i}`}

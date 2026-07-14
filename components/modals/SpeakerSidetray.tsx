@@ -73,7 +73,7 @@ export default function SpeakerSidetray({
         <div className="flex-1 space-y-4 overflow-y-auto px-3 pb-6">
           {/* HERO — 1:1 photo. Mobile vertical (name/designation below); desktop
               horizontal (photo left, name/designation bottom-aligned right). Gap 10. */}
-          <section className="flex flex-col gap-[10px] md:flex-row md:items-end">
+          <section className="flex flex-col gap-[10px] md:flex-row md:items-start">
             <div className="w-full shrink-0 md:w-[342px]">
               {/* Hero photo is permanently B&W (design directive); color client
                   photos come in via the CMS. Gallery/press tiles stay in color. */}

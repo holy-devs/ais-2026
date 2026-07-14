@@ -10,7 +10,7 @@ export default function Archive({ entry }: { entry: any }) {
   return (
     <Section id="ais-archive">
       <ArrowDownRight className="text-creme" />
-      <h2 className="mb-10 mt-6 font-grotesk text-3xl font-normal text-creme md:text-4xl" data-reveal="lines">
+      <h2 className="mb-10 mt-6 font-grotesk text-[2.5rem] font-normal leading-[0.9] text-creme md:text-[4rem]" data-reveal="lines">
         {x.title}
       </h2>
       <ArchiveClient events={events} />
