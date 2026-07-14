@@ -7,6 +7,43 @@ designer / Odysseas before building — several are content or Figma-dependent.
 
 ---
 
+## Session ledger — 2026-07-14 (M1–M12 designer batch, shipped to production)
+
+Merged to `main` (PR #7, `7a4e718`) and live. Verified 390px + desktop + production `?fresh=1`.
+
+**Closed today:**
+- **Buttons → M10** — `GlassButton variant="solid"` (white fill / black text+arrow / dark
+  dashed connector) on **Revisit 2025/2022** and **Visit Archive** only. Hero
+  (Get Tickets / Past Editions), nav, and footer Subscribe stay glass (designer
+  exception). Supersedes the site-wide item #1 and the hero-connector item #10.
+  Solid hover = `bg-white/90` default (flagged to designer for confirmation).
+- **Press → M11** — empty press-image box removed (renders only when an image exists;
+  the CMS field is deferred and returns on its own); each press card with a `sourceUrl`
+  is now a link (new tab, `rel=noopener noreferrer`, title-underline hover). Covers item
+  loosely related to press richness.
+- **Sidetray caps + card stack → M12** — past-event modal desktop caps (hero max-h 650,
+  documentary max-h 460 = v.4 694×460, object-cover); SpeakerCard text+CTA vertical
+  stack (name → title → CTA below, left-aligned). Card work overlaps item #4.
+- **Gallery ratio → M9** — shared GalleryTile to v.4 spec: padding 10px, inner image
+  aspect 332/376 (0.883), creme 0.5px border kept. Three surfaces, one change.
+- Also shipped M1–M8 mobile polish (footer crosshairs, subscribe centering, hero
+  mobile centering, key-info divider, sidetray header alignment, footer columns,
+  section-title unification, speaker-card media cap + CTA weight).
+
+**Still open (carried forward):**
+- **Documentary → landscape v.4** — M12a only *caps* the height (460); the full 3:4→
+  landscape 694×460 rest treatment (item #2 / v.4 node) is not yet built.
+- **Archive card flexbox** — horizontal desktop layout, buttons right (item #3).
+- **Generic CTA label** — the "View Keynote / View LinkedIn" label generalization.
+- **Body paragraphs** — long body copy → paragraph breaks (item #6).
+- **Gallery -04/-09 visual recrop** — contact sheet published (recommend END-447 →04,
+  END-394 →09); **pending designer pick**, then upload + relink + publish. Note the
+  homepage gallery is 20 assets (repo seed script is stale at 12); real photos, the
+  END/ais25 sets. Current -04/-09 crop poorly even at 0.883.
+- Sidetray v2 (item #8), homepage 2026 speaker popups (item #9) — unchanged.
+
+---
+
 ## 1. Button system overhaul (designer, NEW) — likely the biggest item
 - **Primary button = solid fill `#FFFFFF` / black text**, applied to **ALL** buttons site-wide.
 - **Glass/blur is retained ONLY on the hero "Past Editions" button**, as the *secondary* style.
