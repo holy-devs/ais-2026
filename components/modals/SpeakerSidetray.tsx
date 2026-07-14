@@ -24,9 +24,9 @@ function CloseX() {
   );
 }
 
-function Frame({ media, aspect }: { media: MediaDTO; aspect: string }) {
-  if (media?.url) return <Media media={media} rounded={false} className={`w-full ${aspect}`} />;
-  return <div className={`relative w-full ${aspect} bg-e3`} role="img" aria-label="placeholder" />;
+function Frame({ media, aspect, className = '' }: { media: MediaDTO; aspect: string; className?: string }) {
+  if (media?.url) return <Media media={media} rounded={false} className={`w-full ${aspect} ${className}`} />;
+  return <div className={`relative w-full ${aspect} bg-e3 ${className}`} role="img" aria-label="placeholder" />;
 }
 
 const GREY_TILES = 4; // empty-gallery placeholder tiles
@@ -75,7 +75,9 @@ export default function SpeakerSidetray({
               horizontal (photo left, name/designation bottom-aligned right). Gap 10. */}
           <section className="flex flex-col gap-[10px] md:flex-row md:items-end">
             <div className="w-full shrink-0 md:w-[342px]">
-              <Frame media={speaker.photo} aspect="aspect-square" />
+              {/* Hero photo is permanently B&W (design directive); color client
+                  photos come in via the CMS. Gallery/press tiles stay in color. */}
+              <Frame media={speaker.photo} aspect="aspect-square" className="grayscale" />
             </div>
             <div className="md:flex-1">
               {/* Name 24/20 creme, designation 16/18 white, CTA 12 medium white */}
