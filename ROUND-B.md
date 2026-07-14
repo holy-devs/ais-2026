@@ -36,11 +36,12 @@ Merged to `main` (PR #7, `7a4e718`) and live. Verified 390px + desktop + product
 - **Archive card flexbox** — horizontal desktop layout, buttons right (item #3).
 - **Generic CTA label** — the "View Keynote / View LinkedIn" label generalization.
 - **Body paragraphs** — long body copy → paragraph breaks (item #6).
-- **Gallery -04/-09 visual recrop** — contact sheet published (recommend END-447 →04,
-  END-394 →09); **pending designer pick**, then upload + relink + publish. Note the
-  homepage gallery is 20 assets (repo seed script is stale at 12); real photos, the
-  END/ais25 sets. Current -04/-09 crop poorly even at 0.883.
 - Sidetray v2 (item #8), homepage 2026 speaker popups (item #9) — unchanged.
+
+**Recrop closed as no-op:** the gallery -04/-09 swap was evaluated (contact sheet;
+candidates END-447 →04, END-394 →09) but the designer decided -04/-09 **stand at the
+new 0.883 ratio** — no swap. Gallery stays 20 assets, unchanged. (Repo seed script is
+stale at 12 vs the live 20 — noted for whoever re-runs it.)
 
 ---
 
