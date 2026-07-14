@@ -40,8 +40,9 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
         <div className="absolute inset-0 bg-gradient-to-b from-page/70 via-page/10 to-page/60" />
       </div>
 
-      {/* Top corners live on the fixed Nav (persistent); hero owns the bottom pair. */}
-      <CornerMarks inset={36} size={9} className="text-white/60" corners={['bl', 'br']} />
+      {/* A1: all four crosshairs on the hero section itself — decorative, non-sticky,
+          at the extreme corners enclosing the hero content (menu included). */}
+      <CornerMarks inset={24} size={9} className="z-30 text-white/60" />
 
       <div className="w-full px-6 text-center md:px-9">
         <div className="mx-auto flex w-full max-w-content flex-col items-center">

@@ -45,7 +45,7 @@ export default function Footer({ entry, nav = [], ticketsEnabled = true }: { ent
         className="grid-lines pointer-events-none absolute inset-0"
         style={{ ['--grid-gap' as string]: '180px' }}
       />
-      <CornerMarks inset={24} size={24} className="text-white/60" />
+      <CornerMarks inset={24} size={18} className="text-white/60" />
 
       <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}

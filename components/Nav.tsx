@@ -51,9 +51,6 @@ export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[
           scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
         }`}
       >
-        {/* Persistent top-corner crosshairs; z-20 keeps them above the hamburger (review D2). */}
-        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="z-20 text-white/60" />
-
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
             href="#top"
