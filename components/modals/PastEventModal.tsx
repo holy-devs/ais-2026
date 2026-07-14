@@ -77,6 +77,9 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
   const [shown, setShown] = useState(hasGallery ? Math.min(4, data.gallery.length) : GREY_TILES);
   const tiles: (MediaDTO | null)[] = hasGallery ? data.gallery.slice(0, shown) : Array.from({ length: GREY_TILES }, () => null);
   const yy = data.year ? String(data.year).slice(-2) : '';
+  // Documentary section renders only when there's an actual video or poster —
+  // otherwise the whole <section> is omitted so space-y-4 doesn't leave a double gap.
+  const hasDocumentary = !!(data.documentaryVideoUrl || data.documentaryMedia.url);
   // Clicking a speaker card opens the Speaker Profile sidetray (edition gallery + press reused).
   const [openSpk, setOpenSpk] = useState<PastEventSpeakerDTO | null>(null);
 
@@ -121,10 +124,13 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
           </section>
 
           {/* ② DOCUMENTARY / VIDEO — 3:4 navy-framed poster (node 9-6689). With a
-              documentaryVideoUrl it plays: click expands 3:4 → 16:9 + youtube-nocookie. */}
-          <section>
-            <Documentary media={data.documentaryMedia} videoUrl={data.documentaryVideoUrl} />
-          </section>
+              documentaryVideoUrl it plays: click expands 3:4 → 16:9 + youtube-nocookie.
+              Omitted entirely when there's neither a video nor a poster (no dead block). */}
+          {hasDocumentary && (
+            <section>
+              <Documentary media={data.documentaryMedia} videoUrl={data.documentaryVideoUrl} />
+            </section>
+          )}
 
           {/* ③ SPEAKERS — profile cards, 2-col desktop / 1-col mobile, 1:1 photos, 16px gap */}
           {data.speakers.length > 0 && (
