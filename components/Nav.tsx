@@ -26,7 +26,9 @@ export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    // Hysteresis (snap down at 20px, unsnap up at 5px) — prevents flicker at the
+    // threshold since the top snap is instant (no transition to damp a single edge).
+    const onScroll = () => setScrolled((prev) => (prev ? window.scrollY > 5 : window.scrollY > 20));
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
