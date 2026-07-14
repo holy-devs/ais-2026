@@ -50,8 +50,11 @@ export default function Footer({ entry, nav = [], ticketsEnabled = true }: { ent
       <div className="relative mx-auto flex w-full max-w-content flex-col items-center">
         {/* Display block — hardcoded design copy (not in the CMS; see OPEN.md) */}
         <div className="text-center">
-          {/* Display: Founders Grotesk Medium 164px / lh 73 / tracking -9px (per brief). */}
-          <div className="font-grotesk font-medium uppercase leading-[0.445] tracking-[-0.055em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
+          {/* Display: Founders Grotesk Medium 164px / lh 73 / tracking -9px (per brief).
+              Client hotfix: keep Figma tracking (-0.055em) but add word-spacing so the
+              three words stay separated at display size, + looser leading so "Loop"
+              unsticks below (and self-overlap is avoided if it wraps on mobile). */}
+          <div className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.055em] [word-spacing:0.15em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
             Stay in the
           </div>
           {/* PP Editorial Old Italic 124px. */}
