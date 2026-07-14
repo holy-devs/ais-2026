@@ -36,7 +36,11 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
       className="relative isolate flex h-[100svh] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
     >
       <div className="absolute inset-0 -z-10">
-        <Media media={bg} rounded={false} className="h-full w-full" />
+        {/* Mobile focal crop: the 16:9 Odeon shot fits-to-height on a portrait phone,
+            so the full sky→stage range shows and the city dominates the top. Zoom into
+            the lower band (wall behind the title, round stage under the CTAs) anchored
+            to the bottom, to match the mobile Hero design frame. Desktop is reset. */}
+        <Media media={bg} rounded={false} className="h-full w-full origin-bottom scale-[1.6] md:origin-center md:scale-100" />
         {/* Subtle top/bottom vignette — keep the theatre visible, aid nav + text legibility. */}
         <div className="absolute inset-0 bg-gradient-to-b from-page/70 via-page/10 to-page/60" />
       </div>
