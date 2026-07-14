@@ -53,7 +53,9 @@ export function SpeakerCard({
         grey
         className={`${photoAspect} max-h-[420px] w-full transition duration-500 md:grayscale md:group-hover:grayscale-0`}
       />
-      <div className="flex flex-1 items-end justify-between gap-3 p-5">
+      {/* M12b: vertical stack — name → title → CTA beneath, left-aligned (was a row
+          with the CTA pushed right). CTA pinned to the card bottom for grid alignment. */}
+      <div className="flex flex-1 flex-col items-start gap-3 p-5">
         <div>
           <h3 className="text-lg font-medium text-white">{data.name}</h3>
           {data.role && <p className="mt-1 text-base leading-[18px] tracking-normal text-white">{data.role}</p>}
@@ -62,7 +64,7 @@ export function SpeakerCard({
           )}
         </div>
         {hasRealCta(data.ctaUrl) && (
-          <span className="shrink-0 whitespace-nowrap text-xs font-medium uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
+          <span className="mt-auto whitespace-nowrap text-xs font-medium uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
         )}
       </div>
     </>

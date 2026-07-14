@@ -36,7 +36,7 @@ export default function ThankYou({ entry }: { entry: any }) {
           <RichText doc={x.text} className="mt-6 space-y-4 text-lg leading-relaxed text-white/85 md:text-xl" />
           <div className="mt-8 flex flex-wrap gap-3">
             {REVISIT.map((b) => (
-              <GlassButton key={b.label} href={b.href} label={b.label} icon={<ArrowUpRight />} />
+              <GlassButton key={b.label} variant="solid" href={b.href} label={b.label} icon={<ArrowUpRight />} />
             ))}
           </div>
         </div>
