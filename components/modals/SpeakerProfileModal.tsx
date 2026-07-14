@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { SpeakerDTO } from '@/lib/map';
+import { hasRealCta } from '@/lib/cta';
 import Media from '../Media';
 import TrayShell, { Eyebrow } from './TrayShell';
 import { GlassButton } from '../Buttons';
@@ -22,7 +23,7 @@ export default function SpeakerProfileModal({ data, onClose }: { data: SpeakerDT
           {data.oneLiner && data.oneLiner !== data.role && (
             <p className="mt-1 text-sm text-low">{data.oneLiner}</p>
           )}
-          {data.ctaUrl && (
+          {hasRealCta(data.ctaUrl) && (
             <div className="mt-6">
               <GlassButton href={data.ctaUrl} external label={data.ctaLabel} icon={<ArrowUpRight />} />
             </div>

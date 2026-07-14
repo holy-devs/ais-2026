@@ -1,4 +1,5 @@
 import type { MediaDTO } from '@/lib/map';
+import { hasRealCta } from '@/lib/cta';
 import Media from './Media';
 import { Crosshair } from './Crosshair';
 
@@ -8,6 +9,7 @@ export interface SpeakerCardData {
   role?: string;
   detail?: string; // optional muted one-liner
   ctaLabel: string;
+  ctaUrl?: string; // label shows only when this is a real URL (hasRealCta)
 }
 
 // The v5.0 speaker profile card — shared by the homepage Speakers grid and the
@@ -51,7 +53,9 @@ export function SpeakerCard({
             <p className="mt-1 text-sm leading-[14px] tracking-[-0.02em] text-white/70">{data.detail}</p>
           )}
         </div>
-        <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
+        {hasRealCta(data.ctaUrl) && (
+          <span className="shrink-0 whitespace-nowrap text-xs uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
+        )}
       </div>
     </>
   );

@@ -149,7 +149,7 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
                     key={s.id}
                     photoAspect="aspect-square"
                     onClick={() => setOpenSpk(s)}
-                    data={{ photo: s.photo, name: s.name, role: s.title, ctaLabel: s.ctaLabel }}
+                    data={{ photo: s.photo, name: s.name, role: s.title, ctaLabel: s.ctaLabel, ctaUrl: s.ctaUrl }}
                   />
                 ))}
               </div>

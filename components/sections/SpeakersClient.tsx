@@ -22,7 +22,7 @@ export default function SpeakersClient({ speakers }: { speakers: SpeakerDTO[] })
           key={s.id}
           reveal
           onClick={() => openSpeaker(s)}
-          data={{ photo: s.portrait, name: s.name, role: s.role, detail: s.oneLiner, ctaLabel: s.ctaLabel }}
+          data={{ photo: s.portrait, name: s.name, role: s.role, detail: s.oneLiner, ctaLabel: s.ctaLabel, ctaUrl: s.ctaUrl }}
         />
       ))}
     </div>

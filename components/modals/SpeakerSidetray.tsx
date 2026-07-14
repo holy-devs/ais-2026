@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { PastEventSpeakerDTO, MediaDTO, PressDTO } from '@/lib/map';
+import { hasRealCta } from '@/lib/cta';
 import Media from '../Media';
 import { Eyebrow } from './eyebrow';
 import { PressCard } from './PressCard';
@@ -80,7 +81,7 @@ export default function SpeakerSidetray({
               {/* Name 24/20 creme, designation 16/18 white, CTA 12 medium white */}
               <h3 className="font-grotesk text-2xl font-normal leading-[20px] text-creme">{speaker.name}</h3>
               {speaker.title && <p className="mt-2 text-base font-normal leading-[18px] text-white">{speaker.title}</p>}
-              {speaker.ctaUrl && (
+              {hasRealCta(speaker.ctaUrl) && (
                 <a
                   href={speaker.ctaUrl}
                   target="_blank"
