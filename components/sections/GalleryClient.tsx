@@ -2,8 +2,8 @@
 
 import { useRef, useState } from 'react';
 import type { MediaDTO } from '@/lib/map';
-import Media from '../Media';
 import { GlassButton } from '../Buttons';
+import { GalleryTile } from '../modals/GalleryTile';
 import Lightbox from './Lightbox';
 
 const INITIAL = 8; // matches the design: 8 visible, then a Load More button
@@ -32,23 +32,17 @@ export default function GalleryClient({ images }: { images: MediaDTO[] }) {
   return (
     <>
       <div>
-        {/* Framed tiles: 10px inner padding + hairline border; no gutters — the frame
-            borders + padding separate them (wave2 A3). */}
+        {/* Full sidetray treatment (A6c): shared GalleryTile — 5:7 portrait, creme
+            0.5px border, 4px padding, gap-0, #cde0e3 empty fallback. Clickable →
+            opens the lightbox (unchanged). */}
         <div className="grid grid-cols-2 gap-0 md:grid-cols-4">
           {visible.map((img, i) => (
-            <button
+            <GalleryTile
               key={i}
-              type="button"
+              media={img}
+              ariaLabel={`View image ${i + 1}`}
               onClick={(e) => openAt(i, e.currentTarget)}
-              aria-label={`View image ${i + 1}`}
-              className="group block border-[0.5px] border-[#eedecb] p-[10px] transition-colors"
-            >
-              <Media
-                media={img}
-                rounded={false}
-                className="aspect-[4/3] w-full transition duration-500 group-hover:opacity-90"
-              />
-            </button>
+            />
           ))}
         </div>
 

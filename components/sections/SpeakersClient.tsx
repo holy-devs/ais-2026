@@ -21,7 +21,6 @@ export default function SpeakersClient({ speakers }: { speakers: SpeakerDTO[] })
         <SpeakerCard
           key={s.id}
           reveal
-          crosshairs={false}
           onClick={() => openSpeaker(s)}
           data={{ photo: s.portrait, name: s.name, role: s.role, detail: s.oneLiner, ctaLabel: s.ctaLabel, ctaUrl: s.ctaUrl }}
         />

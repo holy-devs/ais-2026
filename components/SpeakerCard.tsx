@@ -21,14 +21,15 @@ export function SpeakerCard({
   onClick,
   reveal = false,
   photoAspect = 'aspect-[4/5]',
-  crosshairs = true,
+  crosshairs = false,
 }: {
   data: SpeakerCardData;
   onClick?: () => void;
   reveal?: boolean;
   // Homepage grid = 4:5 portrait; past-event modal = 1:1 square (node 9-6651).
   photoAspect?: string;
-  // Corner crosshairs — kept on past-event cards, hidden on the homepage grid (A6b).
+  // Corner crosshairs — hidden on ALL speaker cards (homepage + past-event) per the
+  // A6b amendment; default off. Prop kept for future opt-in via crosshairs.
   crosshairs?: boolean;
 }) {
   const cls = 'group relative flex w-full flex-col border border-white/10 text-left';
