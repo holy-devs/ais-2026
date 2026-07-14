@@ -145,6 +145,7 @@ export interface PastEventDTO {
   keynoteMedia: MediaDTO;
   secondaryMedia: MediaDTO;
   documentaryMedia: MediaDTO;
+  documentaryVideoUrl?: string; // YouTube URL (read-only; added in the CMS by Odysseas)
   speakers: PastEventSpeakerDTO[];
   sessions: SessionDTO[];
   press: PressDTO[];
@@ -167,6 +168,7 @@ export function mapPastEvent(entry: any): PastEventDTO {
     keynoteMedia: media(x.keynoteMedia),
     secondaryMedia: media(x.secondaryMedia),
     documentaryMedia: media(x.documentaryMedia),
+    documentaryVideoUrl: typeof x.documentaryVideoUrl === 'string' && x.documentaryVideoUrl ? x.documentaryVideoUrl : undefined,
     speakers: Array.isArray(x.speakers) ? x.speakers.map(mapPastEventSpeaker) : [],
     sessions: Array.isArray(x.sessions) ? x.sessions.map(mapSession) : [],
     press: Array.isArray(x.press) ? x.press.map(mapPress) : [],

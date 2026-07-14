@@ -7,6 +7,7 @@ import { SpeakerCard } from '../SpeakerCard';
 import { Eyebrow } from './eyebrow';
 import { PressCard } from './PressCard';
 import { GalleryTile } from './GalleryTile';
+import { Documentary } from './Documentary';
 import SpeakerSidetray from './SpeakerSidetray';
 
 /*
@@ -36,14 +37,6 @@ function CalIcon() {
     </svg>
   );
 }
-function PlayIcon() {
-  // ~56px play button (node 9-6651)
-  return (
-    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/15 backdrop-blur-md" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1 text-white"><path d="M6 4l14 8-14 8z" /></svg>
-    </span>
-  );
-}
 // Section heading — 48px / 52 lh Founders Grotesk Regular.
 function Heading({ children }: { children: React.ReactNode }) {
   return <h3 className="mt-3 font-grotesk text-[48px] font-normal leading-[52px] text-white">{children}</h3>;
@@ -60,14 +53,12 @@ function formatDate(iso?: string): string | undefined {
 function Frame({
   media,
   aspect,
-  play = false,
   position,
   bordered = false,
   emptyFill = 'bg-e3',
 }: {
   media: MediaDTO;
   aspect: string;
-  play?: boolean;
   position?: string;
   // Documentary-only: navy 4px frame + 8px radius (node 9-6689). Hero/keynote leave off.
   bordered?: boolean;
@@ -75,11 +66,7 @@ function Frame({
 }) {
   const frame = bordered ? 'border-4 border-[#1e1d33] rounded-[8px] overflow-hidden' : '';
   if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect} ${frame}`} />;
-  return (
-    <div className={`relative w-full ${aspect} ${emptyFill} ${frame}`} role="img" aria-label="placeholder">
-      {play && <span className="absolute inset-0 flex items-center justify-center"><PlayIcon /></span>}
-    </div>
-  );
+  return <div className={`relative w-full ${aspect} ${emptyFill} ${frame}`} role="img" aria-label="placeholder" />;
 }
 
 const GREY_TILES = 6; // empty-gallery placeholder tiles (node 9-6651)
@@ -133,9 +120,10 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
             </div>
           </section>
 
-          {/* ② DOCUMENTARY / VIDEO — ~1:1, grey + ~56px play affordance */}
+          {/* ② DOCUMENTARY / VIDEO — 3:4 navy-framed poster (node 9-6689). With a
+              documentaryVideoUrl it plays: click expands 3:4 → 16:9 + youtube-nocookie. */}
           <section>
-            <Frame media={data.documentaryMedia} aspect="aspect-[3/4]" play bordered emptyFill="bg-[#2e405d]" />
+            <Documentary media={data.documentaryMedia} videoUrl={data.documentaryVideoUrl} />
           </section>
 
           {/* ③ SPEAKERS — profile cards, 2-col desktop / 1-col mobile, 1:1 photos, 16px gap */}
