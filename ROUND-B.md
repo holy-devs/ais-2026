@@ -7,6 +7,18 @@ designer / Odysseas before building — several are content or Figma-dependent.
 
 ---
 
+## Mobile hero framing (client-reported) — OPEN pending device verify
+
+- **PR #8** (CSS `scale-[1.6]` zoom): emulator-passed, **failed on real iOS Safari** — reverted approach.
+- **PR #9 + #10** (shipped, live): art-directed mobile asset. New CMS field
+  `heroMediaMobile` (portrait crop) rendered via `<picture>` — mobile `<img>` fallback +
+  desktop `<source min-width:768px>`, so a phone **never downloads the desktop asset**
+  (verified in the network log: 390px = mobile crop only). Mobile `object-bottom`
+  (stage-anchored, any ratio), desktop `object-center` unchanged. No CSS transform.
+- **Still open:** the current asset (780×1340) carries ~28% sky vs the design ref (~10%).
+  Odysseas re-crops tighter/taller (pure CMS swap, no code change) and **confirms on his
+  own phone in production** — that real-device OK is the DONE criterion, not the emulator.
+
 ## Session ledger — 2026-07-14 (M1–M12 designer batch, shipped to production)
 
 Merged to `main` (PR #7, `7a4e718`) and live. Verified 390px + desktop + production `?fresh=1`.
