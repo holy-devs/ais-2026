@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 // v5.0 button system (review A1): two containers (text + icon) joined by a dashed
-// connector; fill = 20% white + backdrop blur (glassy, not solid). Hover: the
-// connector fades and the two blocks rotate 15° outwards. Text-only when no icon.
+// connector; fill = 20% white + backdrop blur (glassy, not solid). Hover: fill
+// lightens + the connector fades (no rotate/splay — 2a). Text-only when no icon.
 export function GlassButton({
   href,
   onClick,
@@ -30,14 +30,14 @@ export function GlassButton({
   const content = (
     <>
       <span
-        className={`${fullWidth ? 'flex-1 text-center' : ''} origin-right px-4 py-2.5 text-sm font-medium transition-transform duration-300 will-change-transform group-hover:-rotate-[15deg]`}
+        className={`${fullWidth ? 'flex-1 text-center' : ''} origin-right px-4 py-2.5 text-sm font-medium`}
       >
         {label}
       </span>
       {icon && (
         <>
           <span aria-hidden className="my-2 self-stretch border-l border-dashed border-white/60 transition-opacity duration-300 group-hover:opacity-0" />
-          <span className="flex origin-left items-center px-3 transition-transform duration-300 will-change-transform group-hover:rotate-[15deg]">
+          <span className="flex origin-left items-center px-3">
             {icon}
           </span>
         </>
