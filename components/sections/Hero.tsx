@@ -1,4 +1,5 @@
 import { f, mapAction, media } from '@/lib/map';
+import { assetUrl, assetTitle } from '@/lib/contentful';
 import Media from '../Media';
 import { CornerMarks } from '../Crosshair';
 import { SendIcon, EndeavorWordmark } from '../Icons';
@@ -15,6 +16,11 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
   // re-centers the remaining "Past Editions" with no gap.
   const actions = ticketsEnabled ? allActions : allActions.filter((a: any) => a.style !== 'Primary');
   const bg = media(x.keyMedia);
+  // Art-directed portrait crop for phones (added in the CMS). Served at native width
+  // (no ?w upscale of the ~780px asset). Absent → the desktop asset + zoom fallback stays.
+  const bgMobile = x.heroMediaMobile
+    ? { url: assetUrl(x.heroMediaMobile), label: assetTitle(x.heroMediaMobile) }
+    : undefined;
 
   // Split a trailing year for the editorial italic accent, then break the head into
   // "all but last word" / "last word", so desktop renders 2 lines (ATHENS INNOVATION /
@@ -36,11 +42,21 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
       className="relative isolate flex h-[100svh] items-center justify-center overflow-hidden md:h-auto md:min-h-screen"
     >
       <div className="absolute inset-0 -z-10">
-        {/* Mobile focal crop: the 16:9 Odeon shot fits-to-height on a portrait phone,
-            so the full sky→stage range shows and the city dominates the top. Zoom into
-            the lower band (wall behind the title, round stage under the CTAs) anchored
-            to the bottom, to match the mobile Hero design frame. Desktop is reset. */}
-        <Media media={bg} rounded={false} className="h-full w-full origin-bottom scale-[1.6] md:origin-center md:scale-100" />
+        {/* Art-directed mobile hero: a <picture> swaps in the portrait crop below md and
+            the 16:9 desktop asset above it. Only the matching <source> downloads (a
+            display:none <img> would still fetch), and there is NO CSS scale — the earlier
+            transform zoom failed on real iOS Safari. When heroMediaMobile is absent we
+            fall back to the desktop asset + the bottom-anchored mobile zoom. */}
+        {bgMobile?.url && bg.url ? (
+          <picture className="block h-full w-full">
+            <source media="(max-width: 767px)" srcSet={bgMobile.url} />
+            {/* Mobile anchors to the bottom (keeps the stage in frame for any crop, incl.
+                taller-than-viewport re-exports); desktop stays centered. Safe on Safari. */}
+            <img src={bg.url} alt={bg.label} className="h-full w-full object-cover object-bottom md:object-center" />
+          </picture>
+        ) : (
+          <Media media={bg} rounded={false} className="h-full w-full origin-bottom scale-[1.6] md:origin-center md:scale-100" />
+        )}
         {/* Subtle top/bottom vignette — keep the theatre visible, aid nav + text legibility. */}
         <div className="absolute inset-0 bg-gradient-to-b from-page/70 via-page/10 to-page/60" />
       </div>
