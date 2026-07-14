@@ -21,24 +21,31 @@ export function SpeakerCard({
   onClick,
   reveal = false,
   photoAspect = 'aspect-[4/5]',
+  crosshairs = true,
 }: {
   data: SpeakerCardData;
   onClick?: () => void;
   reveal?: boolean;
   // Homepage grid = 4:5 portrait; past-event modal = 1:1 square (node 9-6651).
   photoAspect?: string;
+  // Corner crosshairs — kept on past-event cards, hidden on the homepage grid (A6b).
+  crosshairs?: boolean;
 }) {
   const cls = 'group relative flex w-full flex-col border border-white/10 text-left';
   const revealAttr = reveal ? { 'data-reveal': 'words' } : {};
   const inner = (
     <>
       {/* Top-corner crosshairs that spin with the B&W→color hover. */}
-      <span className="pointer-events-none absolute left-0 top-0 z-10 text-white/50 transition-transform duration-500 group-hover:rotate-45">
-        <Crosshair size={9} />
-      </span>
-      <span className="pointer-events-none absolute right-0 top-0 z-10 text-white/50 transition-transform duration-500 group-hover:rotate-45">
-        <Crosshair size={9} />
-      </span>
+      {crosshairs && (
+        <>
+          <span className="pointer-events-none absolute left-0 top-0 z-10 text-white/50 transition-transform duration-500 group-hover:rotate-45">
+            <Crosshair size={9} />
+          </span>
+          <span className="pointer-events-none absolute right-0 top-0 z-10 text-white/50 transition-transform duration-500 group-hover:rotate-45">
+            <Crosshair size={9} />
+          </span>
+        </>
+      )}
       <Media
         media={data.photo}
         rounded={false}

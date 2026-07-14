@@ -41,7 +41,7 @@ export default function GalleryClient({ images }: { images: MediaDTO[] }) {
               type="button"
               onClick={(e) => openAt(i, e.currentTarget)}
               aria-label={`View image ${i + 1}`}
-              className="group block border border-rule p-[10px] transition-colors hover:border-creme/40"
+              className="group block border-[0.5px] border-[#eedecb] p-[10px] transition-colors"
             >
               <Media
                 media={img}
