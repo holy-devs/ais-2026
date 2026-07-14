@@ -57,8 +57,8 @@ export default function Footer({ entry, nav = [], ticketsEnabled = true }: { ent
           <div className="font-grotesk font-medium uppercase leading-[0.9] tracking-[-0.055em] [word-spacing:0.15em] text-white text-[clamp(2.75rem,13vw,10.25rem)]">
             Stay in the
           </div>
-          {/* PP Editorial Old Italic 124px. */}
-          <div className="font-editorial italic leading-[0.62] tracking-[-0.055em] text-creme text-[clamp(2.25rem,9.7vw,7.75rem)]">
+          {/* PP Editorial Old Italic 124px. A4: uppercase (LOOP) — case-only, per designer. */}
+          <div className="font-editorial italic uppercase leading-[0.62] tracking-[-0.055em] text-creme text-[clamp(2.25rem,9.7vw,7.75rem)]">
             Loop
           </div>
         </div>
