@@ -80,7 +80,7 @@ export function mapPastEventSpeaker(entry: any): PastEventSpeakerDTO {
     title: x.title || '',
     bio: x.bio || '',
     ctaType,
-    ctaUrl: x.ctaUrl || '#',
+    ctaUrl: x.ctaUrl || '',
     ctaLabel: ctaType === 'Keynote' ? 'View Keynote' : 'View LinkedIn',
   };
 }

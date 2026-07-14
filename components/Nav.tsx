@@ -26,7 +26,9 @@ export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    // Hysteresis (snap down at 20px, unsnap up at 5px) — prevents flicker at the
+    // threshold since the top snap is instant (no transition to damp a single edge).
+    const onScroll = () => setScrolled((prev) => (prev ? window.scrollY > 5 : window.scrollY > 20));
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -47,13 +49,12 @@ export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-          scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
+        className={`fixed inset-x-0 z-40 transition-colors duration-300 ${
+          scrolled
+            ? 'top-0 border-b border-rule bg-page/85 backdrop-blur' // scrolled: snaps to compact top-0 bar
+            : 'top-[10vh] bg-transparent' // hero state: 10vh down, transparent, inside the crosshair frame
         }`}
       >
-        {/* Persistent top-corner crosshairs; z-20 keeps them above the hamburger (review D2). */}
-        <CornerMarks corners={['tl', 'tr']} inset={36} size={9} className="z-20 text-white/60" />
-
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
           <a
             href="#top"
