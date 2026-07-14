@@ -49,10 +49,15 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
             fall back to the desktop asset + the bottom-anchored mobile zoom. */}
         {bgMobile?.url && bg.url ? (
           <picture className="block h-full w-full">
-            <source media="(max-width: 767px)" srcSet={bgMobile.url} />
-            {/* Mobile anchors to the bottom (keeps the stage in frame for any crop, incl.
-                taller-than-viewport re-exports); desktop stays centered. Safe on Safari. */}
-            <img src={bg.url} alt={bg.label} className="h-full w-full object-cover object-bottom md:object-center" />
+            {/* Desktop asset is a <source> gated to ≥md; the MOBILE crop is the <img>
+                fallback. A matching <source>'s <img src> still gets preload-fetched, so
+                to guarantee a phone never downloads the big desktop asset, mobile must BE
+                the img src — below md there is no <source>, so the mobile crop is the only
+                candidate. (Desktop may preload the small mobile crop; negligible on wifi.)
+                Mobile anchors to the bottom to keep the stage in frame for any crop ratio;
+                desktop stays centered. object-position is Safari-safe (no transform). */}
+            <source media="(min-width: 768px)" srcSet={bg.url} />
+            <img src={bgMobile.url} alt={bg.label} className="h-full w-full object-cover object-bottom md:object-center" />
           </picture>
         ) : (
           <Media media={bg} rounded={false} className="h-full w-full origin-bottom scale-[1.6] md:origin-center md:scale-100" />
