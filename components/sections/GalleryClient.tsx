@@ -31,9 +31,10 @@ export default function GalleryClient({ images }: { images: MediaDTO[] }) {
 
   return (
     <>
-      <div className="relative">
-        {/* Framed tiles: 10px inner padding + hairline border, 10px gutters (review B5). */}
-        <div className="grid grid-cols-2 gap-[10px] md:grid-cols-4">
+      <div>
+        {/* Framed tiles: 10px inner padding + hairline border; no gutters — the frame
+            borders + padding separate them (wave2 A3). */}
+        <div className="grid grid-cols-2 gap-0 md:grid-cols-4">
           {visible.map((img, i) => (
             <button
               key={i}
@@ -51,17 +52,11 @@ export default function GalleryClient({ images }: { images: MediaDTO[] }) {
           ))}
         </div>
 
-        {/* Blur teaser over the bottom of the grid, with Load More sitting on it. */}
+        {/* Load More — below the grid, normal flow (blur teaser removed, wave2 A3). */}
         {hasMore && (
-          <>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-[22%] bg-gradient-to-t from-page via-page/85 to-transparent backdrop-blur-md md:backdrop-blur-2xl"
-            />
-            <div className="absolute inset-x-0 bottom-5 flex justify-center">
-              <GlassButton onClick={() => setCount((c) => Math.min(c + STEP, images.length))} label="Load More" />
-            </div>
-          </>
+          <div className="mt-8 flex justify-center">
+            <GlassButton onClick={() => setCount((c) => Math.min(c + STEP, images.length))} label="Load More" />
+          </div>
         )}
       </div>
 
