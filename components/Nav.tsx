@@ -47,8 +47,10 @@ export default function Nav({ nav, cta, ticketsEnabled = true }: { nav: NavItem[
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-          scrolled ? 'border-b border-rule bg-page/85 backdrop-blur' : 'bg-transparent'
+        className={`fixed inset-x-0 z-40 transition-colors duration-300 ${
+          scrolled
+            ? 'top-0 border-b border-rule bg-page/85 backdrop-blur' // scrolled: snaps to compact top-0 bar
+            : 'top-[10vh] bg-transparent' // hero state: 10vh down, transparent, inside the crosshair frame
         }`}
       >
         <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-4 md:px-9">
