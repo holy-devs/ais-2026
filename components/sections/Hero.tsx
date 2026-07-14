@@ -46,9 +46,10 @@ export default function Hero({ entry, ticketsEnabled = true }: { entry: any; tic
 
       <div className="w-full px-6 text-center md:px-9">
         <div className="mx-auto flex w-full max-w-content flex-col items-center">
-          <p className="mb-6 text-[14px] leading-none tracking-[-0.02em] text-white/80" data-reveal="words">
+          {/* A7: coordinates strip in creme (designer). */}
+          <p className="mb-6 text-[14px] leading-none tracking-[-0.02em] text-creme" data-reveal="words">
             {COORDS}
-            <span className="mx-3 text-white/40">·</span>
+            <span className="mx-3 text-creme/40">·</span>
             {LOCATION_LABEL}
           </p>
 
