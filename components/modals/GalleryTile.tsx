@@ -1,8 +1,8 @@
 import type { MediaDTO } from '@/lib/map';
 import Media from '../Media';
 
-// Shared gallery tile (node 9-6813): creme 0.5px border + 4px padding, square
-// corners, 5:7 image (object-cover). Empty fallback = #cde0e3 (light blue-grey,
+// Shared gallery tile (Mapping v.4, node 60-…): creme 0.5px border + 10px padding,
+// square corners, 332/376 image (object-cover). Empty fallback = #cde0e3 (light blue-grey,
 // reads as an image placeholder, not a void). Used by the past-event modal, the
 // speaker sidetray, and the homepage gallery (A6c).
 //
@@ -18,11 +18,11 @@ export function GalleryTile({
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   ariaLabel?: string;
 }) {
-  const cls = 'border-[0.5px] border-[#eedecb] p-[4px]';
+  const cls = 'border-[0.5px] border-[#eedecb] p-[10px]';
   const inner = media?.url ? (
-    <Media media={media} rounded={false} className="aspect-[5/7] w-full" />
+    <Media media={media} rounded={false} className="aspect-[332/376] w-full" />
   ) : (
-    <div className="aspect-[5/7] w-full bg-[#cde0e3]" aria-hidden />
+    <div className="aspect-[332/376] w-full bg-[#cde0e3]" aria-hidden />
   );
 
   if (onClick) {

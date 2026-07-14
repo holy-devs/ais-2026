@@ -27,7 +27,9 @@ function PlayIcon() {
 export function Documentary({ media, videoUrl }: { media: MediaDTO; videoUrl?: string }) {
   const id = youTubeId(videoUrl);
   const [playing, setPlaying] = useState(false);
-  const frame = 'border-4 border-[#1e1d33] rounded-[8px] overflow-hidden';
+  // M12a: desktop cap 460px (v.4 694×460), object-cover inside; mobile 3:4 unchanged
+  // (below the cap). Applies to poster, empty block, and the play/expand container.
+  const frame = 'border-4 border-[#1e1d33] rounded-[8px] overflow-hidden md:max-h-[460px]';
 
   // No playable video → keep the block untouched (D2-(b): rest state unchanged).
   if (!id) {
@@ -35,9 +37,14 @@ export function Documentary({ media, videoUrl }: { media: MediaDTO; videoUrl?: s
     return <div className={`relative w-full aspect-[3/4] bg-[#2e405d] ${frame}`} role="img" aria-label="placeholder" />;
   }
 
+  // Outer carries the navy frame + desktop 460 cap; the inner keeps the padding-bottom
+  // aspect morph (percentage padding ignores max-height, so the cap must clip from
+  // outside). md:flex+items-center centre-crops the taller poster into the 460 window
+  // (object-cover, no squeeze). Mobile: no flex/cap → the 3:4↔16:9 morph is unchanged.
   return (
+    <div className={`relative w-full ${frame} md:flex md:items-center`}>
     <div
-      className={`relative w-full ${frame} transition-[padding] duration-500 ease-out motion-reduce:transition-none`}
+      className="relative w-full shrink-0 transition-[padding] duration-500 ease-out motion-reduce:transition-none"
       style={{ paddingBottom: playing ? '56.25%' : '133.333%' }}
     >
       {playing ? (
@@ -73,6 +80,7 @@ export function Documentary({ media, videoUrl }: { media: MediaDTO; videoUrl?: s
           </span>
         </button>
       )}
+    </div>
     </div>
   );
 }

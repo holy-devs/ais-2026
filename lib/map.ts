@@ -116,6 +116,9 @@ export interface PressDTO {
   description: string;
   byline: string;
   sourceUrl?: string;
+  // Image field is deferred in the CMS; maps to undefined until it's added + published,
+  // at which point the press card image renders automatically (M11).
+  image?: MediaDTO;
 }
 export function mapPress(entry: any): PressDTO {
   const x = f(entry);
@@ -126,6 +129,7 @@ export function mapPress(entry: any): PressDTO {
     description: x.description || '',
     byline: x.byline || '',
     sourceUrl: x.sourceUrl || undefined,
+    image: x.image ? media(x.image) : undefined,
   };
 }
 

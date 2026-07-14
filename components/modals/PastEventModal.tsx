@@ -56,6 +56,7 @@ function Frame({
   position,
   bordered = false,
   emptyFill = 'bg-e3',
+  className = '',
 }: {
   media: MediaDTO;
   aspect: string;
@@ -63,10 +64,11 @@ function Frame({
   // Documentary-only: navy 4px frame + 8px radius (node 9-6689). Hero/keynote leave off.
   bordered?: boolean;
   emptyFill?: string;
+  className?: string;
 }) {
   const frame = bordered ? 'border-4 border-[#1e1d33] rounded-[8px] overflow-hidden' : '';
-  if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect} ${frame}`} />;
-  return <div className={`relative w-full ${aspect} ${emptyFill} ${frame}`} role="img" aria-label="placeholder" />;
+  if (media?.url) return <Media media={media} rounded={false} position={position} className={`w-full ${aspect} ${frame} ${className}`} />;
+  return <div className={`relative w-full ${aspect} ${emptyFill} ${frame} ${className}`} role="img" aria-label="placeholder" />;
 }
 
 const GREY_TILES = 6; // empty-gallery placeholder tiles (node 9-6651)
@@ -110,7 +112,9 @@ export default function PastEventModal({ data, onClose }: { data: PastEventDTO; 
         <div className="flex-1 space-y-4 overflow-y-auto px-3 pb-6 md:px-4">
           {/* ① HERO — full content width, 3:4, title + venue/date overlaid on the image */}
           <section className="relative">
-            <Frame media={data.hero} aspect="aspect-[3/4]" position="center 30%" />
+            {/* M12a: desktop hero capped at 650px (object-cover, no squeeze); mobile
+                (3:4 under the cap) unchanged. */}
+            <Frame media={data.hero} aspect="aspect-[3/4]" position="center 30%" className="md:max-h-[650px]" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-page/90 via-page/30 to-transparent p-4">
               {/* APPROX(figma): hero title size */}
               <h3 className="text-3xl font-medium leading-tight text-white">{data.title}</h3>

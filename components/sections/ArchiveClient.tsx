@@ -33,7 +33,7 @@ export default function ArchiveClient({ events }: { events: PastEventDTO[] }) {
               <p className="mt-2 max-w-md text-base leading-[18px] tracking-normal text-white">{e.speakerNames.join(', ')}</p>
             )}
             <div className="mt-auto pt-6">
-              <GlassButton onClick={() => openPastEvent(e)} label="Visit Archive" icon={<ArrowUpRight />} />
+              <GlassButton variant="solid" onClick={() => openPastEvent(e)} label="Visit Archive" icon={<ArrowUpRight />} />
             </div>
           </div>
         </div>

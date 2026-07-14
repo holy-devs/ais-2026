@@ -12,7 +12,7 @@ export default function Gallery({ entry }: { entry: any }) {
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
           <ArrowDownRight className="text-creme" />
-          <h2 className="mt-6 max-w-[10em] font-grotesk text-3xl font-normal leading-tight text-creme md:text-4xl" data-reveal="lines">
+          <h2 className="mt-6 max-w-[10em] font-grotesk text-[2.5rem] font-normal leading-[0.9] text-creme md:text-[4rem]" data-reveal="lines">
             {x.title}
           </h2>
         </div>
