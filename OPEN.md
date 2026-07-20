@@ -3,6 +3,87 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Client updates round — branch `fix/client-round-2`
+All items on one branch, additive-only CMS, front-end gates removed in favour of
+publish-driven visibility. Ground truth confirmed from the live space before each change.
+
+- **Item 1 — 4th speaker un-hidden (front-end only, no CMS write).** `Speakers.tsx` had a
+  hardcoded portrait gate (`.filter` dropping placeholder/no-portrait speakers) that hid
+  the not-yet-announced 4th (Modrzewski). His **profile image is now a real PUBLISHED
+  asset** ("Rafał Modrzewski") and the entry is published, so the gate is **removed** —
+  Speakers now renders every speaker linked in the published section (publish-driven).
+  Verified: all four (Mitsotakis / Rottenberg / Taneja / Modrzewski) render. Contentful
+  untouched for this item. Supersedes §2 "Rafal Modrzewski" + the polish-pass F4 hide.
+
+- **Item 5 — Partners now publish-driven (front-end only, no asset writes).** Removed the
+  hardcoded `PARTNERS_ENABLED = false` gate in `SectionRenderer.tsx`; the Logo Assets
+  section now renders **iff its entry is published** (`Partners.tsx` also returns null on
+  empty logos). **Nothing becomes visible today** because **both partner sections
+  (`sec-partners`, `sec-partners-secondary`) are DRAFT/unpublished.**
+  ⚠️ **Correction to the brief:** the two logo **assets `ph-partner-01` (Google) /
+  `ph-partner-02` (Endeavor) are PUBLISHED** (publishedVersion 8), NOT unpublished — the
+  invisibility comes from the unpublished **sections**, not the assets. They remain the
+  known-bad flattened white squares; **not touched, not republished.**
+  **Return-flow:** replace the two assets with the parked fixed transparent PNGs in
+  `scripts/partner-logos/` (see its README) — a scoped same-ID asset swap — **then publish
+  the partner section(s).** Do NOT reuse the current bad assets.
+
+- **Item 7 — Thank-You mobile background (additive model + `ThankYou.tsx` only).**
+  - **Correction:** the current Thank-You background is an **image** (`thankyou-panel`,
+    `image/webp`), not a video — rendered via `<Media>` (`<img>`). The mobile asset
+    replaces that **image** on phones.
+  - **Model (additive, approved):** new **optional `Link→Asset` field `mediaMobile`**
+    ("Mobile Media") on the **`section`** type — parallels the shipped `heroMediaMobile`
+    convention. Editor **help text** set via the editor interface (field descriptions live
+    there, not on the CT): "Mobile-only override (phones, below 768px). Replaces the
+    section's Media on mobile and falls back to it when empty. Currently read by the Thank
+    You section only." **Left UNSET** on `sec-thank-you`. No entry writes, no asset uploads.
+  - **Render (`ThankYou.tsx`):** when `mediaMobile` is set, a `<picture>` swaps the mobile
+    asset in **below `md` (768px)** (`<source media="(min-width: 768px)">` = desktop
+    `media[0]`, `<img>` = mobile), **same `center 25%` framing**; only the matching
+    candidate downloads. Unset/unresolved → the original single `<Media>` desktop path,
+    on every breakpoint. Desktop **always** uses `media[0]`.
+  - **Verified locally (no publish):** unset renders byte-identical to today (home page
+    Thank-You still a bare `<img … thankyou-panel … object-position:center 25%>`, no
+    `<picture>`); set-state exercised via a throwaway route with a fabricated `mediaMobile`
+    (since deleted) → correct `<picture>`/`<source>` swap. **No temp asset published to the
+    live space.** Client uploads the real mobile image once the field exists.
+
+### Client updates round — items 2/3/4/6 (same branch)
+- **Item 6 — Thank-You button (code).** Replaced the Revisit 2025 / Revisit 2022 pair
+  with one secondary glass button **"Revisit Past Editions"** (no icon → static,
+  fill-change on hover only) that smooth-scrolls to `#ais-archive` via CSS
+  `scroll-behavior`. Still hardcoded (not in the model).
+- **Item 2 — 2026 gallery photos.** Source = `~/Downloads` (23 AIS 2026 event photos,
+  all JPEG → no HEIC conversion). Uploaded 14 as assets **`ais26-01..14`** (the 7
+  ⚠big ZZ8/IMG files downscaled to 2560px long edge q85; the seven 3400px `26-07-16_*`
+  as-is). **Prepended 12** to **`sec-gallery.media`** (new first) → 32 total; homepage
+  gallery pulls from that field (8 shown + Load More). Two near-dups dropped (ZZ8_4255,
+  ZZ8_4900) plus weaker frames.
+- **Item 3 — `pe-2026` archive.** New `pastEvent` on the pe-2025 pattern: title "Athens
+  Innovation Summit 2026", editionLabel "AIS / 2026", year 2026, location "Pnyx, Athens",
+  dateTime **`2026-07-16T21:00+03:00`** (mirrors pe-2025's 21:00 evening format),
+  keynoteIntro (client verbatim), 6 speakerNames, sessions/press empty.
+  - **heroMedia = `ais26-13`** (2026 Parthenon-dusk shot). ⚠ There was **no shared
+    "mosaic"** — pe-2025/2022 use *different* Odeon establishing shots; 2026 is the Pnyx,
+    so a 2026 shot was used instead (client-approved).
+  - **speakers[]:** 4 new `pastEventSpeaker` (`pes-2026-*`) reusing the homepage portrait
+    assets (`ph-spk-*`), no duplicate uploads. Mitsotakis = Keynote CTA (homepage keynote
+    URL); Rottenberg/Modrzewski/Taneja = LinkedIn (homepage URLs). Hosts Costantza &
+    Panagiotis stay in speakerNames only. Bios = 1-sentence derivations of the keynoteIntro.
+  - **visuals/gallery (8):** ais26 12,10,14,03,07,11,05,06 — `ais26-13` (hero) excluded and
+    `26-07-16_0041` (ais26-06) substituted so the modal never opens hero+first-tile identical.
+  - **Archive wiring:** prepended `pe-2026` → `sec-archive.content` = **pe-2026 → pe-2025 →
+    pe-2022** (newest first). Grid `md:grid-cols-2` → 3 cards render 2-up + 1 (2022 wraps to
+    row-2 left; 4th slot empty).
+- **Item 4 — 2026 documentary.** No model change: set existing
+  `pe-2026.documentaryVideoUrl = https://www.youtube.com/watch?v=xnQ-8QQufE8`. Renders via
+  the shared `Documentary` component like the other archives (poster → play → 16:9
+  youtube-nocookie); poster falls back to the YouTube thumbnail (documentaryMedia unset).
+- **Verified** (dev, ISR-busted): gallery new-first; archive 3 cards newest-first; pe-2026
+  modal — hero, "16 July 2026 at 21:00", documentary plays, 4 speaker cards (correct
+  titles/CTAs), 8 visuals (no hero dup), keynoteIntro verbatim. Screenshots shared.
+
 ## Past-event richness (round 2b) — branch `past-event-richness`
 Rich past-event modal + the additive Contentful model behind it. All CMS changes
 ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
@@ -136,11 +217,10 @@ TIKTOK vs X, Modrzewski portrait, past-event video/keynote fields, sponsor logos
   route via the scoped-content step, not the polish pass).
 
 ## 2. Awaiting materials (from Endeavor)
-- **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder.
-  **Polish-pass (F4): his card is now HIDDEN in production** — the Speakers grid ships
-  only speakers with a real portrait (currently 3). Re-appears automatically once the
-  portrait asset is swapped in (and client announcement is confirmed). No placeholder
-  card in prod.
+- **Rafal Modrzewski** speaker portrait — ~~`ph-spk-modrzewski` is still a placeholder;
+  card HIDDEN in production (polish-pass F4)~~. **RESOLVED (round 2, item 1):** a real
+  portrait ("Rafał Modrzewski") is now published and the front-end portrait gate is
+  removed — his card ships. See "Client updates round" above.
 - **Gallery lightbox design-intent** — click-to-enlarge is now **shipped** per the
   designer's spec (overlay #161524/85% + 30px page blur, contain, ✕, looping ◀/▶,
   Esc/click-out/arrows, focus trap, reduced-motion). Manmeet's open question was whether
@@ -170,10 +250,12 @@ TIKTOK vs X, Modrzewski portrait, past-event video/keynote fields, sponsor logos
 - **Footer display copy:** "STAY IN THE / LOOP" is hardcoded — optional CMS field.
 
 ## Resolved (for the record)
-- **Partners section removed (this cycle):** gated off in `SectionRenderer.tsx`
-  (`PARTNERS_ENABLED = false`) — front-end only; `sec-partners` refs and the two live
-  assets are untouched (no Contentful writes). Matches v5.0 (no partners section).
-  **Re-enable next year:** flip the flag AND first replace the logo assets — the two
+- **Partners section removed (this cycle):** ~~gated off in `SectionRenderer.tsx`
+  (`PARTNERS_ENABLED = false`)~~ — **round 2 (item 5) removed the flag; visibility is now
+  publish-driven** (both partner sections are unpublished, so still nothing shows). Note:
+  the two logo assets are **PUBLISHED** (known-bad), not unpublished — see "Client updates
+  round" for the corrected return-flow. `sec-partners` refs and assets untouched.
+  **Re-enable next year:** publish the section(s) AND first replace the logo assets — the two
   LIVE assets `ph-partner-01` / `ph-partner-02` are **known-bad flattened white
   squares** (qlmanage baked the transparent SVGs onto white → 100% opaque white,
   byte-identical; do NOT reuse). The fix is parked in **`scripts/partner-logos/`**

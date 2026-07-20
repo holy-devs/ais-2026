@@ -43,11 +43,10 @@ export default function SectionRenderer({ entry, ticketsEnabled = true }: { entr
 
   if (type === 'section') {
     const variant = f(entry).variant;
-    // Organisers/Sponsors is out this cycle (official sponsor logos arrive next year;
-    // v5.0 also has no partners section). Front-end gate only — Contentful untouched.
-    // Flip to true to bring it back; also re-fix the logo assets first (see OPEN.md).
-    const PARTNERS_ENABLED = false;
-    if (variant === 'Logo Assets' && !PARTNERS_ENABLED) return null;
+    // Partners (Logo Assets) is now purely publish-driven — no code gate. The section
+    // renders iff its Contentful entry is published; both partner sections are currently
+    // unpublished, so nothing shows. (Partners.tsx also returns null on empty logos.)
+    // Asset caveat + return-flow logged in OPEN.md (item 5).
     // Ticket section (variant CTA) disappears entirely when tickets are off.
     if (variant === 'CTA' && !ticketsEnabled) return null;
     const Comp = SECTION_MAP[variant];
