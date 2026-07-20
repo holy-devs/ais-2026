@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './globals.css';
 import ModalProvider from '@/components/modals/ModalProvider';
 import RevealController from '@/components/RevealController';
+import { getPageMeta, assetUrl } from '@/lib/contentful';
+import { resolveSeo } from '@/lib/seo';
 
 // Licensed faces, self-hosted. NOTE: the Founders Grotesk files are Klim TRIAL
 // ("Test Founders Grotesk") — production licence to be confirmed (see OPEN.md);
@@ -21,21 +23,43 @@ const editorial = localFont({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'Athens Innovation Summit 2026',
-  description: 'Athens Innovation Summit 2026 — July 16, 2026, Pnyx, Athens. A global forum on AI, democracy, and human progress by Endeavor Greece.',
-  // 2026 favicon bundle (realfavicongenerator), served from public/. Next emits the
-  // <link> tags — do not hand-write them.
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-  },
-  manifest: '/site.webmanifest',
-};
+// SEO is now CMS-driven: title / description / og:image come from the home `page`
+// entry (metaTitle / metaDescription / ogImage), each falling back to the historic
+// hardcoded value when the field is empty. Icons / manifest / theme are unchanged.
+export async function generateMetadata(): Promise<Metadata> {
+  let fields: Record<string, unknown> = {};
+  try {
+    fields = (await getPageMeta())?.fields ?? {};
+  } catch {
+    // On any delivery error, resolveSeo() returns the hardcoded fallbacks.
+  }
+  const { title, description, ogImageUrl } = resolveSeo({
+    metaTitle: fields.metaTitle,
+    metaDescription: fields.metaDescription,
+    ogImageUrl: assetUrl(fields.ogImage as never, 1200),
+  });
+
+  return {
+    title,
+    description,
+    // 2026 favicon bundle (realfavicongenerator), served from public/. Next emits the
+    // <link> tags — do not hand-write them.
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+      ],
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    },
+    manifest: '/site.webmanifest',
+    openGraph: {
+      title,
+      description,
+      ...(ogImageUrl ? { images: [{ url: ogImageUrl }] } : {}),
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: '#010010',

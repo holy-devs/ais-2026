@@ -21,6 +21,19 @@ export async function getHomePage(): Promise<Entry | undefined> {
   return res.items[0];
 }
 
+/** Light fetch for metadata only — the home `page` entry with its ogImage asset
+ * resolved (include:1). Separate from getHomePage so generateMetadata doesn't pull
+ * the whole include:6 section tree. */
+export async function getPageMeta(): Promise<Entry | undefined> {
+  const res = await cda.getEntries({
+    content_type: 'page',
+    'fields.slug': 'home',
+    include: 1,
+    limit: 1,
+  });
+  return res.items[0];
+}
+
 /** Contentful asset -> absolute https url (optionally width-constrained). */
 export function assetUrl(asset: Asset | undefined, width?: number): string | undefined {
   const file = asset?.fields?.file;
