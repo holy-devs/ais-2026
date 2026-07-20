@@ -49,6 +49,41 @@ publish-driven visibility. Ground truth confirmed from the live space before eac
     (since deleted) → correct `<picture>`/`<source>` swap. **No temp asset published to the
     live space.** Client uploads the real mobile image once the field exists.
 
+### Client updates round — items 2/3/4/6 (same branch)
+- **Item 6 — Thank-You button (code).** Replaced the Revisit 2025 / Revisit 2022 pair
+  with one secondary glass button **"Revisit Past Editions"** (no icon → static,
+  fill-change on hover only) that smooth-scrolls to `#ais-archive` via CSS
+  `scroll-behavior`. Still hardcoded (not in the model).
+- **Item 2 — 2026 gallery photos.** Source = `~/Downloads` (23 AIS 2026 event photos,
+  all JPEG → no HEIC conversion). Uploaded 14 as assets **`ais26-01..14`** (the 7
+  ⚠big ZZ8/IMG files downscaled to 2560px long edge q85; the seven 3400px `26-07-16_*`
+  as-is). **Prepended 12** to **`sec-gallery.media`** (new first) → 32 total; homepage
+  gallery pulls from that field (8 shown + Load More). Two near-dups dropped (ZZ8_4255,
+  ZZ8_4900) plus weaker frames.
+- **Item 3 — `pe-2026` archive.** New `pastEvent` on the pe-2025 pattern: title "Athens
+  Innovation Summit 2026", editionLabel "AIS / 2026", year 2026, location "Pnyx, Athens",
+  dateTime **`2026-07-16T21:00+03:00`** (mirrors pe-2025's 21:00 evening format),
+  keynoteIntro (client verbatim), 6 speakerNames, sessions/press empty.
+  - **heroMedia = `ais26-13`** (2026 Parthenon-dusk shot). ⚠ There was **no shared
+    "mosaic"** — pe-2025/2022 use *different* Odeon establishing shots; 2026 is the Pnyx,
+    so a 2026 shot was used instead (client-approved).
+  - **speakers[]:** 4 new `pastEventSpeaker` (`pes-2026-*`) reusing the homepage portrait
+    assets (`ph-spk-*`), no duplicate uploads. Mitsotakis = Keynote CTA (homepage keynote
+    URL); Rottenberg/Modrzewski/Taneja = LinkedIn (homepage URLs). Hosts Costantza &
+    Panagiotis stay in speakerNames only. Bios = 1-sentence derivations of the keynoteIntro.
+  - **visuals/gallery (8):** ais26 12,10,14,03,07,11,05,06 — `ais26-13` (hero) excluded and
+    `26-07-16_0041` (ais26-06) substituted so the modal never opens hero+first-tile identical.
+  - **Archive wiring:** prepended `pe-2026` → `sec-archive.content` = **pe-2026 → pe-2025 →
+    pe-2022** (newest first). Grid `md:grid-cols-2` → 3 cards render 2-up + 1 (2022 wraps to
+    row-2 left; 4th slot empty).
+- **Item 4 — 2026 documentary.** No model change: set existing
+  `pe-2026.documentaryVideoUrl = https://www.youtube.com/watch?v=xnQ-8QQufE8`. Renders via
+  the shared `Documentary` component like the other archives (poster → play → 16:9
+  youtube-nocookie); poster falls back to the YouTube thumbnail (documentaryMedia unset).
+- **Verified** (dev, ISR-busted): gallery new-first; archive 3 cards newest-first; pe-2026
+  modal — hero, "16 July 2026 at 21:00", documentary plays, 4 speaker cards (correct
+  titles/CTAs), 8 visuals (no hero dup), keynoteIntro verbatim. Screenshots shared.
+
 ## Past-event richness (round 2b) — branch `past-event-richness`
 Rich past-event modal + the additive Contentful model behind it. All CMS changes
 ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
