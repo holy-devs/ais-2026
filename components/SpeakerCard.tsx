@@ -63,18 +63,40 @@ export function SpeakerCard({
             <p className="mt-1 text-sm leading-[14px] tracking-[-0.02em] text-white/70">{data.detail}</p>
           )}
         </div>
+        {/* Real anchor (not a span): navigates to ctaUrl instead of bubbling to the
+            card's open-profile handler. z-10 lifts it above the absolute overlay button
+            so its own clicks land here; stopPropagation is belt-and-suspenders. External
+            → new tab, rel noopener. Hidden entirely for '#'/empty (hasRealCta). */}
         {hasRealCta(data.ctaUrl) && (
-          <span className="mt-auto whitespace-nowrap text-xs font-medium uppercase tracking-[0.15em] text-creme">{data.ctaLabel}</span>
+          <a
+            href={data.ctaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="relative z-10 mt-auto inline-flex w-fit whitespace-nowrap text-xs font-medium uppercase tracking-[0.15em] text-creme underline-offset-4 hover:underline"
+          >
+            {data.ctaLabel}
+          </a>
         )}
       </div>
     </>
   );
 
+  // Interactive card: a plain <div> holds the content + a full-bleed overlay <button>
+  // that opens the profile (keeps the whole card clickable AND keyboard-accessible),
+  // while the CTA anchor above pokes through at a higher z-index. A <button> wrapping
+  // everything would make the CTA anchor invalid (<a> inside <button>).
   if (onClick) {
     return (
-      <button onClick={onClick} className={cls} {...revealAttr}>
+      <div className={cls} {...revealAttr}>
         {inner}
-      </button>
+        <button
+          type="button"
+          onClick={onClick}
+          aria-label={`Open ${data.name} profile`}
+          className="absolute inset-0 z-[1]"
+        />
+      </div>
     );
   }
   return (
