@@ -84,6 +84,37 @@ publish-driven visibility. Ground truth confirmed from the live space before eac
   modal — hero, "16 July 2026 at 21:00", documentary plays, 4 speaker cards (correct
   titles/CTAs), 8 visuals (no hero dup), keynoteIntro verbatim. Screenshots shared.
 
+## Model audit cleanup — branch `feat/cms-seo-metadata`
+Read-only audit → gated cleanup. Every field cross-checked: code reads (grep) + entry
+population (CDA) + shipping variant. All changes verified render-identical (delivery
+unchanged; the site never re-rendered differently).
+
+- **Disabled (editor only, data + API kept):** `person.roleHighlight` (1/4 has data),
+  `action.behaviour` (3/7). Both still delivered by the CDA.
+- **Deleted — 15 fields** (all 0 reads + 0 population): `section.features` /
+  `backgroundMedia` / `secondaryMedia` / `credentialsText` / `textColor` / `video`;
+  `person.email`; `action.internal` / `action.icon`; `uniqueComponent.media`;
+  `pastEvent.secondaryMedia`; `page.canonicalUrl` / `lastUpdate` / `features`; `card.video`.
+- **Deleted — 5 content types** (0 entries, no shipping reader): `post`, `composite`,
+  `richText`, `scriptEmbed`, `video`. Deleted in referencer order after trimming inbound
+  link-validations: `section.content` → `[card, person, pastEvent]`; `page.content` →
+  `[section, uniqueComponent]`.
+- **Enum trim:** `section.variant` 16 → 10 (removed Case Study, FAQ, Icon List, Code,
+  Accordion, Values Highlight; kept CTA + all live variants).
+- **Editor field groups** on `section` (tabs): **Core / Mobile / Partners**.
+- **Helptext fixes:** `person.visuals` / `person.press` (were wrongly "Not used by the
+  site" — they're wired hooks that light up the speaker-profile modal); `documentaryMedia`
+  ("optional poster, falls back to the YouTube thumbnail").
+- **Kept (hooks / consolidation):** `person.visuals`, `person.press`,
+  `pastEvent.documentaryMedia`, `pastEvent.sessions`, `section.logos`, `section.mediaMobile`,
+  `press.description`, `page` SEO fields. **`card` type kept** — consolidation candidate:
+  when speaker-press content arrives, repoint `person.press` validation to the `press` type,
+  adjust the modal mapper, then delete `card`.
+- **PAGE SEO wired (the one code change):** `generateMetadata` in `app/layout.tsx` now reads
+  `page.metaTitle` / `metaDescription` / `ogImage` (via `lib/seo.ts` `resolveSeo`, light
+  `getPageMeta` fetch), each falling back to the historic hardcoded value when empty; adds a
+  CMS-driven `og:image`. Icons / manifest / theme unchanged.
+
 ## Past-event richness (round 2b) — branch `past-event-richness`
 Rich past-event modal + the additive Contentful model behind it. All CMS changes
 ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
