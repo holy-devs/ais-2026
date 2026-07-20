@@ -3,6 +3,52 @@
 Branch `visual-pass`. Ground truth = `design-refs/` (v5.0). The pass was read-only
 except one approved write (thank-you panel asset). Grouped for review below.
 
+## Client updates round — branch `fix/client-round-2`
+All items on one branch, additive-only CMS, front-end gates removed in favour of
+publish-driven visibility. Ground truth confirmed from the live space before each change.
+
+- **Item 1 — 4th speaker un-hidden (front-end only, no CMS write).** `Speakers.tsx` had a
+  hardcoded portrait gate (`.filter` dropping placeholder/no-portrait speakers) that hid
+  the not-yet-announced 4th (Modrzewski). His **profile image is now a real PUBLISHED
+  asset** ("Rafał Modrzewski") and the entry is published, so the gate is **removed** —
+  Speakers now renders every speaker linked in the published section (publish-driven).
+  Verified: all four (Mitsotakis / Rottenberg / Taneja / Modrzewski) render. Contentful
+  untouched for this item. Supersedes §2 "Rafal Modrzewski" + the polish-pass F4 hide.
+
+- **Item 5 — Partners now publish-driven (front-end only, no asset writes).** Removed the
+  hardcoded `PARTNERS_ENABLED = false` gate in `SectionRenderer.tsx`; the Logo Assets
+  section now renders **iff its entry is published** (`Partners.tsx` also returns null on
+  empty logos). **Nothing becomes visible today** because **both partner sections
+  (`sec-partners`, `sec-partners-secondary`) are DRAFT/unpublished.**
+  ⚠️ **Correction to the brief:** the two logo **assets `ph-partner-01` (Google) /
+  `ph-partner-02` (Endeavor) are PUBLISHED** (publishedVersion 8), NOT unpublished — the
+  invisibility comes from the unpublished **sections**, not the assets. They remain the
+  known-bad flattened white squares; **not touched, not republished.**
+  **Return-flow:** replace the two assets with the parked fixed transparent PNGs in
+  `scripts/partner-logos/` (see its README) — a scoped same-ID asset swap — **then publish
+  the partner section(s).** Do NOT reuse the current bad assets.
+
+- **Item 7 — Thank-You mobile background (additive model + `ThankYou.tsx` only).**
+  - **Correction:** the current Thank-You background is an **image** (`thankyou-panel`,
+    `image/webp`), not a video — rendered via `<Media>` (`<img>`). The mobile asset
+    replaces that **image** on phones.
+  - **Model (additive, approved):** new **optional `Link→Asset` field `mediaMobile`**
+    ("Mobile Media") on the **`section`** type — parallels the shipped `heroMediaMobile`
+    convention. Editor **help text** set via the editor interface (field descriptions live
+    there, not on the CT): "Mobile-only override (phones, below 768px). Replaces the
+    section's Media on mobile and falls back to it when empty. Currently read by the Thank
+    You section only." **Left UNSET** on `sec-thank-you`. No entry writes, no asset uploads.
+  - **Render (`ThankYou.tsx`):** when `mediaMobile` is set, a `<picture>` swaps the mobile
+    asset in **below `md` (768px)** (`<source media="(min-width: 768px)">` = desktop
+    `media[0]`, `<img>` = mobile), **same `center 25%` framing**; only the matching
+    candidate downloads. Unset/unresolved → the original single `<Media>` desktop path,
+    on every breakpoint. Desktop **always** uses `media[0]`.
+  - **Verified locally (no publish):** unset renders byte-identical to today (home page
+    Thank-You still a bare `<img … thankyou-panel … object-position:center 25%>`, no
+    `<picture>`); set-state exercised via a throwaway route with a fabricated `mediaMobile`
+    (since deleted) → correct `<picture>`/`<source>` swap. **No temp asset published to the
+    live space.** Client uploads the real mobile image once the field exists.
+
 ## Past-event richness (round 2b) — branch `past-event-richness`
 Rich past-event modal + the additive Contentful model behind it. All CMS changes
 ADDITIVE; live rendering (homepage archive card, existing fields) never touched.
@@ -136,11 +182,10 @@ TIKTOK vs X, Modrzewski portrait, past-event video/keynote fields, sponsor logos
   route via the scoped-content step, not the polish pass).
 
 ## 2. Awaiting materials (from Endeavor)
-- **Rafal Modrzewski** speaker portrait — `ph-spk-modrzewski` is still a placeholder.
-  **Polish-pass (F4): his card is now HIDDEN in production** — the Speakers grid ships
-  only speakers with a real portrait (currently 3). Re-appears automatically once the
-  portrait asset is swapped in (and client announcement is confirmed). No placeholder
-  card in prod.
+- **Rafal Modrzewski** speaker portrait — ~~`ph-spk-modrzewski` is still a placeholder;
+  card HIDDEN in production (polish-pass F4)~~. **RESOLVED (round 2, item 1):** a real
+  portrait ("Rafał Modrzewski") is now published and the front-end portrait gate is
+  removed — his card ships. See "Client updates round" above.
 - **Gallery lightbox design-intent** — click-to-enlarge is now **shipped** per the
   designer's spec (overlay #161524/85% + 30px page blur, contain, ✕, looping ◀/▶,
   Esc/click-out/arrows, focus trap, reduced-motion). Manmeet's open question was whether
@@ -170,10 +215,12 @@ TIKTOK vs X, Modrzewski portrait, past-event video/keynote fields, sponsor logos
 - **Footer display copy:** "STAY IN THE / LOOP" is hardcoded — optional CMS field.
 
 ## Resolved (for the record)
-- **Partners section removed (this cycle):** gated off in `SectionRenderer.tsx`
-  (`PARTNERS_ENABLED = false`) — front-end only; `sec-partners` refs and the two live
-  assets are untouched (no Contentful writes). Matches v5.0 (no partners section).
-  **Re-enable next year:** flip the flag AND first replace the logo assets — the two
+- **Partners section removed (this cycle):** ~~gated off in `SectionRenderer.tsx`
+  (`PARTNERS_ENABLED = false`)~~ — **round 2 (item 5) removed the flag; visibility is now
+  publish-driven** (both partner sections are unpublished, so still nothing shows). Note:
+  the two logo assets are **PUBLISHED** (known-bad), not unpublished — see "Client updates
+  round" for the corrected return-flow. `sec-partners` refs and assets untouched.
+  **Re-enable next year:** publish the section(s) AND first replace the logo assets — the two
   LIVE assets `ph-partner-01` / `ph-partner-02` are **known-bad flattened white
   squares** (qlmanage baked the transparent SVGs onto white → 100% opaque white,
   byte-identical; do NOT reuse). The fix is parked in **`scripts/partner-logos/`**
