@@ -4,13 +4,6 @@ import FullBleed from '../FullBleed';
 import RichText from '../RichText';
 import Media from '../Media';
 import { GlassButton } from '../Buttons';
-import { ArrowUpRight } from '../Icons';
-
-// Not in the model — hardcoded per ruling (log in OPEN.md). Both open the archive.
-const REVISIT = [
-  { label: 'Revisit 2025', href: '#ais-archive' },
-  { label: 'Revisit 2022', href: '#ais-archive' },
-];
 
 export default function ThankYou({ entry }: { entry: any }) {
   const x = f(entry);
@@ -63,10 +56,12 @@ export default function ThankYou({ entry }: { entry: any }) {
             {x.title}
           </h2>
           <RichText doc={x.text} className="mt-6 space-y-4 text-lg leading-relaxed text-white/85 md:text-xl" />
-          <div className="mt-8 flex flex-wrap gap-3">
-            {REVISIT.map((b) => (
-              <GlassButton key={b.label} variant="solid" href={b.href} label={b.label} icon={<ArrowUpRight />} />
-            ))}
+          {/* Item 6: one secondary button replaces the old Revisit 2025 / 2022 pair.
+              Smooth-scrolls to the AIS Archive section via CSS scroll-behavior: smooth
+              (globals.css). Static per the design rule — no icon (no arrow/text movement),
+              fill-change on hover only. Still hardcoded (not in the model; see OPEN.md). */}
+          <div className="mt-8">
+            <GlassButton href="#ais-archive" label="Revisit Past Editions" />
           </div>
         </div>
       </div>
