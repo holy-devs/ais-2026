@@ -29,17 +29,19 @@ export default function ThankYou({ entry }: { entry: any }) {
             src={bgMobile.url}
             alt={bg.label}
             className="h-full w-full object-cover"
-            style={{ objectPosition: 'center 25%' }}
+            style={{ objectPosition: 'center 55%' }}
           />
         </picture>
       )
-      : <Media media={bg} rounded={false} position="center 25%" className="h-full w-full" />
+      : <Media media={bg} rounded={false} position="center 55%" className="h-full w-full" />
     : undefined;
 
   return (
     <FullBleed
       // The panel asset carries its own baked gradient — no extra scrim (avoids double-scrim).
-      // object-position top keeps seated subjects' heads in frame (review B7 / OWNER-2).
+      // object-position center 55% seats the panel figures in the band, tuned for the new
+      // ZZ8_6529 panel (the old B7 "center 25%" cropped to sky on wide monitors). On the
+      // portrait mobile box the image shows full height, so X=center does the framing there.
       media={background}
       scrim={false}
       contain={false}

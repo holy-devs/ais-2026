@@ -310,7 +310,10 @@ Applied desktop-only, no Contentful. Exact metrics from the v5.0 frame:
   via `next/font/local` (`app/fonts/`, `app/layout.tsx`) into the `--font-grotesk` /
   `--font-editorial` tokens. Inter / Instrument Serif stand-ins removed. next/font emits
   a size-adjusted fallback → no layout shift.
-- ⚠️ **LICENCE (open):** the Founders Grotesk files are **Klim TRIAL** ("Test Founders
-  Grotesk"). Production licence to be confirmed with the designer — then drop the
-  licensed woff2 into `app/fonts/` (same filenames/weights). One-file swap, no code
-  change. PP Editorial Old is the full family.
+- ⚠️ **LICENCE (open):** **BOTH families are TRIAL packs** (designer confirmed) — Founders
+  Grotesk ("Test Founders Grotesk", Klim) **and** PP Editorial Old Italic (Pangram Pangram
+  trial). **Production licences needed for all three files:** Founders Grotesk **Regular** +
+  **Medium** (Klim Type Foundry) and **PP Editorial Old Italic** (Pangram Pangram).
+  **Endeavor licenses these directly** for athensinnovationsummit.org. Our side stays a
+  filename-identical drop-in: drop the licensed woff2 into `app/fonts/` (same
+  filenames/weights), swap is one file per face, no code change.
